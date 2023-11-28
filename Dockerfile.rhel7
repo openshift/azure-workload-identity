@@ -1,4 +1,4 @@
-FROM registry.ci.openshift.org/ocp/builder:rhel-8-golang-1.20-openshift-4.15 AS builder
+FROM registry.ci.openshift.org/ocp/builder:rhel-9-golang-1.20-openshift-4.15 AS builder
 ENV GO_PACKAGE github.com/Azure/azure-workload-identity
 
 ARG LDFLAGS
@@ -16,6 +16,6 @@ COPY pkg/ pkg/
 # Build
 RUN CGO_ENABLED=0 GO111MODULE=on go build -mod=vendor -a -ldflags "${LDFLAGS:--X github.com/Azure/azure-workload-identity/pkg/version.BuildVersion=latest}" -o manager main.go
 
-FROM registry.ci.openshift.org/ocp/4.15:base
+FROM registry.ci.openshift.org/ocp/4.15:base-rhel9
 WORKDIR /
 COPY --from=builder /workspace/manager /usr/bin/azure-workload-identity-webhook
