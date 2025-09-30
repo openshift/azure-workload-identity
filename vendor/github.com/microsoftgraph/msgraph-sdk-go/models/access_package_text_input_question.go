@@ -4,7 +4,6 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// AccessPackageTextInputQuestion 
 type AccessPackageTextInputQuestion struct {
     AccessPackageQuestion
 }
@@ -18,10 +17,12 @@ func NewAccessPackageTextInputQuestion()(*AccessPackageTextInputQuestion) {
     return m
 }
 // CreateAccessPackageTextInputQuestionFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateAccessPackageTextInputQuestionFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewAccessPackageTextInputQuestion(), nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *AccessPackageTextInputQuestion) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.AccessPackageQuestion.GetFieldDeserializers()
     res["isSingleLineQuestion"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -46,7 +47,8 @@ func (m *AccessPackageTextInputQuestion) GetFieldDeserializers()(map[string]func
     }
     return res
 }
-// GetIsSingleLineQuestion gets the isSingleLineQuestion property value. Indicates whether the answer will be in single or multiple line format.
+// GetIsSingleLineQuestion gets the isSingleLineQuestion property value. Indicates whether the answer is in single or multiple line format.
+// returns a *bool when successful
 func (m *AccessPackageTextInputQuestion) GetIsSingleLineQuestion()(*bool) {
     val, err := m.GetBackingStore().Get("isSingleLineQuestion")
     if err != nil {
@@ -57,7 +59,8 @@ func (m *AccessPackageTextInputQuestion) GetIsSingleLineQuestion()(*bool) {
     }
     return nil
 }
-// GetRegexPattern gets the regexPattern property value. The regular expression pattern which any answer to this question must match.
+// GetRegexPattern gets the regexPattern property value. The regular expression pattern that any answer to this question must match.
+// returns a *string when successful
 func (m *AccessPackageTextInputQuestion) GetRegexPattern()(*string) {
     val, err := m.GetBackingStore().Get("regexPattern")
     if err != nil {
@@ -88,21 +91,20 @@ func (m *AccessPackageTextInputQuestion) Serialize(writer i878a80d2330e89d268963
     }
     return nil
 }
-// SetIsSingleLineQuestion sets the isSingleLineQuestion property value. Indicates whether the answer will be in single or multiple line format.
+// SetIsSingleLineQuestion sets the isSingleLineQuestion property value. Indicates whether the answer is in single or multiple line format.
 func (m *AccessPackageTextInputQuestion) SetIsSingleLineQuestion(value *bool)() {
     err := m.GetBackingStore().Set("isSingleLineQuestion", value)
     if err != nil {
         panic(err)
     }
 }
-// SetRegexPattern sets the regexPattern property value. The regular expression pattern which any answer to this question must match.
+// SetRegexPattern sets the regexPattern property value. The regular expression pattern that any answer to this question must match.
 func (m *AccessPackageTextInputQuestion) SetRegexPattern(value *string)() {
     err := m.GetBackingStore().Set("regexPattern", value)
     if err != nil {
         panic(err)
     }
 }
-// AccessPackageTextInputQuestionable 
 type AccessPackageTextInputQuestionable interface {
     AccessPackageQuestionable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable

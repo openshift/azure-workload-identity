@@ -2,14 +2,229 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.45.0](https://github.com/microsoftgraph/msgraph-sdk-go/compare/v1.44.0...v1.45.0) (2024-06-05)
 
-## [Unreleased]
 
-### Added
+### Features
+
+* **generation:** update request builders and models ([#722](https://github.com/microsoftgraph/msgraph-sdk-go/issues/722)) ([b15c5c7](https://github.com/microsoftgraph/msgraph-sdk-go/commit/b15c5c7de0b37096941799b489b5b751571d77ae))
+
+## [1.44.0](https://github.com/microsoftgraph/msgraph-sdk-go/compare/v1.43.0...v1.44.0) (2024-05-30)
+
+
+### Features
+
+* **generation:** update request builders and models ([#719](https://github.com/microsoftgraph/msgraph-sdk-go/issues/719)) ([def5ec4](https://github.com/microsoftgraph/msgraph-sdk-go/commit/def5ec4fa34f3f7e4f4cc488295ae5472e39406d))
+
+## [1.43.0]- 2024-05-22
 
 ### Changed
+
+- Weekly generation.
+
+## [1.42.0]- 2024-05-16
+
+### Changed
+
+- Weekly generation.
+
+## [1.41.0]- 2024-05-08
+
+### Changed
+
+- Weekly generation.
+
+## [1.40.0]- 2024-04-30
+
+### Changed
+
+- Weekly generation.
+
+## [1.39.0]- 2024-04-25
+
+### Changed
+
+- Weekly generation.
+
+## [1.38.0]- 2024-04-17
+
+### Changed
+
+- Weekly generation.
+
+## [1.37.0]- 2024-03-26
+
+### Changed
+
+- Weekly generation.
+
+## [1.36.0]- 2024-03-07
+
+### Changed
+
+- Weekly generation.
+
+## [1.35.0]- 2024-02-29
+
+### Changed
+
+- Weekly generation.
+
+## [1.34.0]- 2024-02-21
+
+### Changed
+
+- Weekly generation.
+
+## [1.33.0]- 2024-02-14
+
+### Changed
+
+- Weekly generation.
+
+## [1.32.0]- 2024-02-01
+
+### Changed
+
+- Weekly generation.
+
+## [1.31.0]- 2024-01-23
+
+### Changed
+
+- Weekly generation.
+
+## [1.30.0]- 2024-01-17
+
+### Changed
+
+- Weekly generation.
+
+## [1.29.0]- 2024-01-03
+
+### Changed
+
+- Weekly generation.
+
+## [1.28.0]- 2023-12-19
+
+### Changed
+
+- Weekly generation.
+
+## [1.27.0]- 2023-12-12
+
+### Changed
+
+- Weekly generation.
+
+## [1.26.0]- 2023-11-29
+
+- Weekly generation.
+
+### Changed
+
+## [1.25.0]- 2023-11-10
+
+- Weekly generation.
+
+### Changed
+
+## [1.24.0]- 2023-10-31
+
+### Changed
+
+- Weekly generation.
+
+## [1.23.0]- 2023-10-25
+
+### Changed
+
+- Weekly generation.
+
+## [1.22.0]- 2023-10-19
+
+### Changed
+
+- Weekly generation.
+
+## [1.21.0]- 2023-10-11
+
+### Changed
+
+- Weekly generation.
+
+## [1.20.0]- 2023-10-04
+
+### Changed
+
+- Weekly generation.
+
+## [1.19.0]- 2023-09-20
+
+### Changed
+
+- Weekly generation.
+
+## [1.18.0]- 2023-09-12
+
+### Changed
+
+- Weekly generation.
+
+## [1.17.0]- 2023-08-30
+
+### Changed
+
+- Weekly generation.
+
+## [1.16.0]- 2023-08-23
+
+### Changed
+
+- Weekly generation.
+
+## [1.15.0]- 2023-08-21
+
+### Changed
+
+- Weekly generation.
+
+## [1.14.0]- 2023-08-02
+
+### Changed
+
+- Weekly generation.
+
+## [1.13.0]- 2023-07-28
+
+### Changed
+
+- Weekly generation.
+
+## [1.12.0]- 2023-07-19
+
+### Changed
+
+- Weekly generation.
+
+## [1.11.0]- 2023-07-12
+
+### Changed
+
+- Weekly generation.
+
+## [1.10.0]- 2023-07-05
+
+### Changed
+
+- Weekly generation.
+
+## [1.9.0]- 2023-07-03
+
+### Changed
+
+- Weekly generation.
 
 ## [1.8.0]- 2023-06-20
 

@@ -11,7 +11,7 @@ import (
 type BucketsRequestBuilder struct {
     i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.BaseRequestBuilder
 }
-// BucketsRequestBuilderGetQueryParameters retrieve a list of **plannerbucket** objects.
+// BucketsRequestBuilderGetQueryParameters retrieve a list of plannerbucket objects.
 type BucketsRequestBuilderGetQueryParameters struct {
     // Include count of items
     Count *bool `uriparametername:"%24count"`
@@ -47,6 +47,7 @@ type BucketsRequestBuilderPostRequestConfiguration struct {
     Options []i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestOption
 }
 // ByPlannerBucketId provides operations to manage the buckets property of the microsoft.graph.planner entity.
+// returns a *BucketsPlannerBucketItemRequestBuilder when successful
 func (m *BucketsRequestBuilder) ByPlannerBucketId(plannerBucketId string)(*BucketsPlannerBucketItemRequestBuilder) {
     urlTplParams := make(map[string]string)
     for idx, item := range m.BaseRequestBuilder.PathParameters {
@@ -60,7 +61,7 @@ func (m *BucketsRequestBuilder) ByPlannerBucketId(plannerBucketId string)(*Bucke
 // NewBucketsRequestBuilderInternal instantiates a new BucketsRequestBuilder and sets the default values.
 func NewBucketsRequestBuilderInternal(pathParameters map[string]string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*BucketsRequestBuilder) {
     m := &BucketsRequestBuilder{
-        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/planner/buckets{?%24top,%24skip,%24search,%24filter,%24count,%24orderby,%24select,%24expand}", pathParameters),
+        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/planner/buckets{?%24count,%24expand,%24filter,%24orderby,%24search,%24select,%24skip,%24top}", pathParameters),
     }
     return m
 }
@@ -71,21 +72,23 @@ func NewBucketsRequestBuilder(rawUrl string, requestAdapter i2ae4187f7daee263371
     return NewBucketsRequestBuilderInternal(urlParams, requestAdapter)
 }
 // Count provides operations to count the resources in the collection.
+// returns a *BucketsCountRequestBuilder when successful
 func (m *BucketsRequestBuilder) Count()(*BucketsCountRequestBuilder) {
     return NewBucketsCountRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
-// Get retrieve a list of **plannerbucket** objects.
+// Get retrieve a list of plannerbucket objects.
+// returns a PlannerBucketCollectionResponseable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 // [Find more info here]
 // 
-// [Find more info here]: https://docs.microsoft.com/graph/api/planner-list-buckets?view=graph-rest-1.0
+// [Find more info here]: https://learn.microsoft.com/graph/api/planner-list-buckets?view=graph-rest-1.0
 func (m *BucketsRequestBuilder) Get(ctx context.Context, requestConfiguration *BucketsRequestBuilderGetRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PlannerBucketCollectionResponseable, error) {
     requestInfo, err := m.ToGetRequestInformation(ctx, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreatePlannerBucketCollectionResponseFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -97,17 +100,18 @@ func (m *BucketsRequestBuilder) Get(ctx context.Context, requestConfiguration *B
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PlannerBucketCollectionResponseable), nil
 }
 // Post create a new plannerBucket object.
+// returns a PlannerBucketable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 // [Find more info here]
 // 
-// [Find more info here]: https://docs.microsoft.com/graph/api/planner-post-buckets?view=graph-rest-1.0
+// [Find more info here]: https://learn.microsoft.com/graph/api/planner-post-buckets?view=graph-rest-1.0
 func (m *BucketsRequestBuilder) Post(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PlannerBucketable, requestConfiguration *BucketsRequestBuilderPostRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PlannerBucketable, error) {
     requestInfo, err := m.ToPostRequestInformation(ctx, body, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreatePlannerBucketFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -118,13 +122,10 @@ func (m *BucketsRequestBuilder) Post(ctx context.Context, body iadcd81124412c61e
     }
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PlannerBucketable), nil
 }
-// ToGetRequestInformation retrieve a list of **plannerbucket** objects.
+// ToGetRequestInformation retrieve a list of plannerbucket objects.
+// returns a *RequestInformation when successful
 func (m *BucketsRequestBuilder) ToGetRequestInformation(ctx context.Context, requestConfiguration *BucketsRequestBuilderGetRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET
-    requestInfo.Headers.Add("Accept", "application/json")
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         if requestConfiguration.QueryParameters != nil {
             requestInfo.AddQueryParameters(*(requestConfiguration.QueryParameters))
@@ -132,22 +133,26 @@ func (m *BucketsRequestBuilder) ToGetRequestInformation(ctx context.Context, req
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
     return requestInfo, nil
 }
 // ToPostRequestInformation create a new plannerBucket object.
+// returns a *RequestInformation when successful
 func (m *BucketsRequestBuilder) ToPostRequestInformation(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PlannerBucketable, requestConfiguration *BucketsRequestBuilderPostRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.POST
-    requestInfo.Headers.Add("Accept", "application/json")
-    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
-    if err != nil {
-        return nil, err
-    }
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.POST, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
+    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
+    if err != nil {
+        return nil, err
+    }
     return requestInfo, nil
+}
+// WithUrl returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
+// returns a *BucketsRequestBuilder when successful
+func (m *BucketsRequestBuilder) WithUrl(rawUrl string)(*BucketsRequestBuilder) {
+    return NewBucketsRequestBuilder(rawUrl, m.BaseRequestBuilder.RequestAdapter);
 }

@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type AccessPackageCatalogType int
 
 const (
@@ -27,7 +23,7 @@ func ParseAccessPackageCatalogType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_ACCESSPACKAGECATALOGTYPE
         default:
-            return 0, errors.New("Unknown AccessPackageCatalogType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeAccessPackageCatalogType(values []AccessPackageCatalogType) []stri
         result[i] = v.String()
     }
     return result
+}
+func (i AccessPackageCatalogType) isMultiValue() bool {
+    return false
 }

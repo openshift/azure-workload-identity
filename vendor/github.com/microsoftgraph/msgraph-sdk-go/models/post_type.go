@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type PostType int
 
 const (
@@ -27,7 +23,7 @@ func ParsePostType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_POSTTYPE
         default:
-            return 0, errors.New("Unknown PostType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializePostType(values []PostType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i PostType) isMultiValue() bool {
+    return false
 }

@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type BrowserSharedCookieSourceEnvironment int
 
 const (
@@ -31,7 +27,7 @@ func ParseBrowserSharedCookieSourceEnvironment(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_BROWSERSHAREDCOOKIESOURCEENVIRONMENT
         default:
-            return 0, errors.New("Unknown BrowserSharedCookieSourceEnvironment value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -41,4 +37,7 @@ func SerializeBrowserSharedCookieSourceEnvironment(values []BrowserSharedCookieS
         result[i] = v.String()
     }
     return result
+}
+func (i BrowserSharedCookieSourceEnvironment) isMultiValue() bool {
+    return false
 }

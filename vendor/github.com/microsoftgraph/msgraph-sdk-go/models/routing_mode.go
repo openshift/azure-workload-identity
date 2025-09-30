@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type RoutingMode int
 
 const (
@@ -24,7 +20,7 @@ func ParseRoutingMode(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_ROUTINGMODE
         default:
-            return 0, errors.New("Unknown RoutingMode value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeRoutingMode(values []RoutingMode) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i RoutingMode) isMultiValue() bool {
+    return false
 }

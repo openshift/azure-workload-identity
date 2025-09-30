@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // TV content rating labels in Ireland
 type RatingIrelandTelevisionType int
 
@@ -43,7 +40,7 @@ func ParseRatingIrelandTelevisionType(v string) (any, error) {
         case "mature":
             result = MATURE_RATINGIRELANDTELEVISIONTYPE
         default:
-            return 0, errors.New("Unknown RatingIrelandTelevisionType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -53,4 +50,7 @@ func SerializeRatingIrelandTelevisionType(values []RatingIrelandTelevisionType) 
         result[i] = v.String()
     }
     return result
+}
+func (i RatingIrelandTelevisionType) isMultiValue() bool {
+    return false
 }

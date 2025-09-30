@@ -1,16 +1,13 @@
 package models
-import (
-    "errors"
-)
-// Possible values for the file format of a report
+// Possible values for the file format of a report.
 type DeviceManagementReportFileFormat int
 
 const (
-    // CSV Format
+    // CSV Format.
     CSV_DEVICEMANAGEMENTREPORTFILEFORMAT DeviceManagementReportFileFormat = iota
-    // PDF Format
+    // PDF Format (Deprecate later).
     PDF_DEVICEMANAGEMENTREPORTFILEFORMAT
-    // JSON Format
+    // JSON Format.
     JSON_DEVICEMANAGEMENTREPORTFILEFORMAT
     // Evolvable enumeration sentinel value. Do not use.
     UNKNOWNFUTUREVALUE_DEVICEMANAGEMENTREPORTFILEFORMAT
@@ -31,7 +28,7 @@ func ParseDeviceManagementReportFileFormat(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_DEVICEMANAGEMENTREPORTFILEFORMAT
         default:
-            return 0, errors.New("Unknown DeviceManagementReportFileFormat value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -41,4 +38,7 @@ func SerializeDeviceManagementReportFileFormat(values []DeviceManagementReportFi
         result[i] = v.String()
     }
     return result
+}
+func (i DeviceManagementReportFileFormat) isMultiValue() bool {
+    return false
 }

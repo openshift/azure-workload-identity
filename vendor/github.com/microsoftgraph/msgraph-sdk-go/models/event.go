@@ -5,7 +5,6 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// Event 
 type Event struct {
     OutlookItem
 }
@@ -19,10 +18,12 @@ func NewEvent()(*Event) {
     return m
 }
 // CreateEventFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateEventFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewEvent(), nil
 }
 // GetAllowNewTimeProposals gets the allowNewTimeProposals property value. true if the meeting organizer allows invitees to propose a new time when responding; otherwise, false. Optional. Default is true.
+// returns a *bool when successful
 func (m *Event) GetAllowNewTimeProposals()(*bool) {
     val, err := m.GetBackingStore().Get("allowNewTimeProposals")
     if err != nil {
@@ -34,6 +35,7 @@ func (m *Event) GetAllowNewTimeProposals()(*bool) {
     return nil
 }
 // GetAttachments gets the attachments property value. The collection of FileAttachment, ItemAttachment, and referenceAttachment attachments for the event. Navigation property. Read-only. Nullable.
+// returns a []Attachmentable when successful
 func (m *Event) GetAttachments()([]Attachmentable) {
     val, err := m.GetBackingStore().Get("attachments")
     if err != nil {
@@ -45,6 +47,7 @@ func (m *Event) GetAttachments()([]Attachmentable) {
     return nil
 }
 // GetAttendees gets the attendees property value. The collection of attendees for the event.
+// returns a []Attendeeable when successful
 func (m *Event) GetAttendees()([]Attendeeable) {
     val, err := m.GetBackingStore().Get("attendees")
     if err != nil {
@@ -56,6 +59,7 @@ func (m *Event) GetAttendees()([]Attendeeable) {
     return nil
 }
 // GetBody gets the body property value. The body of the message associated with the event. It can be in HTML or text format.
+// returns a ItemBodyable when successful
 func (m *Event) GetBody()(ItemBodyable) {
     val, err := m.GetBackingStore().Get("body")
     if err != nil {
@@ -67,6 +71,7 @@ func (m *Event) GetBody()(ItemBodyable) {
     return nil
 }
 // GetBodyPreview gets the bodyPreview property value. The preview of the message associated with the event. It is in text format.
+// returns a *string when successful
 func (m *Event) GetBodyPreview()(*string) {
     val, err := m.GetBackingStore().Get("bodyPreview")
     if err != nil {
@@ -78,6 +83,7 @@ func (m *Event) GetBodyPreview()(*string) {
     return nil
 }
 // GetCalendar gets the calendar property value. The calendar that contains the event. Navigation property. Read-only.
+// returns a Calendarable when successful
 func (m *Event) GetCalendar()(Calendarable) {
     val, err := m.GetBackingStore().Get("calendar")
     if err != nil {
@@ -89,6 +95,7 @@ func (m *Event) GetCalendar()(Calendarable) {
     return nil
 }
 // GetEnd gets the end property value. The date, time, and time zone that the event ends. By default, the end time is in UTC.
+// returns a DateTimeTimeZoneable when successful
 func (m *Event) GetEnd()(DateTimeTimeZoneable) {
     val, err := m.GetBackingStore().Get("end")
     if err != nil {
@@ -100,6 +107,7 @@ func (m *Event) GetEnd()(DateTimeTimeZoneable) {
     return nil
 }
 // GetExtensions gets the extensions property value. The collection of open extensions defined for the event. Nullable.
+// returns a []Extensionable when successful
 func (m *Event) GetExtensions()([]Extensionable) {
     val, err := m.GetBackingStore().Get("extensions")
     if err != nil {
@@ -111,6 +119,7 @@ func (m *Event) GetExtensions()([]Extensionable) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *Event) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.OutlookItem.GetFieldDeserializers()
     res["allowNewTimeProposals"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -561,7 +570,7 @@ func (m *Event) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388
             return err
         }
         if val != nil {
-            m.SetType(val.(*EventType))
+            m.SetTypeEscaped(val.(*EventType))
         }
         return nil
     }
@@ -578,6 +587,7 @@ func (m *Event) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388
     return res
 }
 // GetHasAttachments gets the hasAttachments property value. Set to true if the event has attachments.
+// returns a *bool when successful
 func (m *Event) GetHasAttachments()(*bool) {
     val, err := m.GetBackingStore().Get("hasAttachments")
     if err != nil {
@@ -589,6 +599,7 @@ func (m *Event) GetHasAttachments()(*bool) {
     return nil
 }
 // GetHideAttendees gets the hideAttendees property value. When set to true, each attendee only sees themselves in the meeting request and meeting Tracking list. Default is false.
+// returns a *bool when successful
 func (m *Event) GetHideAttendees()(*bool) {
     val, err := m.GetBackingStore().Get("hideAttendees")
     if err != nil {
@@ -600,6 +611,7 @@ func (m *Event) GetHideAttendees()(*bool) {
     return nil
 }
 // GetICalUId gets the iCalUId property value. A unique identifier for an event across calendars. This ID is different for each occurrence in a recurring series. Read-only.
+// returns a *string when successful
 func (m *Event) GetICalUId()(*string) {
     val, err := m.GetBackingStore().Get("iCalUId")
     if err != nil {
@@ -610,7 +622,8 @@ func (m *Event) GetICalUId()(*string) {
     }
     return nil
 }
-// GetImportance gets the importance property value. The importance property
+// GetImportance gets the importance property value. The importance of the event. The possible values are: low, normal, high.
+// returns a *Importance when successful
 func (m *Event) GetImportance()(*Importance) {
     val, err := m.GetBackingStore().Get("importance")
     if err != nil {
@@ -622,6 +635,7 @@ func (m *Event) GetImportance()(*Importance) {
     return nil
 }
 // GetInstances gets the instances property value. The occurrences of a recurring series, if the event is a series master. This property includes occurrences that are part of the recurrence pattern, and exceptions that have been modified, but does not include occurrences that have been cancelled from the series. Navigation property. Read-only. Nullable.
+// returns a []Eventable when successful
 func (m *Event) GetInstances()([]Eventable) {
     val, err := m.GetBackingStore().Get("instances")
     if err != nil {
@@ -632,7 +646,8 @@ func (m *Event) GetInstances()([]Eventable) {
     }
     return nil
 }
-// GetIsAllDay gets the isAllDay property value. The isAllDay property
+// GetIsAllDay gets the isAllDay property value. Set to true if the event lasts all day. If true, regardless of whether it's a single-day or multi-day event, start and end time must be set to midnight and be in the same time zone.
+// returns a *bool when successful
 func (m *Event) GetIsAllDay()(*bool) {
     val, err := m.GetBackingStore().Get("isAllDay")
     if err != nil {
@@ -643,7 +658,8 @@ func (m *Event) GetIsAllDay()(*bool) {
     }
     return nil
 }
-// GetIsCancelled gets the isCancelled property value. The isCancelled property
+// GetIsCancelled gets the isCancelled property value. Set to true if the event has been canceled.
+// returns a *bool when successful
 func (m *Event) GetIsCancelled()(*bool) {
     val, err := m.GetBackingStore().Get("isCancelled")
     if err != nil {
@@ -654,7 +670,8 @@ func (m *Event) GetIsCancelled()(*bool) {
     }
     return nil
 }
-// GetIsDraft gets the isDraft property value. The isDraft property
+// GetIsDraft gets the isDraft property value. Set to true if the user has updated the meeting in Outlook but has not sent the updates to attendees. Set to false if all changes have been sent, or if the event is an appointment without any attendees.
+// returns a *bool when successful
 func (m *Event) GetIsDraft()(*bool) {
     val, err := m.GetBackingStore().Get("isDraft")
     if err != nil {
@@ -665,7 +682,8 @@ func (m *Event) GetIsDraft()(*bool) {
     }
     return nil
 }
-// GetIsOnlineMeeting gets the isOnlineMeeting property value. The isOnlineMeeting property
+// GetIsOnlineMeeting gets the isOnlineMeeting property value. True if this event has online meeting information (that is, onlineMeeting points to an onlineMeetingInfo resource), false otherwise. Default is false (onlineMeeting is null). Optional.  After you set isOnlineMeeting to true, Microsoft Graph initializes onlineMeeting. Subsequently Outlook ignores any further changes to isOnlineMeeting, and the meeting remains available online.
+// returns a *bool when successful
 func (m *Event) GetIsOnlineMeeting()(*bool) {
     val, err := m.GetBackingStore().Get("isOnlineMeeting")
     if err != nil {
@@ -676,7 +694,8 @@ func (m *Event) GetIsOnlineMeeting()(*bool) {
     }
     return nil
 }
-// GetIsOrganizer gets the isOrganizer property value. The isOrganizer property
+// GetIsOrganizer gets the isOrganizer property value. Set to true if the calendar owner (specified by the owner property of the calendar) is the organizer of the event (specified by the organizer property of the event). This also applies if a delegate organized the event on behalf of the owner.
+// returns a *bool when successful
 func (m *Event) GetIsOrganizer()(*bool) {
     val, err := m.GetBackingStore().Get("isOrganizer")
     if err != nil {
@@ -687,7 +706,8 @@ func (m *Event) GetIsOrganizer()(*bool) {
     }
     return nil
 }
-// GetIsReminderOn gets the isReminderOn property value. The isReminderOn property
+// GetIsReminderOn gets the isReminderOn property value. Set to true if an alert is set to remind the user of the event.
+// returns a *bool when successful
 func (m *Event) GetIsReminderOn()(*bool) {
     val, err := m.GetBackingStore().Get("isReminderOn")
     if err != nil {
@@ -698,7 +718,8 @@ func (m *Event) GetIsReminderOn()(*bool) {
     }
     return nil
 }
-// GetLocation gets the location property value. The location property
+// GetLocation gets the location property value. The location of the event.
+// returns a Locationable when successful
 func (m *Event) GetLocation()(Locationable) {
     val, err := m.GetBackingStore().Get("location")
     if err != nil {
@@ -709,7 +730,8 @@ func (m *Event) GetLocation()(Locationable) {
     }
     return nil
 }
-// GetLocations gets the locations property value. The locations property
+// GetLocations gets the locations property value. The locations where the event is held or attended from. The location and locations properties always correspond with each other. If you update the location property, any prior locations in the locations collection would be removed and replaced by the new location value.
+// returns a []Locationable when successful
 func (m *Event) GetLocations()([]Locationable) {
     val, err := m.GetBackingStore().Get("locations")
     if err != nil {
@@ -721,6 +743,7 @@ func (m *Event) GetLocations()([]Locationable) {
     return nil
 }
 // GetMultiValueExtendedProperties gets the multiValueExtendedProperties property value. The collection of multi-value extended properties defined for the event. Read-only. Nullable.
+// returns a []MultiValueLegacyExtendedPropertyable when successful
 func (m *Event) GetMultiValueExtendedProperties()([]MultiValueLegacyExtendedPropertyable) {
     val, err := m.GetBackingStore().Get("multiValueExtendedProperties")
     if err != nil {
@@ -731,7 +754,8 @@ func (m *Event) GetMultiValueExtendedProperties()([]MultiValueLegacyExtendedProp
     }
     return nil
 }
-// GetOnlineMeeting gets the onlineMeeting property value. The onlineMeeting property
+// GetOnlineMeeting gets the onlineMeeting property value. Details for an attendee to join the meeting online. Default is null. Read-only. After you set the isOnlineMeeting and onlineMeetingProvider properties to enable a meeting online, Microsoft Graph initializes onlineMeeting. When set, the meeting remains available online, and you cannot change the isOnlineMeeting, onlineMeetingProvider, and onlneMeeting properties again.
+// returns a OnlineMeetingInfoable when successful
 func (m *Event) GetOnlineMeeting()(OnlineMeetingInfoable) {
     val, err := m.GetBackingStore().Get("onlineMeeting")
     if err != nil {
@@ -742,7 +766,8 @@ func (m *Event) GetOnlineMeeting()(OnlineMeetingInfoable) {
     }
     return nil
 }
-// GetOnlineMeetingProvider gets the onlineMeetingProvider property value. The onlineMeetingProvider property
+// GetOnlineMeetingProvider gets the onlineMeetingProvider property value. Represents the online meeting service provider. By default, onlineMeetingProvider is unknown. The possible values are unknown, teamsForBusiness, skypeForBusiness, and skypeForConsumer. Optional.  After you set onlineMeetingProvider, Microsoft Graph initializes onlineMeeting. Subsequently you cannot change onlineMeetingProvider again, and the meeting remains available online.
+// returns a *OnlineMeetingProviderType when successful
 func (m *Event) GetOnlineMeetingProvider()(*OnlineMeetingProviderType) {
     val, err := m.GetBackingStore().Get("onlineMeetingProvider")
     if err != nil {
@@ -753,7 +778,8 @@ func (m *Event) GetOnlineMeetingProvider()(*OnlineMeetingProviderType) {
     }
     return nil
 }
-// GetOnlineMeetingUrl gets the onlineMeetingUrl property value. The onlineMeetingUrl property
+// GetOnlineMeetingUrl gets the onlineMeetingUrl property value. A URL for an online meeting. The property is set only when an organizer specifies in Outlook that an event is an online meeting such as Skype. Read-only.To access the URL to join an online meeting, use joinUrl which is exposed via the onlineMeeting property of the event. The onlineMeetingUrl property will be deprecated in the future.
+// returns a *string when successful
 func (m *Event) GetOnlineMeetingUrl()(*string) {
     val, err := m.GetBackingStore().Get("onlineMeetingUrl")
     if err != nil {
@@ -764,7 +790,8 @@ func (m *Event) GetOnlineMeetingUrl()(*string) {
     }
     return nil
 }
-// GetOrganizer gets the organizer property value. The organizer property
+// GetOrganizer gets the organizer property value. The organizer of the event.
+// returns a Recipientable when successful
 func (m *Event) GetOrganizer()(Recipientable) {
     val, err := m.GetBackingStore().Get("organizer")
     if err != nil {
@@ -775,7 +802,8 @@ func (m *Event) GetOrganizer()(Recipientable) {
     }
     return nil
 }
-// GetOriginalEndTimeZone gets the originalEndTimeZone property value. The originalEndTimeZone property
+// GetOriginalEndTimeZone gets the originalEndTimeZone property value. The end time zone that was set when the event was created. A value of tzone://Microsoft/Custom indicates that a legacy custom time zone was set in desktop Outlook.
+// returns a *string when successful
 func (m *Event) GetOriginalEndTimeZone()(*string) {
     val, err := m.GetBackingStore().Get("originalEndTimeZone")
     if err != nil {
@@ -786,7 +814,8 @@ func (m *Event) GetOriginalEndTimeZone()(*string) {
     }
     return nil
 }
-// GetOriginalStart gets the originalStart property value. The originalStart property
+// GetOriginalStart gets the originalStart property value. Represents the start time of an event when it is initially created as an occurrence or exception in a recurring series. This property is not returned for events that are single instances. Its date and time information is expressed in ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z
+// returns a *Time when successful
 func (m *Event) GetOriginalStart()(*i336074805fc853987abe6f7fe3ad97a6a6f3077a16391fec744f671a015fbd7e.Time) {
     val, err := m.GetBackingStore().Get("originalStart")
     if err != nil {
@@ -797,7 +826,8 @@ func (m *Event) GetOriginalStart()(*i336074805fc853987abe6f7fe3ad97a6a6f3077a163
     }
     return nil
 }
-// GetOriginalStartTimeZone gets the originalStartTimeZone property value. The originalStartTimeZone property
+// GetOriginalStartTimeZone gets the originalStartTimeZone property value. The start time zone that was set when the event was created. A value of tzone://Microsoft/Custom indicates that a legacy custom time zone was set in desktop Outlook.
+// returns a *string when successful
 func (m *Event) GetOriginalStartTimeZone()(*string) {
     val, err := m.GetBackingStore().Get("originalStartTimeZone")
     if err != nil {
@@ -808,7 +838,8 @@ func (m *Event) GetOriginalStartTimeZone()(*string) {
     }
     return nil
 }
-// GetRecurrence gets the recurrence property value. The recurrence property
+// GetRecurrence gets the recurrence property value. The recurrence pattern for the event.
+// returns a PatternedRecurrenceable when successful
 func (m *Event) GetRecurrence()(PatternedRecurrenceable) {
     val, err := m.GetBackingStore().Get("recurrence")
     if err != nil {
@@ -819,7 +850,8 @@ func (m *Event) GetRecurrence()(PatternedRecurrenceable) {
     }
     return nil
 }
-// GetReminderMinutesBeforeStart gets the reminderMinutesBeforeStart property value. The reminderMinutesBeforeStart property
+// GetReminderMinutesBeforeStart gets the reminderMinutesBeforeStart property value. The number of minutes before the event start time that the reminder alert occurs.
+// returns a *int32 when successful
 func (m *Event) GetReminderMinutesBeforeStart()(*int32) {
     val, err := m.GetBackingStore().Get("reminderMinutesBeforeStart")
     if err != nil {
@@ -830,7 +862,8 @@ func (m *Event) GetReminderMinutesBeforeStart()(*int32) {
     }
     return nil
 }
-// GetResponseRequested gets the responseRequested property value. The responseRequested property
+// GetResponseRequested gets the responseRequested property value. Default is true, which represents the organizer would like an invitee to send a response to the event.
+// returns a *bool when successful
 func (m *Event) GetResponseRequested()(*bool) {
     val, err := m.GetBackingStore().Get("responseRequested")
     if err != nil {
@@ -841,7 +874,8 @@ func (m *Event) GetResponseRequested()(*bool) {
     }
     return nil
 }
-// GetResponseStatus gets the responseStatus property value. The responseStatus property
+// GetResponseStatus gets the responseStatus property value. Indicates the type of response sent in response to an event message.
+// returns a ResponseStatusable when successful
 func (m *Event) GetResponseStatus()(ResponseStatusable) {
     val, err := m.GetBackingStore().Get("responseStatus")
     if err != nil {
@@ -852,7 +886,8 @@ func (m *Event) GetResponseStatus()(ResponseStatusable) {
     }
     return nil
 }
-// GetSensitivity gets the sensitivity property value. The sensitivity property
+// GetSensitivity gets the sensitivity property value. Possible values are: normal, personal, private, confidential.
+// returns a *Sensitivity when successful
 func (m *Event) GetSensitivity()(*Sensitivity) {
     val, err := m.GetBackingStore().Get("sensitivity")
     if err != nil {
@@ -863,7 +898,8 @@ func (m *Event) GetSensitivity()(*Sensitivity) {
     }
     return nil
 }
-// GetSeriesMasterId gets the seriesMasterId property value. The seriesMasterId property
+// GetSeriesMasterId gets the seriesMasterId property value. The ID for the recurring series master item, if this event is part of a recurring series.
+// returns a *string when successful
 func (m *Event) GetSeriesMasterId()(*string) {
     val, err := m.GetBackingStore().Get("seriesMasterId")
     if err != nil {
@@ -874,7 +910,8 @@ func (m *Event) GetSeriesMasterId()(*string) {
     }
     return nil
 }
-// GetShowAs gets the showAs property value. The showAs property
+// GetShowAs gets the showAs property value. The status to show. Possible values are: free, tentative, busy, oof, workingElsewhere, unknown.
+// returns a *FreeBusyStatus when successful
 func (m *Event) GetShowAs()(*FreeBusyStatus) {
     val, err := m.GetBackingStore().Get("showAs")
     if err != nil {
@@ -886,6 +923,7 @@ func (m *Event) GetShowAs()(*FreeBusyStatus) {
     return nil
 }
 // GetSingleValueExtendedProperties gets the singleValueExtendedProperties property value. The collection of single-value extended properties defined for the event. Read-only. Nullable.
+// returns a []SingleValueLegacyExtendedPropertyable when successful
 func (m *Event) GetSingleValueExtendedProperties()([]SingleValueLegacyExtendedPropertyable) {
     val, err := m.GetBackingStore().Get("singleValueExtendedProperties")
     if err != nil {
@@ -896,7 +934,8 @@ func (m *Event) GetSingleValueExtendedProperties()([]SingleValueLegacyExtendedPr
     }
     return nil
 }
-// GetStart gets the start property value. The start property
+// GetStart gets the start property value. The start date, time, and time zone of the event. By default, the start time is in UTC.
+// returns a DateTimeTimeZoneable when successful
 func (m *Event) GetStart()(DateTimeTimeZoneable) {
     val, err := m.GetBackingStore().Get("start")
     if err != nil {
@@ -907,7 +946,8 @@ func (m *Event) GetStart()(DateTimeTimeZoneable) {
     }
     return nil
 }
-// GetSubject gets the subject property value. The subject property
+// GetSubject gets the subject property value. The text of the event's subject line.
+// returns a *string when successful
 func (m *Event) GetSubject()(*string) {
     val, err := m.GetBackingStore().Get("subject")
     if err != nil {
@@ -918,7 +958,8 @@ func (m *Event) GetSubject()(*string) {
     }
     return nil
 }
-// GetTransactionId gets the transactionId property value. The transactionId property
+// GetTransactionId gets the transactionId property value. A custom identifier specified by a client app for the server to avoid redundant POST operations in case of client retries to create the same event. This is useful when low network connectivity causes the client to time out before receiving a response from the server for the client's prior create-event request. After you set transactionId when creating an event, you cannot change transactionId in a subsequent update. This property is only returned in a response payload if an app has set it. Optional.
+// returns a *string when successful
 func (m *Event) GetTransactionId()(*string) {
     val, err := m.GetBackingStore().Get("transactionId")
     if err != nil {
@@ -929,8 +970,9 @@ func (m *Event) GetTransactionId()(*string) {
     }
     return nil
 }
-// GetType gets the type property value. The type property
-func (m *Event) GetType()(*EventType) {
+// GetTypeEscaped gets the type property value. The event type. Possible values are: singleInstance, occurrence, exception, seriesMaster. Read-only
+// returns a *EventType when successful
+func (m *Event) GetTypeEscaped()(*EventType) {
     val, err := m.GetBackingStore().Get("typeEscaped")
     if err != nil {
         panic(err)
@@ -940,7 +982,8 @@ func (m *Event) GetType()(*EventType) {
     }
     return nil
 }
-// GetWebLink gets the webLink property value. The webLink property
+// GetWebLink gets the webLink property value. The URL to open the event in Outlook on the web.Outlook on the web opens the event in the browser if you are signed in to your mailbox. Otherwise, Outlook on the web prompts you to sign in.This URL cannot be accessed from within an iFrame.
+// returns a *string when successful
 func (m *Event) GetWebLink()(*string) {
     val, err := m.GetBackingStore().Get("webLink")
     if err != nil {
@@ -1243,8 +1286,8 @@ func (m *Event) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6c010c4
             return err
         }
     }
-    if m.GetType() != nil {
-        cast := (*m.GetType()).String()
+    if m.GetTypeEscaped() != nil {
+        cast := (*m.GetTypeEscaped()).String()
         err = writer.WriteStringValue("type", &cast)
         if err != nil {
             return err
@@ -1335,7 +1378,7 @@ func (m *Event) SetICalUId(value *string)() {
         panic(err)
     }
 }
-// SetImportance sets the importance property value. The importance property
+// SetImportance sets the importance property value. The importance of the event. The possible values are: low, normal, high.
 func (m *Event) SetImportance(value *Importance)() {
     err := m.GetBackingStore().Set("importance", value)
     if err != nil {
@@ -1349,56 +1392,56 @@ func (m *Event) SetInstances(value []Eventable)() {
         panic(err)
     }
 }
-// SetIsAllDay sets the isAllDay property value. The isAllDay property
+// SetIsAllDay sets the isAllDay property value. Set to true if the event lasts all day. If true, regardless of whether it's a single-day or multi-day event, start and end time must be set to midnight and be in the same time zone.
 func (m *Event) SetIsAllDay(value *bool)() {
     err := m.GetBackingStore().Set("isAllDay", value)
     if err != nil {
         panic(err)
     }
 }
-// SetIsCancelled sets the isCancelled property value. The isCancelled property
+// SetIsCancelled sets the isCancelled property value. Set to true if the event has been canceled.
 func (m *Event) SetIsCancelled(value *bool)() {
     err := m.GetBackingStore().Set("isCancelled", value)
     if err != nil {
         panic(err)
     }
 }
-// SetIsDraft sets the isDraft property value. The isDraft property
+// SetIsDraft sets the isDraft property value. Set to true if the user has updated the meeting in Outlook but has not sent the updates to attendees. Set to false if all changes have been sent, or if the event is an appointment without any attendees.
 func (m *Event) SetIsDraft(value *bool)() {
     err := m.GetBackingStore().Set("isDraft", value)
     if err != nil {
         panic(err)
     }
 }
-// SetIsOnlineMeeting sets the isOnlineMeeting property value. The isOnlineMeeting property
+// SetIsOnlineMeeting sets the isOnlineMeeting property value. True if this event has online meeting information (that is, onlineMeeting points to an onlineMeetingInfo resource), false otherwise. Default is false (onlineMeeting is null). Optional.  After you set isOnlineMeeting to true, Microsoft Graph initializes onlineMeeting. Subsequently Outlook ignores any further changes to isOnlineMeeting, and the meeting remains available online.
 func (m *Event) SetIsOnlineMeeting(value *bool)() {
     err := m.GetBackingStore().Set("isOnlineMeeting", value)
     if err != nil {
         panic(err)
     }
 }
-// SetIsOrganizer sets the isOrganizer property value. The isOrganizer property
+// SetIsOrganizer sets the isOrganizer property value. Set to true if the calendar owner (specified by the owner property of the calendar) is the organizer of the event (specified by the organizer property of the event). This also applies if a delegate organized the event on behalf of the owner.
 func (m *Event) SetIsOrganizer(value *bool)() {
     err := m.GetBackingStore().Set("isOrganizer", value)
     if err != nil {
         panic(err)
     }
 }
-// SetIsReminderOn sets the isReminderOn property value. The isReminderOn property
+// SetIsReminderOn sets the isReminderOn property value. Set to true if an alert is set to remind the user of the event.
 func (m *Event) SetIsReminderOn(value *bool)() {
     err := m.GetBackingStore().Set("isReminderOn", value)
     if err != nil {
         panic(err)
     }
 }
-// SetLocation sets the location property value. The location property
+// SetLocation sets the location property value. The location of the event.
 func (m *Event) SetLocation(value Locationable)() {
     err := m.GetBackingStore().Set("location", value)
     if err != nil {
         panic(err)
     }
 }
-// SetLocations sets the locations property value. The locations property
+// SetLocations sets the locations property value. The locations where the event is held or attended from. The location and locations properties always correspond with each other. If you update the location property, any prior locations in the locations collection would be removed and replaced by the new location value.
 func (m *Event) SetLocations(value []Locationable)() {
     err := m.GetBackingStore().Set("locations", value)
     if err != nil {
@@ -1412,98 +1455,98 @@ func (m *Event) SetMultiValueExtendedProperties(value []MultiValueLegacyExtended
         panic(err)
     }
 }
-// SetOnlineMeeting sets the onlineMeeting property value. The onlineMeeting property
+// SetOnlineMeeting sets the onlineMeeting property value. Details for an attendee to join the meeting online. Default is null. Read-only. After you set the isOnlineMeeting and onlineMeetingProvider properties to enable a meeting online, Microsoft Graph initializes onlineMeeting. When set, the meeting remains available online, and you cannot change the isOnlineMeeting, onlineMeetingProvider, and onlneMeeting properties again.
 func (m *Event) SetOnlineMeeting(value OnlineMeetingInfoable)() {
     err := m.GetBackingStore().Set("onlineMeeting", value)
     if err != nil {
         panic(err)
     }
 }
-// SetOnlineMeetingProvider sets the onlineMeetingProvider property value. The onlineMeetingProvider property
+// SetOnlineMeetingProvider sets the onlineMeetingProvider property value. Represents the online meeting service provider. By default, onlineMeetingProvider is unknown. The possible values are unknown, teamsForBusiness, skypeForBusiness, and skypeForConsumer. Optional.  After you set onlineMeetingProvider, Microsoft Graph initializes onlineMeeting. Subsequently you cannot change onlineMeetingProvider again, and the meeting remains available online.
 func (m *Event) SetOnlineMeetingProvider(value *OnlineMeetingProviderType)() {
     err := m.GetBackingStore().Set("onlineMeetingProvider", value)
     if err != nil {
         panic(err)
     }
 }
-// SetOnlineMeetingUrl sets the onlineMeetingUrl property value. The onlineMeetingUrl property
+// SetOnlineMeetingUrl sets the onlineMeetingUrl property value. A URL for an online meeting. The property is set only when an organizer specifies in Outlook that an event is an online meeting such as Skype. Read-only.To access the URL to join an online meeting, use joinUrl which is exposed via the onlineMeeting property of the event. The onlineMeetingUrl property will be deprecated in the future.
 func (m *Event) SetOnlineMeetingUrl(value *string)() {
     err := m.GetBackingStore().Set("onlineMeetingUrl", value)
     if err != nil {
         panic(err)
     }
 }
-// SetOrganizer sets the organizer property value. The organizer property
+// SetOrganizer sets the organizer property value. The organizer of the event.
 func (m *Event) SetOrganizer(value Recipientable)() {
     err := m.GetBackingStore().Set("organizer", value)
     if err != nil {
         panic(err)
     }
 }
-// SetOriginalEndTimeZone sets the originalEndTimeZone property value. The originalEndTimeZone property
+// SetOriginalEndTimeZone sets the originalEndTimeZone property value. The end time zone that was set when the event was created. A value of tzone://Microsoft/Custom indicates that a legacy custom time zone was set in desktop Outlook.
 func (m *Event) SetOriginalEndTimeZone(value *string)() {
     err := m.GetBackingStore().Set("originalEndTimeZone", value)
     if err != nil {
         panic(err)
     }
 }
-// SetOriginalStart sets the originalStart property value. The originalStart property
+// SetOriginalStart sets the originalStart property value. Represents the start time of an event when it is initially created as an occurrence or exception in a recurring series. This property is not returned for events that are single instances. Its date and time information is expressed in ISO 8601 format and is always in UTC. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z
 func (m *Event) SetOriginalStart(value *i336074805fc853987abe6f7fe3ad97a6a6f3077a16391fec744f671a015fbd7e.Time)() {
     err := m.GetBackingStore().Set("originalStart", value)
     if err != nil {
         panic(err)
     }
 }
-// SetOriginalStartTimeZone sets the originalStartTimeZone property value. The originalStartTimeZone property
+// SetOriginalStartTimeZone sets the originalStartTimeZone property value. The start time zone that was set when the event was created. A value of tzone://Microsoft/Custom indicates that a legacy custom time zone was set in desktop Outlook.
 func (m *Event) SetOriginalStartTimeZone(value *string)() {
     err := m.GetBackingStore().Set("originalStartTimeZone", value)
     if err != nil {
         panic(err)
     }
 }
-// SetRecurrence sets the recurrence property value. The recurrence property
+// SetRecurrence sets the recurrence property value. The recurrence pattern for the event.
 func (m *Event) SetRecurrence(value PatternedRecurrenceable)() {
     err := m.GetBackingStore().Set("recurrence", value)
     if err != nil {
         panic(err)
     }
 }
-// SetReminderMinutesBeforeStart sets the reminderMinutesBeforeStart property value. The reminderMinutesBeforeStart property
+// SetReminderMinutesBeforeStart sets the reminderMinutesBeforeStart property value. The number of minutes before the event start time that the reminder alert occurs.
 func (m *Event) SetReminderMinutesBeforeStart(value *int32)() {
     err := m.GetBackingStore().Set("reminderMinutesBeforeStart", value)
     if err != nil {
         panic(err)
     }
 }
-// SetResponseRequested sets the responseRequested property value. The responseRequested property
+// SetResponseRequested sets the responseRequested property value. Default is true, which represents the organizer would like an invitee to send a response to the event.
 func (m *Event) SetResponseRequested(value *bool)() {
     err := m.GetBackingStore().Set("responseRequested", value)
     if err != nil {
         panic(err)
     }
 }
-// SetResponseStatus sets the responseStatus property value. The responseStatus property
+// SetResponseStatus sets the responseStatus property value. Indicates the type of response sent in response to an event message.
 func (m *Event) SetResponseStatus(value ResponseStatusable)() {
     err := m.GetBackingStore().Set("responseStatus", value)
     if err != nil {
         panic(err)
     }
 }
-// SetSensitivity sets the sensitivity property value. The sensitivity property
+// SetSensitivity sets the sensitivity property value. Possible values are: normal, personal, private, confidential.
 func (m *Event) SetSensitivity(value *Sensitivity)() {
     err := m.GetBackingStore().Set("sensitivity", value)
     if err != nil {
         panic(err)
     }
 }
-// SetSeriesMasterId sets the seriesMasterId property value. The seriesMasterId property
+// SetSeriesMasterId sets the seriesMasterId property value. The ID for the recurring series master item, if this event is part of a recurring series.
 func (m *Event) SetSeriesMasterId(value *string)() {
     err := m.GetBackingStore().Set("seriesMasterId", value)
     if err != nil {
         panic(err)
     }
 }
-// SetShowAs sets the showAs property value. The showAs property
+// SetShowAs sets the showAs property value. The status to show. Possible values are: free, tentative, busy, oof, workingElsewhere, unknown.
 func (m *Event) SetShowAs(value *FreeBusyStatus)() {
     err := m.GetBackingStore().Set("showAs", value)
     if err != nil {
@@ -1517,42 +1560,41 @@ func (m *Event) SetSingleValueExtendedProperties(value []SingleValueLegacyExtend
         panic(err)
     }
 }
-// SetStart sets the start property value. The start property
+// SetStart sets the start property value. The start date, time, and time zone of the event. By default, the start time is in UTC.
 func (m *Event) SetStart(value DateTimeTimeZoneable)() {
     err := m.GetBackingStore().Set("start", value)
     if err != nil {
         panic(err)
     }
 }
-// SetSubject sets the subject property value. The subject property
+// SetSubject sets the subject property value. The text of the event's subject line.
 func (m *Event) SetSubject(value *string)() {
     err := m.GetBackingStore().Set("subject", value)
     if err != nil {
         panic(err)
     }
 }
-// SetTransactionId sets the transactionId property value. The transactionId property
+// SetTransactionId sets the transactionId property value. A custom identifier specified by a client app for the server to avoid redundant POST operations in case of client retries to create the same event. This is useful when low network connectivity causes the client to time out before receiving a response from the server for the client's prior create-event request. After you set transactionId when creating an event, you cannot change transactionId in a subsequent update. This property is only returned in a response payload if an app has set it. Optional.
 func (m *Event) SetTransactionId(value *string)() {
     err := m.GetBackingStore().Set("transactionId", value)
     if err != nil {
         panic(err)
     }
 }
-// SetType sets the type property value. The type property
-func (m *Event) SetType(value *EventType)() {
+// SetTypeEscaped sets the type property value. The event type. Possible values are: singleInstance, occurrence, exception, seriesMaster. Read-only
+func (m *Event) SetTypeEscaped(value *EventType)() {
     err := m.GetBackingStore().Set("typeEscaped", value)
     if err != nil {
         panic(err)
     }
 }
-// SetWebLink sets the webLink property value. The webLink property
+// SetWebLink sets the webLink property value. The URL to open the event in Outlook on the web.Outlook on the web opens the event in the browser if you are signed in to your mailbox. Otherwise, Outlook on the web prompts you to sign in.This URL cannot be accessed from within an iFrame.
 func (m *Event) SetWebLink(value *string)() {
     err := m.GetBackingStore().Set("webLink", value)
     if err != nil {
         panic(err)
     }
 }
-// Eventable 
 type Eventable interface {
     OutlookItemable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable
@@ -1596,7 +1638,7 @@ type Eventable interface {
     GetStart()(DateTimeTimeZoneable)
     GetSubject()(*string)
     GetTransactionId()(*string)
-    GetType()(*EventType)
+    GetTypeEscaped()(*EventType)
     GetWebLink()(*string)
     SetAllowNewTimeProposals(value *bool)()
     SetAttachments(value []Attachmentable)()
@@ -1638,6 +1680,6 @@ type Eventable interface {
     SetStart(value DateTimeTimeZoneable)()
     SetSubject(value *string)()
     SetTransactionId(value *string)()
-    SetType(value *EventType)()
+    SetTypeEscaped(value *EventType)()
     SetWebLink(value *string)()
 }

@@ -5,12 +5,11 @@ import (
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e "github.com/microsoft/kiota-abstractions-go/store"
 )
 
-// SynchronizationMetadataEntry 
 type SynchronizationMetadataEntry struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
 }
-// NewSynchronizationMetadataEntry instantiates a new synchronizationMetadataEntry and sets the default values.
+// NewSynchronizationMetadataEntry instantiates a new SynchronizationMetadataEntry and sets the default values.
 func NewSynchronizationMetadataEntry()(*SynchronizationMetadataEntry) {
     m := &SynchronizationMetadataEntry{
     }
@@ -19,10 +18,12 @@ func NewSynchronizationMetadataEntry()(*SynchronizationMetadataEntry) {
     return m
 }
 // CreateSynchronizationMetadataEntryFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateSynchronizationMetadataEntryFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewSynchronizationMetadataEntry(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *SynchronizationMetadataEntry) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -34,11 +35,13 @@ func (m *SynchronizationMetadataEntry) GetAdditionalData()(map[string]any) {
     }
     return val.(map[string]any)
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *SynchronizationMetadataEntry) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *SynchronizationMetadataEntry) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["key"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -73,7 +76,8 @@ func (m *SynchronizationMetadataEntry) GetFieldDeserializers()(map[string]func(i
     }
     return res
 }
-// GetKey gets the key property value. The key property
+// GetKey gets the key property value. Possible values are: GalleryApplicationIdentifier, GalleryApplicationKey, IsOAuthEnabled, IsSynchronizationAgentAssignmentRequired, IsSynchronizationAgentRequired, IsSynchronizationInPreview, OAuthSettings, SynchronizationLearnMoreIbizaFwLink, ConfigurationFields.
+// returns a *SynchronizationMetadata when successful
 func (m *SynchronizationMetadataEntry) GetKey()(*SynchronizationMetadata) {
     val, err := m.GetBackingStore().Get("key")
     if err != nil {
@@ -85,6 +89,7 @@ func (m *SynchronizationMetadataEntry) GetKey()(*SynchronizationMetadata) {
     return nil
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *SynchronizationMetadataEntry) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -95,7 +100,8 @@ func (m *SynchronizationMetadataEntry) GetOdataType()(*string) {
     }
     return nil
 }
-// GetValue gets the value property value. The value property
+// GetValue gets the value property value. Value of the metadata property.
+// returns a *string when successful
 func (m *SynchronizationMetadataEntry) GetValue()(*string) {
     val, err := m.GetBackingStore().Get("value")
     if err != nil {
@@ -135,18 +141,18 @@ func (m *SynchronizationMetadataEntry) Serialize(writer i878a80d2330e89d26896388
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *SynchronizationMetadataEntry) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *SynchronizationMetadataEntry) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
-// SetKey sets the key property value. The key property
+// SetKey sets the key property value. Possible values are: GalleryApplicationIdentifier, GalleryApplicationKey, IsOAuthEnabled, IsSynchronizationAgentAssignmentRequired, IsSynchronizationAgentRequired, IsSynchronizationInPreview, OAuthSettings, SynchronizationLearnMoreIbizaFwLink, ConfigurationFields.
 func (m *SynchronizationMetadataEntry) SetKey(value *SynchronizationMetadata)() {
     err := m.GetBackingStore().Set("key", value)
     if err != nil {
@@ -160,14 +166,13 @@ func (m *SynchronizationMetadataEntry) SetOdataType(value *string)() {
         panic(err)
     }
 }
-// SetValue sets the value property value. The value property
+// SetValue sets the value property value. Value of the metadata property.
 func (m *SynchronizationMetadataEntry) SetValue(value *string)() {
     err := m.GetBackingStore().Set("value", value)
     if err != nil {
         panic(err)
     }
 }
-// SynchronizationMetadataEntryable 
 type SynchronizationMetadataEntryable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel

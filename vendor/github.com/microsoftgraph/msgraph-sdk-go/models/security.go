@@ -4,7 +4,6 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// Security 
 type Security struct {
     Entity
 }
@@ -16,10 +15,12 @@ func NewSecurity()(*Security) {
     return m
 }
 // CreateSecurityFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateSecurityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewSecurity(), nil
 }
 // GetAlerts gets the alerts property value. The alerts property
+// returns a []Alertable when successful
 func (m *Security) GetAlerts()([]Alertable) {
     val, err := m.GetBackingStore().Get("alerts")
     if err != nil {
@@ -31,6 +32,7 @@ func (m *Security) GetAlerts()([]Alertable) {
     return nil
 }
 // GetAttackSimulation gets the attackSimulation property value. The attackSimulation property
+// returns a AttackSimulationRootable when successful
 func (m *Security) GetAttackSimulation()(AttackSimulationRootable) {
     val, err := m.GetBackingStore().Get("attackSimulation")
     if err != nil {
@@ -42,6 +44,7 @@ func (m *Security) GetAttackSimulation()(AttackSimulationRootable) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *Security) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.Entity.GetFieldDeserializers()
     res["alerts"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -102,9 +105,26 @@ func (m *Security) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896
         }
         return nil
     }
+    res["subjectRightsRequests"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetCollectionOfObjectValues(CreateSubjectRightsRequestFromDiscriminatorValue)
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            res := make([]SubjectRightsRequestable, len(val))
+            for i, v := range val {
+                if v != nil {
+                    res[i] = v.(SubjectRightsRequestable)
+                }
+            }
+            m.SetSubjectRightsRequests(res)
+        }
+        return nil
+    }
     return res
 }
 // GetSecureScoreControlProfiles gets the secureScoreControlProfiles property value. The secureScoreControlProfiles property
+// returns a []SecureScoreControlProfileable when successful
 func (m *Security) GetSecureScoreControlProfiles()([]SecureScoreControlProfileable) {
     val, err := m.GetBackingStore().Get("secureScoreControlProfiles")
     if err != nil {
@@ -116,6 +136,7 @@ func (m *Security) GetSecureScoreControlProfiles()([]SecureScoreControlProfileab
     return nil
 }
 // GetSecureScores gets the secureScores property value. The secureScores property
+// returns a []SecureScoreable when successful
 func (m *Security) GetSecureScores()([]SecureScoreable) {
     val, err := m.GetBackingStore().Get("secureScores")
     if err != nil {
@@ -123,6 +144,18 @@ func (m *Security) GetSecureScores()([]SecureScoreable) {
     }
     if val != nil {
         return val.([]SecureScoreable)
+    }
+    return nil
+}
+// GetSubjectRightsRequests gets the subjectRightsRequests property value. The subjectRightsRequests property
+// returns a []SubjectRightsRequestable when successful
+func (m *Security) GetSubjectRightsRequests()([]SubjectRightsRequestable) {
+    val, err := m.GetBackingStore().Get("subjectRightsRequests")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.([]SubjectRightsRequestable)
     }
     return nil
 }
@@ -174,6 +207,18 @@ func (m *Security) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6c01
             return err
         }
     }
+    if m.GetSubjectRightsRequests() != nil {
+        cast := make([]i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, len(m.GetSubjectRightsRequests()))
+        for i, v := range m.GetSubjectRightsRequests() {
+            if v != nil {
+                cast[i] = v.(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable)
+            }
+        }
+        err = writer.WriteCollectionOfObjectValues("subjectRightsRequests", cast)
+        if err != nil {
+            return err
+        }
+    }
     return nil
 }
 // SetAlerts sets the alerts property value. The alerts property
@@ -204,7 +249,13 @@ func (m *Security) SetSecureScores(value []SecureScoreable)() {
         panic(err)
     }
 }
-// Securityable 
+// SetSubjectRightsRequests sets the subjectRightsRequests property value. The subjectRightsRequests property
+func (m *Security) SetSubjectRightsRequests(value []SubjectRightsRequestable)() {
+    err := m.GetBackingStore().Set("subjectRightsRequests", value)
+    if err != nil {
+        panic(err)
+    }
+}
 type Securityable interface {
     Entityable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable
@@ -212,8 +263,10 @@ type Securityable interface {
     GetAttackSimulation()(AttackSimulationRootable)
     GetSecureScoreControlProfiles()([]SecureScoreControlProfileable)
     GetSecureScores()([]SecureScoreable)
+    GetSubjectRightsRequests()([]SubjectRightsRequestable)
     SetAlerts(value []Alertable)()
     SetAttackSimulation(value AttackSimulationRootable)()
     SetSecureScoreControlProfiles(value []SecureScoreControlProfileable)()
     SetSecureScores(value []SecureScoreable)()
+    SetSubjectRightsRequests(value []SubjectRightsRequestable)()
 }

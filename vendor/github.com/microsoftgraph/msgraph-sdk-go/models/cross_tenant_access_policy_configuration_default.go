@@ -4,11 +4,10 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// CrossTenantAccessPolicyConfigurationDefault 
 type CrossTenantAccessPolicyConfigurationDefault struct {
     Entity
 }
-// NewCrossTenantAccessPolicyConfigurationDefault instantiates a new crossTenantAccessPolicyConfigurationDefault and sets the default values.
+// NewCrossTenantAccessPolicyConfigurationDefault instantiates a new CrossTenantAccessPolicyConfigurationDefault and sets the default values.
 func NewCrossTenantAccessPolicyConfigurationDefault()(*CrossTenantAccessPolicyConfigurationDefault) {
     m := &CrossTenantAccessPolicyConfigurationDefault{
         Entity: *NewEntity(),
@@ -16,10 +15,12 @@ func NewCrossTenantAccessPolicyConfigurationDefault()(*CrossTenantAccessPolicyCo
     return m
 }
 // CreateCrossTenantAccessPolicyConfigurationDefaultFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateCrossTenantAccessPolicyConfigurationDefaultFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewCrossTenantAccessPolicyConfigurationDefault(), nil
 }
-// GetAutomaticUserConsentSettings gets the automaticUserConsentSettings property value. Determines the default configuration for automatic user consent settings. The inboundAllowed and outboundAllowed properties are always false and cannot be updated in the default configuration. Read-only.
+// GetAutomaticUserConsentSettings gets the automaticUserConsentSettings property value. Determines the default configuration for automatic user consent settings. The inboundAllowed and outboundAllowed properties are always false and can't be updated in the default configuration. Read-only.
+// returns a InboundOutboundPolicyConfigurationable when successful
 func (m *CrossTenantAccessPolicyConfigurationDefault) GetAutomaticUserConsentSettings()(InboundOutboundPolicyConfigurationable) {
     val, err := m.GetBackingStore().Get("automaticUserConsentSettings")
     if err != nil {
@@ -30,7 +31,8 @@ func (m *CrossTenantAccessPolicyConfigurationDefault) GetAutomaticUserConsentSet
     }
     return nil
 }
-// GetB2bCollaborationInbound gets the b2bCollaborationInbound property value. Defines your default configuration for users from other organizations accessing your resources via Azure AD B2B collaboration.
+// GetB2bCollaborationInbound gets the b2bCollaborationInbound property value. Defines your default configuration for users from other organizations accessing your resources via Microsoft Entra B2B collaboration.
+// returns a CrossTenantAccessPolicyB2BSettingable when successful
 func (m *CrossTenantAccessPolicyConfigurationDefault) GetB2bCollaborationInbound()(CrossTenantAccessPolicyB2BSettingable) {
     val, err := m.GetBackingStore().Get("b2bCollaborationInbound")
     if err != nil {
@@ -41,7 +43,8 @@ func (m *CrossTenantAccessPolicyConfigurationDefault) GetB2bCollaborationInbound
     }
     return nil
 }
-// GetB2bCollaborationOutbound gets the b2bCollaborationOutbound property value. Defines your default configuration for users in your organization going outbound to access resources in another organization via Azure AD B2B collaboration.
+// GetB2bCollaborationOutbound gets the b2bCollaborationOutbound property value. Defines your default configuration for users in your organization going outbound to access resources in another organization via Microsoft Entra B2B collaboration.
+// returns a CrossTenantAccessPolicyB2BSettingable when successful
 func (m *CrossTenantAccessPolicyConfigurationDefault) GetB2bCollaborationOutbound()(CrossTenantAccessPolicyB2BSettingable) {
     val, err := m.GetBackingStore().Get("b2bCollaborationOutbound")
     if err != nil {
@@ -52,7 +55,8 @@ func (m *CrossTenantAccessPolicyConfigurationDefault) GetB2bCollaborationOutboun
     }
     return nil
 }
-// GetB2bDirectConnectInbound gets the b2bDirectConnectInbound property value. Defines your default configuration for users from other organizations accessing your resources via Azure AD B2B direct connect.
+// GetB2bDirectConnectInbound gets the b2bDirectConnectInbound property value. Defines your default configuration for users from other organizations accessing your resources via Microsoft Entra B2B direct connect.
+// returns a CrossTenantAccessPolicyB2BSettingable when successful
 func (m *CrossTenantAccessPolicyConfigurationDefault) GetB2bDirectConnectInbound()(CrossTenantAccessPolicyB2BSettingable) {
     val, err := m.GetBackingStore().Get("b2bDirectConnectInbound")
     if err != nil {
@@ -63,7 +67,8 @@ func (m *CrossTenantAccessPolicyConfigurationDefault) GetB2bDirectConnectInbound
     }
     return nil
 }
-// GetB2bDirectConnectOutbound gets the b2bDirectConnectOutbound property value. Defines your default configuration for users in your organization going outbound to access resources in another organization via Azure AD B2B direct connect.
+// GetB2bDirectConnectOutbound gets the b2bDirectConnectOutbound property value. Defines your default configuration for users in your organization going outbound to access resources in another organization via Microsoft Entra B2B direct connect.
+// returns a CrossTenantAccessPolicyB2BSettingable when successful
 func (m *CrossTenantAccessPolicyConfigurationDefault) GetB2bDirectConnectOutbound()(CrossTenantAccessPolicyB2BSettingable) {
     val, err := m.GetBackingStore().Get("b2bDirectConnectOutbound")
     if err != nil {
@@ -75,6 +80,7 @@ func (m *CrossTenantAccessPolicyConfigurationDefault) GetB2bDirectConnectOutboun
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *CrossTenantAccessPolicyConfigurationDefault) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.Entity.GetFieldDeserializers()
     res["automaticUserConsentSettings"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -137,6 +143,16 @@ func (m *CrossTenantAccessPolicyConfigurationDefault) GetFieldDeserializers()(ma
         }
         return nil
     }
+    res["invitationRedemptionIdentityProviderConfiguration"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetObjectValue(CreateDefaultInvitationRedemptionIdentityProviderConfigurationFromDiscriminatorValue)
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            m.SetInvitationRedemptionIdentityProviderConfiguration(val.(DefaultInvitationRedemptionIdentityProviderConfigurationable))
+        }
+        return nil
+    }
     res["isServiceDefault"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
         val, err := n.GetBoolValue()
         if err != nil {
@@ -149,7 +165,8 @@ func (m *CrossTenantAccessPolicyConfigurationDefault) GetFieldDeserializers()(ma
     }
     return res
 }
-// GetInboundTrust gets the inboundTrust property value. Determines the default configuration for trusting other Conditional Access claims from external Azure AD organizations.
+// GetInboundTrust gets the inboundTrust property value. Determines the default configuration for trusting other Conditional Access claims from external Microsoft Entra organizations.
+// returns a CrossTenantAccessPolicyInboundTrustable when successful
 func (m *CrossTenantAccessPolicyConfigurationDefault) GetInboundTrust()(CrossTenantAccessPolicyInboundTrustable) {
     val, err := m.GetBackingStore().Get("inboundTrust")
     if err != nil {
@@ -160,7 +177,20 @@ func (m *CrossTenantAccessPolicyConfigurationDefault) GetInboundTrust()(CrossTen
     }
     return nil
 }
-// GetIsServiceDefault gets the isServiceDefault property value. If true, the default configuration is set to the system default configuration. If false, the default settings have been customized.
+// GetInvitationRedemptionIdentityProviderConfiguration gets the invitationRedemptionIdentityProviderConfiguration property value. Defines the priority order based on which an identity provider is selected during invitation redemption for a guest user.
+// returns a DefaultInvitationRedemptionIdentityProviderConfigurationable when successful
+func (m *CrossTenantAccessPolicyConfigurationDefault) GetInvitationRedemptionIdentityProviderConfiguration()(DefaultInvitationRedemptionIdentityProviderConfigurationable) {
+    val, err := m.GetBackingStore().Get("invitationRedemptionIdentityProviderConfiguration")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.(DefaultInvitationRedemptionIdentityProviderConfigurationable)
+    }
+    return nil
+}
+// GetIsServiceDefault gets the isServiceDefault property value. If true, the default configuration is set to the system default configuration. If false, the default settings are customized.
+// returns a *bool when successful
 func (m *CrossTenantAccessPolicyConfigurationDefault) GetIsServiceDefault()(*bool) {
     val, err := m.GetBackingStore().Get("isServiceDefault")
     if err != nil {
@@ -214,6 +244,12 @@ func (m *CrossTenantAccessPolicyConfigurationDefault) Serialize(writer i878a80d2
         }
     }
     {
+        err = writer.WriteObjectValue("invitationRedemptionIdentityProviderConfiguration", m.GetInvitationRedemptionIdentityProviderConfiguration())
+        if err != nil {
+            return err
+        }
+    }
+    {
         err = writer.WriteBoolValue("isServiceDefault", m.GetIsServiceDefault())
         if err != nil {
             return err
@@ -221,56 +257,62 @@ func (m *CrossTenantAccessPolicyConfigurationDefault) Serialize(writer i878a80d2
     }
     return nil
 }
-// SetAutomaticUserConsentSettings sets the automaticUserConsentSettings property value. Determines the default configuration for automatic user consent settings. The inboundAllowed and outboundAllowed properties are always false and cannot be updated in the default configuration. Read-only.
+// SetAutomaticUserConsentSettings sets the automaticUserConsentSettings property value. Determines the default configuration for automatic user consent settings. The inboundAllowed and outboundAllowed properties are always false and can't be updated in the default configuration. Read-only.
 func (m *CrossTenantAccessPolicyConfigurationDefault) SetAutomaticUserConsentSettings(value InboundOutboundPolicyConfigurationable)() {
     err := m.GetBackingStore().Set("automaticUserConsentSettings", value)
     if err != nil {
         panic(err)
     }
 }
-// SetB2bCollaborationInbound sets the b2bCollaborationInbound property value. Defines your default configuration for users from other organizations accessing your resources via Azure AD B2B collaboration.
+// SetB2bCollaborationInbound sets the b2bCollaborationInbound property value. Defines your default configuration for users from other organizations accessing your resources via Microsoft Entra B2B collaboration.
 func (m *CrossTenantAccessPolicyConfigurationDefault) SetB2bCollaborationInbound(value CrossTenantAccessPolicyB2BSettingable)() {
     err := m.GetBackingStore().Set("b2bCollaborationInbound", value)
     if err != nil {
         panic(err)
     }
 }
-// SetB2bCollaborationOutbound sets the b2bCollaborationOutbound property value. Defines your default configuration for users in your organization going outbound to access resources in another organization via Azure AD B2B collaboration.
+// SetB2bCollaborationOutbound sets the b2bCollaborationOutbound property value. Defines your default configuration for users in your organization going outbound to access resources in another organization via Microsoft Entra B2B collaboration.
 func (m *CrossTenantAccessPolicyConfigurationDefault) SetB2bCollaborationOutbound(value CrossTenantAccessPolicyB2BSettingable)() {
     err := m.GetBackingStore().Set("b2bCollaborationOutbound", value)
     if err != nil {
         panic(err)
     }
 }
-// SetB2bDirectConnectInbound sets the b2bDirectConnectInbound property value. Defines your default configuration for users from other organizations accessing your resources via Azure AD B2B direct connect.
+// SetB2bDirectConnectInbound sets the b2bDirectConnectInbound property value. Defines your default configuration for users from other organizations accessing your resources via Microsoft Entra B2B direct connect.
 func (m *CrossTenantAccessPolicyConfigurationDefault) SetB2bDirectConnectInbound(value CrossTenantAccessPolicyB2BSettingable)() {
     err := m.GetBackingStore().Set("b2bDirectConnectInbound", value)
     if err != nil {
         panic(err)
     }
 }
-// SetB2bDirectConnectOutbound sets the b2bDirectConnectOutbound property value. Defines your default configuration for users in your organization going outbound to access resources in another organization via Azure AD B2B direct connect.
+// SetB2bDirectConnectOutbound sets the b2bDirectConnectOutbound property value. Defines your default configuration for users in your organization going outbound to access resources in another organization via Microsoft Entra B2B direct connect.
 func (m *CrossTenantAccessPolicyConfigurationDefault) SetB2bDirectConnectOutbound(value CrossTenantAccessPolicyB2BSettingable)() {
     err := m.GetBackingStore().Set("b2bDirectConnectOutbound", value)
     if err != nil {
         panic(err)
     }
 }
-// SetInboundTrust sets the inboundTrust property value. Determines the default configuration for trusting other Conditional Access claims from external Azure AD organizations.
+// SetInboundTrust sets the inboundTrust property value. Determines the default configuration for trusting other Conditional Access claims from external Microsoft Entra organizations.
 func (m *CrossTenantAccessPolicyConfigurationDefault) SetInboundTrust(value CrossTenantAccessPolicyInboundTrustable)() {
     err := m.GetBackingStore().Set("inboundTrust", value)
     if err != nil {
         panic(err)
     }
 }
-// SetIsServiceDefault sets the isServiceDefault property value. If true, the default configuration is set to the system default configuration. If false, the default settings have been customized.
+// SetInvitationRedemptionIdentityProviderConfiguration sets the invitationRedemptionIdentityProviderConfiguration property value. Defines the priority order based on which an identity provider is selected during invitation redemption for a guest user.
+func (m *CrossTenantAccessPolicyConfigurationDefault) SetInvitationRedemptionIdentityProviderConfiguration(value DefaultInvitationRedemptionIdentityProviderConfigurationable)() {
+    err := m.GetBackingStore().Set("invitationRedemptionIdentityProviderConfiguration", value)
+    if err != nil {
+        panic(err)
+    }
+}
+// SetIsServiceDefault sets the isServiceDefault property value. If true, the default configuration is set to the system default configuration. If false, the default settings are customized.
 func (m *CrossTenantAccessPolicyConfigurationDefault) SetIsServiceDefault(value *bool)() {
     err := m.GetBackingStore().Set("isServiceDefault", value)
     if err != nil {
         panic(err)
     }
 }
-// CrossTenantAccessPolicyConfigurationDefaultable 
 type CrossTenantAccessPolicyConfigurationDefaultable interface {
     Entityable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable
@@ -280,6 +322,7 @@ type CrossTenantAccessPolicyConfigurationDefaultable interface {
     GetB2bDirectConnectInbound()(CrossTenantAccessPolicyB2BSettingable)
     GetB2bDirectConnectOutbound()(CrossTenantAccessPolicyB2BSettingable)
     GetInboundTrust()(CrossTenantAccessPolicyInboundTrustable)
+    GetInvitationRedemptionIdentityProviderConfiguration()(DefaultInvitationRedemptionIdentityProviderConfigurationable)
     GetIsServiceDefault()(*bool)
     SetAutomaticUserConsentSettings(value InboundOutboundPolicyConfigurationable)()
     SetB2bCollaborationInbound(value CrossTenantAccessPolicyB2BSettingable)()
@@ -287,5 +330,6 @@ type CrossTenantAccessPolicyConfigurationDefaultable interface {
     SetB2bDirectConnectInbound(value CrossTenantAccessPolicyB2BSettingable)()
     SetB2bDirectConnectOutbound(value CrossTenantAccessPolicyB2BSettingable)()
     SetInboundTrust(value CrossTenantAccessPolicyInboundTrustable)()
+    SetInvitationRedemptionIdentityProviderConfiguration(value DefaultInvitationRedemptionIdentityProviderConfigurationable)()
     SetIsServiceDefault(value *bool)()
 }

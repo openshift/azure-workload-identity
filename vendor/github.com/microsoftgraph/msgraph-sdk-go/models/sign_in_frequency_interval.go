@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type SignInFrequencyInterval int
 
 const (
@@ -24,7 +20,7 @@ func ParseSignInFrequencyInterval(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_SIGNINFREQUENCYINTERVAL
         default:
-            return 0, errors.New("Unknown SignInFrequencyInterval value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeSignInFrequencyInterval(values []SignInFrequencyInterval) []string
         result[i] = v.String()
     }
     return result
+}
+func (i SignInFrequencyInterval) isMultiValue() bool {
+    return false
 }

@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ServiceHealthOrigin int
 
 const (
@@ -27,7 +23,7 @@ func ParseServiceHealthOrigin(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_SERVICEHEALTHORIGIN
         default:
-            return 0, errors.New("Unknown ServiceHealthOrigin value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeServiceHealthOrigin(values []ServiceHealthOrigin) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ServiceHealthOrigin) isMultiValue() bool {
+    return false
 }

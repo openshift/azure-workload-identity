@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type RecordingStatus int
 
 const (
@@ -30,7 +26,7 @@ func ParseRecordingStatus(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_RECORDINGSTATUS
         default:
-            return 0, errors.New("Unknown RecordingStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeRecordingStatus(values []RecordingStatus) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i RecordingStatus) isMultiValue() bool {
+    return false
 }

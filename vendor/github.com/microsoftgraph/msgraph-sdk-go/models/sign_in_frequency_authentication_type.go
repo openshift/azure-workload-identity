@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type SignInFrequencyAuthenticationType int
 
 const (
@@ -24,7 +20,7 @@ func ParseSignInFrequencyAuthenticationType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_SIGNINFREQUENCYAUTHENTICATIONTYPE
         default:
-            return 0, errors.New("Unknown SignInFrequencyAuthenticationType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeSignInFrequencyAuthenticationType(values []SignInFrequencyAuthenti
         result[i] = v.String()
     }
     return result
+}
+func (i SignInFrequencyAuthenticationType) isMultiValue() bool {
+    return false
 }

@@ -2,11 +2,11 @@ REGISTRY ?= mcr.microsoft.com/oss/azure/workload-identity
 PROXY_IMAGE_NAME := proxy
 INIT_IMAGE_NAME := proxy-init
 WEBHOOK_IMAGE_NAME := webhook
-IMAGE_VERSION ?= v1.1.0
+IMAGE_VERSION ?= v1.5.1
 
 ORG_PATH := github.com/Azure
 PROJECT_NAME := azure-workload-identity
-BUILD_COMMIT := $(shell git rev-parse --short HEAD)
+BUILD_COMMIT := $(shell git describe --always --dirty --abbrev=7)
 REPO_PATH := $(ORG_PATH)/$(PROJECT_NAME)
 
 # build variables
@@ -32,7 +32,7 @@ TOOLS_DIR := hack/tools
 TOOLS_BIN_DIR := $(abspath $(TOOLS_DIR)/bin)
 
 # Binaries
-CONTROLLER_GEN_VER := v0.10.0
+CONTROLLER_GEN_VER := v0.18.0
 CONTROLLER_GEN_BIN := controller-gen
 CONTROLLER_GEN := $(TOOLS_BIN_DIR)/$(CONTROLLER_GEN_BIN)-$(CONTROLLER_GEN_VER)
 
@@ -43,19 +43,19 @@ GINKGO_VER := v2.1.6
 GINKGO_BIN := ginkgo
 GINKGO := $(TOOLS_BIN_DIR)/$(GINKGO_BIN)-$(GINKGO_VER)
 
-KIND_VER := v0.18.0
+KIND_VER := v0.27.0
 KIND_BIN := kind
 KIND := $(TOOLS_BIN_DIR)/$(KIND_BIN)-$(KIND_VER)
 
-KUBECTL_VER := v1.22.4
+KUBECTL_VER := v1.29.0
 KUBECTL_BIN := kubectl
 KUBECTL := $(TOOLS_BIN_DIR)/$(KUBECTL_BIN)-$(KUBECTL_VER)
 
-KUSTOMIZE_VER := v4.1.2
+KUSTOMIZE_VER := v4.2.0
 KUSTOMIZE_BIN := kustomize
 KUSTOMIZE := $(TOOLS_BIN_DIR)/$(KUSTOMIZE_BIN)-$(KUSTOMIZE_VER)
 
-GOLANGCI_LINT_VER := v1.52.2
+GOLANGCI_LINT_VER := v1.64.8
 GOLANGCI_LINT_BIN := golangci-lint
 GOLANGCI_LINT := $(TOOLS_BIN_DIR)/$(GOLANGCI_LINT_BIN)-$(GOLANGCI_LINT_VER)
 
@@ -365,7 +365,7 @@ clean:
 
 .PHONY: lint
 lint: $(GOLANGCI_LINT)
-	$(GOLANGCI_LINT) run -v
+	$(GOLANGCI_LINT) run -v --timeout 5m
 
 .PHONY: helm-lint
 helm-lint: $(HELM)

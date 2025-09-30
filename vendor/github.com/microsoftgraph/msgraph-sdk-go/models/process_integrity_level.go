@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ProcessIntegrityLevel int
 
 const (
@@ -36,7 +32,7 @@ func ParseProcessIntegrityLevel(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_PROCESSINTEGRITYLEVEL
         default:
-            return 0, errors.New("Unknown ProcessIntegrityLevel value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -46,4 +42,7 @@ func SerializeProcessIntegrityLevel(values []ProcessIntegrityLevel) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ProcessIntegrityLevel) isMultiValue() bool {
+    return false
 }

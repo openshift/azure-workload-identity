@@ -42,38 +42,40 @@ type SharesPrinterShareItemRequestBuilderPatchRequestConfiguration struct {
     Options []i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestOption
 }
 // AllowedGroups provides operations to manage the allowedGroups property of the microsoft.graph.printerShare entity.
-func (m *SharesPrinterShareItemRequestBuilder) AllowedGroups()(*SharesItemAllowedGroupsRequestBuilder) {
-    return NewSharesItemAllowedGroupsRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
+// returns a *SharesItemAllowedgroupsAllowedGroupsRequestBuilder when successful
+func (m *SharesPrinterShareItemRequestBuilder) AllowedGroups()(*SharesItemAllowedgroupsAllowedGroupsRequestBuilder) {
+    return NewSharesItemAllowedgroupsAllowedGroupsRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
 // AllowedUsers provides operations to manage the allowedUsers property of the microsoft.graph.printerShare entity.
-func (m *SharesPrinterShareItemRequestBuilder) AllowedUsers()(*SharesItemAllowedUsersRequestBuilder) {
-    return NewSharesItemAllowedUsersRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
+// returns a *SharesItemAllowedusersAllowedUsersRequestBuilder when successful
+func (m *SharesPrinterShareItemRequestBuilder) AllowedUsers()(*SharesItemAllowedusersAllowedUsersRequestBuilder) {
+    return NewSharesItemAllowedusersAllowedUsersRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
-// NewSharesPrinterShareItemRequestBuilderInternal instantiates a new PrinterShareItemRequestBuilder and sets the default values.
+// NewSharesPrinterShareItemRequestBuilderInternal instantiates a new SharesPrinterShareItemRequestBuilder and sets the default values.
 func NewSharesPrinterShareItemRequestBuilderInternal(pathParameters map[string]string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*SharesPrinterShareItemRequestBuilder) {
     m := &SharesPrinterShareItemRequestBuilder{
-        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/print/shares/{printerShare%2Did}{?%24select,%24expand}", pathParameters),
+        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/print/shares/{printerShare%2Did}{?%24expand,%24select}", pathParameters),
     }
     return m
 }
-// NewSharesPrinterShareItemRequestBuilder instantiates a new PrinterShareItemRequestBuilder and sets the default values.
+// NewSharesPrinterShareItemRequestBuilder instantiates a new SharesPrinterShareItemRequestBuilder and sets the default values.
 func NewSharesPrinterShareItemRequestBuilder(rawUrl string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*SharesPrinterShareItemRequestBuilder) {
     urlParams := make(map[string]string)
     urlParams["request-raw-url"] = rawUrl
     return NewSharesPrinterShareItemRequestBuilderInternal(urlParams, requestAdapter)
 }
-// Delete delete a printer share (unshare the associated printer). This action cannot be undone. If the printer is shared again in the future, any Windows users who had previously installed the printer will need to discover and reinstall it.
+// Delete delete a printer share (unshare the associated printer). This action can't be undone. If the printer is shared again in the future, any Windows users who had previously installed the printer needs to discover and reinstall it.
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 // [Find more info here]
 // 
-// [Find more info here]: https://docs.microsoft.com/graph/api/printershare-delete?view=graph-rest-1.0
+// [Find more info here]: https://learn.microsoft.com/graph/api/printershare-delete?view=graph-rest-1.0
 func (m *SharesPrinterShareItemRequestBuilder) Delete(ctx context.Context, requestConfiguration *SharesPrinterShareItemRequestBuilderDeleteRequestConfiguration)(error) {
     requestInfo, err := m.ToDeleteRequestInformation(ctx, requestConfiguration);
     if err != nil {
         return err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     err = m.BaseRequestBuilder.RequestAdapter.SendNoContent(ctx, requestInfo, errorMapping)
     if err != nil {
@@ -82,17 +84,18 @@ func (m *SharesPrinterShareItemRequestBuilder) Delete(ctx context.Context, reque
     return nil
 }
 // Get retrieve the properties and relationships of a printer share.
+// returns a PrinterShareable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 // [Find more info here]
 // 
-// [Find more info here]: https://docs.microsoft.com/graph/api/printershare-get?view=graph-rest-1.0
+// [Find more info here]: https://learn.microsoft.com/graph/api/printershare-get?view=graph-rest-1.0
 func (m *SharesPrinterShareItemRequestBuilder) Get(ctx context.Context, requestConfiguration *SharesPrinterShareItemRequestBuilderGetRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PrinterShareable, error) {
     requestInfo, err := m.ToGetRequestInformation(ctx, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreatePrinterShareFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -104,21 +107,23 @@ func (m *SharesPrinterShareItemRequestBuilder) Get(ctx context.Context, requestC
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PrinterShareable), nil
 }
 // Jobs provides operations to manage the jobs property of the microsoft.graph.printerBase entity.
+// returns a *SharesItemJobsRequestBuilder when successful
 func (m *SharesPrinterShareItemRequestBuilder) Jobs()(*SharesItemJobsRequestBuilder) {
     return NewSharesItemJobsRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
 // Patch update the properties of a printer share. This method can be used to swap printers. For example, if a physical printer device breaks, an administrator can register a new printer device and update this printerShare to point to the new printer without requiring users to take any action.
+// returns a PrinterShareable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 // [Find more info here]
 // 
-// [Find more info here]: https://docs.microsoft.com/graph/api/printershare-update?view=graph-rest-1.0
+// [Find more info here]: https://learn.microsoft.com/graph/api/printershare-update?view=graph-rest-1.0
 func (m *SharesPrinterShareItemRequestBuilder) Patch(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PrinterShareable, requestConfiguration *SharesPrinterShareItemRequestBuilderPatchRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PrinterShareable, error) {
     requestInfo, err := m.ToPatchRequestInformation(ctx, body, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreatePrinterShareFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -130,28 +135,25 @@ func (m *SharesPrinterShareItemRequestBuilder) Patch(ctx context.Context, body i
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PrinterShareable), nil
 }
 // Printer provides operations to manage the printer property of the microsoft.graph.printerShare entity.
+// returns a *SharesItemPrinterRequestBuilder when successful
 func (m *SharesPrinterShareItemRequestBuilder) Printer()(*SharesItemPrinterRequestBuilder) {
     return NewSharesItemPrinterRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
-// ToDeleteRequestInformation delete a printer share (unshare the associated printer). This action cannot be undone. If the printer is shared again in the future, any Windows users who had previously installed the printer will need to discover and reinstall it.
+// ToDeleteRequestInformation delete a printer share (unshare the associated printer). This action can't be undone. If the printer is shared again in the future, any Windows users who had previously installed the printer needs to discover and reinstall it.
+// returns a *RequestInformation when successful
 func (m *SharesPrinterShareItemRequestBuilder) ToDeleteRequestInformation(ctx context.Context, requestConfiguration *SharesPrinterShareItemRequestBuilderDeleteRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.DELETE
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.DELETE, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
     return requestInfo, nil
 }
 // ToGetRequestInformation retrieve the properties and relationships of a printer share.
+// returns a *RequestInformation when successful
 func (m *SharesPrinterShareItemRequestBuilder) ToGetRequestInformation(ctx context.Context, requestConfiguration *SharesPrinterShareItemRequestBuilderGetRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET
-    requestInfo.Headers.Add("Accept", "application/json")
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         if requestConfiguration.QueryParameters != nil {
             requestInfo.AddQueryParameters(*(requestConfiguration.QueryParameters))
@@ -159,22 +161,26 @@ func (m *SharesPrinterShareItemRequestBuilder) ToGetRequestInformation(ctx conte
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
     return requestInfo, nil
 }
 // ToPatchRequestInformation update the properties of a printer share. This method can be used to swap printers. For example, if a physical printer device breaks, an administrator can register a new printer device and update this printerShare to point to the new printer without requiring users to take any action.
+// returns a *RequestInformation when successful
 func (m *SharesPrinterShareItemRequestBuilder) ToPatchRequestInformation(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PrinterShareable, requestConfiguration *SharesPrinterShareItemRequestBuilderPatchRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.PATCH
-    requestInfo.Headers.Add("Accept", "application/json")
-    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
-    if err != nil {
-        return nil, err
-    }
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.PATCH, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
+    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
+    if err != nil {
+        return nil, err
+    }
     return requestInfo, nil
+}
+// WithUrl returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
+// returns a *SharesPrinterShareItemRequestBuilder when successful
+func (m *SharesPrinterShareItemRequestBuilder) WithUrl(rawUrl string)(*SharesPrinterShareItemRequestBuilder) {
+    return NewSharesPrinterShareItemRequestBuilder(rawUrl, m.BaseRequestBuilder.RequestAdapter);
 }

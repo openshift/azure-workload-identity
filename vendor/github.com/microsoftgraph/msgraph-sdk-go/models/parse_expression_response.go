@@ -5,12 +5,11 @@ import (
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e "github.com/microsoft/kiota-abstractions-go/store"
 )
 
-// ParseExpressionResponse 
 type ParseExpressionResponse struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
 }
-// NewParseExpressionResponse instantiates a new parseExpressionResponse and sets the default values.
+// NewParseExpressionResponse instantiates a new ParseExpressionResponse and sets the default values.
 func NewParseExpressionResponse()(*ParseExpressionResponse) {
     m := &ParseExpressionResponse{
     }
@@ -19,10 +18,12 @@ func NewParseExpressionResponse()(*ParseExpressionResponse) {
     return m
 }
 // CreateParseExpressionResponseFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateParseExpressionResponseFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewParseExpressionResponse(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *ParseExpressionResponse) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -34,11 +35,13 @@ func (m *ParseExpressionResponse) GetAdditionalData()(map[string]any) {
     }
     return val.(map[string]any)
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *ParseExpressionResponse) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
-// GetError gets the error property value. The error property
+// GetError gets the error property value. Error details, if expression evaluation resulted in an error.
+// returns a PublicErrorable when successful
 func (m *ParseExpressionResponse) GetError()(PublicErrorable) {
     val, err := m.GetBackingStore().Get("error")
     if err != nil {
@@ -49,7 +52,8 @@ func (m *ParseExpressionResponse) GetError()(PublicErrorable) {
     }
     return nil
 }
-// GetEvaluationResult gets the evaluationResult property value. The evaluationResult property
+// GetEvaluationResult gets the evaluationResult property value. A collection of values produced by the evaluation of the expression.
+// returns a []string when successful
 func (m *ParseExpressionResponse) GetEvaluationResult()([]string) {
     val, err := m.GetBackingStore().Get("evaluationResult")
     if err != nil {
@@ -60,7 +64,8 @@ func (m *ParseExpressionResponse) GetEvaluationResult()([]string) {
     }
     return nil
 }
-// GetEvaluationSucceeded gets the evaluationSucceeded property value. The evaluationSucceeded property
+// GetEvaluationSucceeded gets the evaluationSucceeded property value. true if the evaluation was successful.
+// returns a *bool when successful
 func (m *ParseExpressionResponse) GetEvaluationSucceeded()(*bool) {
     val, err := m.GetBackingStore().Get("evaluationSucceeded")
     if err != nil {
@@ -72,6 +77,7 @@ func (m *ParseExpressionResponse) GetEvaluationSucceeded()(*bool) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *ParseExpressionResponse) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["error"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -143,6 +149,7 @@ func (m *ParseExpressionResponse) GetFieldDeserializers()(map[string]func(i878a8
     return res
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *ParseExpressionResponse) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -153,7 +160,8 @@ func (m *ParseExpressionResponse) GetOdataType()(*string) {
     }
     return nil
 }
-// GetParsedExpression gets the parsedExpression property value. The parsedExpression property
+// GetParsedExpression gets the parsedExpression property value. An attributeMappingSource object representing the parsed expression.
+// returns a AttributeMappingSourceable when successful
 func (m *ParseExpressionResponse) GetParsedExpression()(AttributeMappingSourceable) {
     val, err := m.GetBackingStore().Get("parsedExpression")
     if err != nil {
@@ -164,7 +172,8 @@ func (m *ParseExpressionResponse) GetParsedExpression()(AttributeMappingSourceab
     }
     return nil
 }
-// GetParsingSucceeded gets the parsingSucceeded property value. The parsingSucceeded property
+// GetParsingSucceeded gets the parsingSucceeded property value. true if the expression was parsed successfully.
+// returns a *bool when successful
 func (m *ParseExpressionResponse) GetParsingSucceeded()(*bool) {
     val, err := m.GetBackingStore().Get("parsingSucceeded")
     if err != nil {
@@ -221,32 +230,32 @@ func (m *ParseExpressionResponse) Serialize(writer i878a80d2330e89d26896388a3f48
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *ParseExpressionResponse) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *ParseExpressionResponse) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
-// SetError sets the error property value. The error property
+// SetError sets the error property value. Error details, if expression evaluation resulted in an error.
 func (m *ParseExpressionResponse) SetError(value PublicErrorable)() {
     err := m.GetBackingStore().Set("error", value)
     if err != nil {
         panic(err)
     }
 }
-// SetEvaluationResult sets the evaluationResult property value. The evaluationResult property
+// SetEvaluationResult sets the evaluationResult property value. A collection of values produced by the evaluation of the expression.
 func (m *ParseExpressionResponse) SetEvaluationResult(value []string)() {
     err := m.GetBackingStore().Set("evaluationResult", value)
     if err != nil {
         panic(err)
     }
 }
-// SetEvaluationSucceeded sets the evaluationSucceeded property value. The evaluationSucceeded property
+// SetEvaluationSucceeded sets the evaluationSucceeded property value. true if the evaluation was successful.
 func (m *ParseExpressionResponse) SetEvaluationSucceeded(value *bool)() {
     err := m.GetBackingStore().Set("evaluationSucceeded", value)
     if err != nil {
@@ -260,21 +269,20 @@ func (m *ParseExpressionResponse) SetOdataType(value *string)() {
         panic(err)
     }
 }
-// SetParsedExpression sets the parsedExpression property value. The parsedExpression property
+// SetParsedExpression sets the parsedExpression property value. An attributeMappingSource object representing the parsed expression.
 func (m *ParseExpressionResponse) SetParsedExpression(value AttributeMappingSourceable)() {
     err := m.GetBackingStore().Set("parsedExpression", value)
     if err != nil {
         panic(err)
     }
 }
-// SetParsingSucceeded sets the parsingSucceeded property value. The parsingSucceeded property
+// SetParsingSucceeded sets the parsingSucceeded property value. true if the expression was parsed successfully.
 func (m *ParseExpressionResponse) SetParsingSucceeded(value *bool)() {
     err := m.GetBackingStore().Set("parsingSucceeded", value)
     if err != nil {
         panic(err)
     }
 }
-// ParseExpressionResponseable 
 type ParseExpressionResponseable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel

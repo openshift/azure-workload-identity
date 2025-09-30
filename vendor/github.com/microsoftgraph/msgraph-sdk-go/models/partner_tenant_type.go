@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type PartnerTenantType int
 
 const (
@@ -36,7 +32,7 @@ func ParsePartnerTenantType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_PARTNERTENANTTYPE
         default:
-            return 0, errors.New("Unknown PartnerTenantType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -46,4 +42,7 @@ func SerializePartnerTenantType(values []PartnerTenantType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i PartnerTenantType) isMultiValue() bool {
+    return false
 }

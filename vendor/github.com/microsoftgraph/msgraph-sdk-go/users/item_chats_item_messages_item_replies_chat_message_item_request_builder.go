@@ -18,7 +18,7 @@ type ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderDeleteRequestC
     // Request options
     Options []i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestOption
 }
-// ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderGetQueryParameters retrieve a single message or a message reply in a channel or a chat.
+// ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderGetQueryParameters replies for a specified message. Supports $expand for channel messages.
 type ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderGetQueryParameters struct {
     // Expand related entities
     Expand []string `uriparametername:"%24expand"`
@@ -41,28 +41,28 @@ type ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderPatchRequestCo
     // Request options
     Options []i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestOption
 }
-// NewItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderInternal instantiates a new ChatMessageItemRequestBuilder and sets the default values.
+// NewItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderInternal instantiates a new ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder and sets the default values.
 func NewItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderInternal(pathParameters map[string]string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) {
     m := &ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder{
-        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/users/{user%2Did}/chats/{chat%2Did}/messages/{chatMessage%2Did}/replies/{chatMessage%2Did1}{?%24select,%24expand}", pathParameters),
+        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/users/{user%2Did}/chats/{chat%2Did}/messages/{chatMessage%2Did}/replies/{chatMessage%2Did1}{?%24expand,%24select}", pathParameters),
     }
     return m
 }
-// NewItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder instantiates a new ChatMessageItemRequestBuilder and sets the default values.
+// NewItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder instantiates a new ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder and sets the default values.
 func NewItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder(rawUrl string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) {
     urlParams := make(map[string]string)
     urlParams["request-raw-url"] = rawUrl
     return NewItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderInternal(urlParams, requestAdapter)
 }
 // Delete delete navigation property replies for users
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) Delete(ctx context.Context, requestConfiguration *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderDeleteRequestConfiguration)(error) {
     requestInfo, err := m.ToDeleteRequestInformation(ctx, requestConfiguration);
     if err != nil {
         return err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     err = m.BaseRequestBuilder.RequestAdapter.SendNoContent(ctx, requestInfo, errorMapping)
     if err != nil {
@@ -70,18 +70,16 @@ func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) Delete(c
     }
     return nil
 }
-// Get retrieve a single message or a message reply in a channel or a chat.
-// [Find more info here]
-// 
-// [Find more info here]: https://docs.microsoft.com/graph/api/chatmessage-get?view=graph-rest-1.0
+// Get replies for a specified message. Supports $expand for channel messages.
+// returns a ChatMessageable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) Get(ctx context.Context, requestConfiguration *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderGetRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.ChatMessageable, error) {
     requestInfo, err := m.ToGetRequestInformation(ctx, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateChatMessageFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -93,18 +91,20 @@ func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) Get(ctx 
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.ChatMessageable), nil
 }
 // HostedContents provides operations to manage the hostedContents property of the microsoft.graph.chatMessage entity.
-func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) HostedContents()(*ItemChatsItemMessagesItemRepliesItemHostedContentsRequestBuilder) {
-    return NewItemChatsItemMessagesItemRepliesItemHostedContentsRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
+// returns a *ItemChatsItemMessagesItemRepliesItemHostedcontentsHostedContentsRequestBuilder when successful
+func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) HostedContents()(*ItemChatsItemMessagesItemRepliesItemHostedcontentsHostedContentsRequestBuilder) {
+    return NewItemChatsItemMessagesItemRepliesItemHostedcontentsHostedContentsRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
 // Patch update the navigation property replies in users
+// returns a ChatMessageable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) Patch(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.ChatMessageable, requestConfiguration *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderPatchRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.ChatMessageable, error) {
     requestInfo, err := m.ToPatchRequestInformation(ctx, body, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateChatMessageFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -115,29 +115,31 @@ func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) Patch(ct
     }
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.ChatMessageable), nil
 }
+// SetReaction provides operations to call the setReaction method.
+// returns a *ItemChatsItemMessagesItemRepliesItemSetreactionSetReactionRequestBuilder when successful
+func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) SetReaction()(*ItemChatsItemMessagesItemRepliesItemSetreactionSetReactionRequestBuilder) {
+    return NewItemChatsItemMessagesItemRepliesItemSetreactionSetReactionRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
+}
 // SoftDelete provides operations to call the softDelete method.
-func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) SoftDelete()(*ItemChatsItemMessagesItemRepliesItemSoftDeleteRequestBuilder) {
-    return NewItemChatsItemMessagesItemRepliesItemSoftDeleteRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
+// returns a *ItemChatsItemMessagesItemRepliesItemSoftdeleteSoftDeleteRequestBuilder when successful
+func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) SoftDelete()(*ItemChatsItemMessagesItemRepliesItemSoftdeleteSoftDeleteRequestBuilder) {
+    return NewItemChatsItemMessagesItemRepliesItemSoftdeleteSoftDeleteRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
 // ToDeleteRequestInformation delete navigation property replies for users
+// returns a *RequestInformation when successful
 func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) ToDeleteRequestInformation(ctx context.Context, requestConfiguration *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderDeleteRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.DELETE
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.DELETE, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
     return requestInfo, nil
 }
-// ToGetRequestInformation retrieve a single message or a message reply in a channel or a chat.
+// ToGetRequestInformation replies for a specified message. Supports $expand for channel messages.
+// returns a *RequestInformation when successful
 func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) ToGetRequestInformation(ctx context.Context, requestConfiguration *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderGetRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET
-    requestInfo.Headers.Add("Accept", "application/json")
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         if requestConfiguration.QueryParameters != nil {
             requestInfo.AddQueryParameters(*(requestConfiguration.QueryParameters))
@@ -145,26 +147,36 @@ func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) ToGetReq
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
     return requestInfo, nil
 }
 // ToPatchRequestInformation update the navigation property replies in users
+// returns a *RequestInformation when successful
 func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) ToPatchRequestInformation(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.ChatMessageable, requestConfiguration *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilderPatchRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.PATCH
-    requestInfo.Headers.Add("Accept", "application/json")
-    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
-    if err != nil {
-        return nil, err
-    }
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.PATCH, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
+    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
+    if err != nil {
+        return nil, err
+    }
     return requestInfo, nil
 }
 // UndoSoftDelete provides operations to call the undoSoftDelete method.
-func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) UndoSoftDelete()(*ItemChatsItemMessagesItemRepliesItemUndoSoftDeleteRequestBuilder) {
-    return NewItemChatsItemMessagesItemRepliesItemUndoSoftDeleteRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
+// returns a *ItemChatsItemMessagesItemRepliesItemUndosoftdeleteUndoSoftDeleteRequestBuilder when successful
+func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) UndoSoftDelete()(*ItemChatsItemMessagesItemRepliesItemUndosoftdeleteUndoSoftDeleteRequestBuilder) {
+    return NewItemChatsItemMessagesItemRepliesItemUndosoftdeleteUndoSoftDeleteRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
+}
+// UnsetReaction provides operations to call the unsetReaction method.
+// returns a *ItemChatsItemMessagesItemRepliesItemUnsetreactionUnsetReactionRequestBuilder when successful
+func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) UnsetReaction()(*ItemChatsItemMessagesItemRepliesItemUnsetreactionUnsetReactionRequestBuilder) {
+    return NewItemChatsItemMessagesItemRepliesItemUnsetreactionUnsetReactionRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
+}
+// WithUrl returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
+// returns a *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder when successful
+func (m *ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) WithUrl(rawUrl string)(*ItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder) {
+    return NewItemChatsItemMessagesItemRepliesChatMessageItemRequestBuilder(rawUrl, m.BaseRequestBuilder.RequestAdapter);
 }

@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type MicrosoftAuthenticatorAuthenticationMode int
 
 const (
@@ -24,7 +20,7 @@ func ParseMicrosoftAuthenticatorAuthenticationMode(v string) (any, error) {
         case "any":
             result = ANY_MICROSOFTAUTHENTICATORAUTHENTICATIONMODE
         default:
-            return 0, errors.New("Unknown MicrosoftAuthenticatorAuthenticationMode value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeMicrosoftAuthenticatorAuthenticationMode(values []MicrosoftAuthent
         result[i] = v.String()
     }
     return result
+}
+func (i MicrosoftAuthenticatorAuthenticationMode) isMultiValue() bool {
+    return false
 }

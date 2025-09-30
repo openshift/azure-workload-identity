@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Possible states associated with an Apple Volume Purchase Program token.
 type VppTokenState int
 
@@ -35,7 +32,7 @@ func ParseVppTokenState(v string) (any, error) {
         case "assignedToExternalMDM":
             result = ASSIGNEDTOEXTERNALMDM_VPPTOKENSTATE
         default:
-            return 0, errors.New("Unknown VppTokenState value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -45,4 +42,7 @@ func SerializeVppTokenState(values []VppTokenState) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i VppTokenState) isMultiValue() bool {
+    return false
 }

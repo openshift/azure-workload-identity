@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // The current TeamViewer connector status
 type RemoteAssistanceOnboardingStatus int
 
@@ -27,7 +24,7 @@ func ParseRemoteAssistanceOnboardingStatus(v string) (any, error) {
         case "onboarded":
             result = ONBOARDED_REMOTEASSISTANCEONBOARDINGSTATUS
         default:
-            return 0, errors.New("Unknown RemoteAssistanceOnboardingStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +34,7 @@ func SerializeRemoteAssistanceOnboardingStatus(values []RemoteAssistanceOnboardi
         result[i] = v.String()
     }
     return result
+}
+func (i RemoteAssistanceOnboardingStatus) isMultiValue() bool {
+    return false
 }

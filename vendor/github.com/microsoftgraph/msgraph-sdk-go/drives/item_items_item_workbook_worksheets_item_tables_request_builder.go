@@ -11,7 +11,7 @@ import (
 type ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder struct {
     i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.BaseRequestBuilder
 }
-// ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilderGetQueryParameters retrieve a list of table objects.
+// ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilderGetQueryParameters collection of tables that are part of the worksheet. Read-only.
 type ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilderGetQueryParameters struct {
     // Include count of items
     Count *bool `uriparametername:"%24count"`
@@ -47,10 +47,12 @@ type ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilderPostRequestConfigura
     Options []i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestOption
 }
 // Add provides operations to call the add method.
+// returns a *ItemItemsItemWorkbookWorksheetsItemTablesAddRequestBuilder when successful
 func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) Add()(*ItemItemsItemWorkbookWorksheetsItemTablesAddRequestBuilder) {
     return NewItemItemsItemWorkbookWorksheetsItemTablesAddRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
 // ByWorkbookTableId provides operations to manage the tables property of the microsoft.graph.workbookWorksheet entity.
+// returns a *ItemItemsItemWorkbookWorksheetsItemTablesWorkbookTableItemRequestBuilder when successful
 func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) ByWorkbookTableId(workbookTableId string)(*ItemItemsItemWorkbookWorksheetsItemTablesWorkbookTableItemRequestBuilder) {
     urlTplParams := make(map[string]string)
     for idx, item := range m.BaseRequestBuilder.PathParameters {
@@ -61,35 +63,34 @@ func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) ByWorkbookTabl
     }
     return NewItemItemsItemWorkbookWorksheetsItemTablesWorkbookTableItemRequestBuilderInternal(urlTplParams, m.BaseRequestBuilder.RequestAdapter)
 }
-// NewItemItemsItemWorkbookWorksheetsItemTablesRequestBuilderInternal instantiates a new TablesRequestBuilder and sets the default values.
+// NewItemItemsItemWorkbookWorksheetsItemTablesRequestBuilderInternal instantiates a new ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder and sets the default values.
 func NewItemItemsItemWorkbookWorksheetsItemTablesRequestBuilderInternal(pathParameters map[string]string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) {
     m := &ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder{
-        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/drives/{drive%2Did}/items/{driveItem%2Did}/workbook/worksheets/{workbookWorksheet%2Did}/tables{?%24top,%24skip,%24search,%24filter,%24count,%24orderby,%24select,%24expand}", pathParameters),
+        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/drives/{drive%2Did}/items/{driveItem%2Did}/workbook/worksheets/{workbookWorksheet%2Did}/tables{?%24count,%24expand,%24filter,%24orderby,%24search,%24select,%24skip,%24top}", pathParameters),
     }
     return m
 }
-// NewItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder instantiates a new TablesRequestBuilder and sets the default values.
+// NewItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder instantiates a new ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder and sets the default values.
 func NewItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder(rawUrl string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) {
     urlParams := make(map[string]string)
     urlParams["request-raw-url"] = rawUrl
     return NewItemItemsItemWorkbookWorksheetsItemTablesRequestBuilderInternal(urlParams, requestAdapter)
 }
 // Count provides operations to call the count method.
+// returns a *ItemItemsItemWorkbookWorksheetsItemTablesCountRequestBuilder when successful
 func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) Count()(*ItemItemsItemWorkbookWorksheetsItemTablesCountRequestBuilder) {
     return NewItemItemsItemWorkbookWorksheetsItemTablesCountRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
-// Get retrieve a list of table objects.
-// [Find more info here]
-// 
-// [Find more info here]: https://docs.microsoft.com/graph/api/worksheet-list-tables?view=graph-rest-1.0
+// Get collection of tables that are part of the worksheet. Read-only.
+// returns a WorkbookTableCollectionResponseable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) Get(ctx context.Context, requestConfiguration *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilderGetRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.WorkbookTableCollectionResponseable, error) {
     requestInfo, err := m.ToGetRequestInformation(ctx, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateWorkbookTableCollectionResponseFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -101,18 +102,20 @@ func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) Get(ctx contex
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.WorkbookTableCollectionResponseable), nil
 }
 // ItemAtWithIndex provides operations to call the itemAt method.
-func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) ItemAtWithIndex(index *int32)(*ItemItemsItemWorkbookWorksheetsItemTablesItemAtWithIndexRequestBuilder) {
-    return NewItemItemsItemWorkbookWorksheetsItemTablesItemAtWithIndexRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter, index)
+// returns a *ItemItemsItemWorkbookWorksheetsItemTablesItematwithindexItemAtWithIndexRequestBuilder when successful
+func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) ItemAtWithIndex(index *int32)(*ItemItemsItemWorkbookWorksheetsItemTablesItematwithindexItemAtWithIndexRequestBuilder) {
+    return NewItemItemsItemWorkbookWorksheetsItemTablesItematwithindexItemAtWithIndexRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter, index)
 }
 // Post create new navigation property to tables for drives
+// returns a WorkbookTableable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) Post(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.WorkbookTableable, requestConfiguration *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilderPostRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.WorkbookTableable, error) {
     requestInfo, err := m.ToPostRequestInformation(ctx, body, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateWorkbookTableFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -123,13 +126,10 @@ func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) Post(ctx conte
     }
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.WorkbookTableable), nil
 }
-// ToGetRequestInformation retrieve a list of table objects.
+// ToGetRequestInformation collection of tables that are part of the worksheet. Read-only.
+// returns a *RequestInformation when successful
 func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) ToGetRequestInformation(ctx context.Context, requestConfiguration *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilderGetRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET
-    requestInfo.Headers.Add("Accept", "application/json")
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         if requestConfiguration.QueryParameters != nil {
             requestInfo.AddQueryParameters(*(requestConfiguration.QueryParameters))
@@ -137,22 +137,26 @@ func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) ToGetRequestIn
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
     return requestInfo, nil
 }
 // ToPostRequestInformation create new navigation property to tables for drives
+// returns a *RequestInformation when successful
 func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) ToPostRequestInformation(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.WorkbookTableable, requestConfiguration *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilderPostRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.POST
-    requestInfo.Headers.Add("Accept", "application/json")
-    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
-    if err != nil {
-        return nil, err
-    }
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.POST, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
+    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
+    if err != nil {
+        return nil, err
+    }
     return requestInfo, nil
+}
+// WithUrl returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
+// returns a *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder when successful
+func (m *ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) WithUrl(rawUrl string)(*ItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder) {
+    return NewItemItemsItemWorkbookWorksheetsItemTablesRequestBuilder(rawUrl, m.BaseRequestBuilder.RequestAdapter);
 }

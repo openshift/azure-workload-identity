@@ -1,8 +1,4 @@
 package externalconnectors
-import (
-    "errors"
-)
-// 
 type ExternalActivityType int
 
 const (
@@ -30,7 +26,7 @@ func ParseExternalActivityType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_EXTERNALACTIVITYTYPE
         default:
-            return 0, errors.New("Unknown ExternalActivityType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeExternalActivityType(values []ExternalActivityType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ExternalActivityType) isMultiValue() bool {
+    return false
 }

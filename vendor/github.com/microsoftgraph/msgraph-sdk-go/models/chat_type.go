@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ChatType int
 
 const (
@@ -27,7 +23,7 @@ func ParseChatType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_CHATTYPE
         default:
-            return 0, errors.New("Unknown ChatType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeChatType(values []ChatType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ChatType) isMultiValue() bool {
+    return false
 }

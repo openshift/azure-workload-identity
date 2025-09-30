@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Possible values to specify which cookies are allowed in Microsoft Edge.
 type EdgeCookiePolicy int
 
@@ -31,7 +28,7 @@ func ParseEdgeCookiePolicy(v string) (any, error) {
         case "blockAll":
             result = BLOCKALL_EDGECOOKIEPOLICY
         default:
-            return 0, errors.New("Unknown EdgeCookiePolicy value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -41,4 +38,7 @@ func SerializeEdgeCookiePolicy(values []EdgeCookiePolicy) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i EdgeCookiePolicy) isMultiValue() bool {
+    return false
 }

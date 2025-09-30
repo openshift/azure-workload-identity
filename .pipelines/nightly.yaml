@@ -13,57 +13,8 @@ schedules:
 pool: staging-pool-amd64-mariner-2
 
 jobs:
-  - job: scan_images
-    timeoutInMinutes: 30
-    workspace:
-      clean: all
-    steps:
-      - template: templates/scan-images.yaml
-  - job: verify_deployment_yaml
-    timeoutInMinutes: 30
-    workspace:
-      clean: all
-    variables:
-      # contains the following environment variables:
-      # - AZURE_TENANT_ID
-      # - SERVICE_ACCOUNT_ISSUER
-      - group: e2e-environment-variables
-      - name: OUTPUT_TYPE
-        value: "type=docker"
-    steps:
-      - script: |
-          openssl genrsa -out sa.key 2048
-          openssl rsa -in sa.key -pubout -out sa.pub
-          make kind-create
-        displayName: Create a kind cluster
-        env:
-          SKIP_PREFLIGHT: "true"
-          SERVICE_ACCOUNT_ISSUER: $(SERVICE_ACCOUNT_ISSUER)
-      - script: |
-          # build the same image as the one in the deployment YAML
-          # then load it into the kind cluster
-          make docker-build kind-load-images
-        displayName: Build the webhook image
-        env:
-          ALL_IMAGES: webhook
-          ALL_LINUX_ARCH: amd64
-          OUTPUT_TYPE: type=docker
-      - script: |
-          # deploy the webhook, wait for it to
-          # be ready, then uninstall it
-          make deploy uninstall-deploy
-        displayName: Verify deployment YAML in manifest_staging/
-        env:
-          AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-          DEPLOYMENT_YAML: true
-      - script: make kind-delete
-        displayName: Cleanup
-        condition: always()
   - job:
     timeoutInMinutes: 60
-    dependsOn:
-      - scan_images
-      - verify_deployment_yaml
     workspace:
       clean: all
     variables:
@@ -79,17 +30,16 @@ jobs:
         value: "true"
     strategy:
       matrix:
-        soak_aks_windows_dockershim:
-          WINDOWS_CLUSTER: "true"
-          GINKGO_SKIP: \[LinuxOnly\]
-          CLUSTER_NAME: "azwi-aks-win-dockershim"
-        soak_aks_windows_containerd:
+        soak_aks_windows:
           WINDOWS_CLUSTER: "true"
           GINKGO_SKIP: \[LinuxOnly\]
           CLUSTER_NAME: "azwi-aks-win-containerd"
         soak_aks_linux:
           CLUSTER_NAME: "azwi-aks-linux"
     steps:
+      - task: GoTool@0
+        inputs:
+          version: "1.24.6"
       - script: make test-e2e
         displayName: Webhook E2E test suite
         env:
@@ -100,24 +50,18 @@ jobs:
       - template: templates/publish-logs.yaml
   - template: templates/upgrade.yaml
     parameters:
-      dependsOn:
-        - scan_images
-        - verify_deployment_yaml
       matrix:
-        upgrade_aks_windows_dockershim:
+        upgrade_aks_windows:
           WINDOWS_CLUSTER: "true"
-          GINKGO_SKIP: \[AKSSoakOnly\]
-        upgrade_aks_windows_containerd:
-          WINDOWS_CLUSTER: "true"
-          WINDOWS_CONTAINERD: "true"
           GINKGO_SKIP: \[AKSSoakOnly\]
         upgrade_aks_linux:
           GINKGO_SKIP: \[AKSSoakOnly\]
   - job:
+    pool:
+      name: staging-pool-amd64-mariner-2
+      demands:
+      - ImageOverride -equals azcu-agent-amd64-mariner-2-cgv2-img
     timeoutInMinutes: 60
-    dependsOn:
-      - scan_images
-      - verify_deployment_yaml
     workspace:
       clean: all
     variables:
@@ -135,15 +79,16 @@ jobs:
         value: "true"
     strategy:
       matrix:
-        kind_v1_24_12:
-          KIND_NODE_VERSION: v1.24.12
-        kind_v1_25_8:
-          KIND_NODE_VERSION: v1.25.8
-        kind_v1_26_3:
-          KIND_NODE_VERSION: v1.26.3
-        kind_v1_27_1:
-          KIND_NODE_VERSION: v1.27.1
+        kind_v1_30_10:
+          KIND_NODE_VERSION: v1.30.10
+        kind_v1_31_6:
+          KIND_NODE_VERSION: v1.31.6
+        kind_v1_32_3:
+          KIND_NODE_VERSION: v1.32.3
     steps:
+      - task: GoTool@0
+        inputs:
+          version: "1.24.6"
       - script: make test-e2e
         displayName: Webhook E2E test suite
         env:

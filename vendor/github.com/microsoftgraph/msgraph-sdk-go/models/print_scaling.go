@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type PrintScaling int
 
 const (
@@ -33,7 +29,7 @@ func ParsePrintScaling(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_PRINTSCALING
         default:
-            return 0, errors.New("Unknown PrintScaling value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializePrintScaling(values []PrintScaling) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i PrintScaling) isMultiValue() bool {
+    return false
 }

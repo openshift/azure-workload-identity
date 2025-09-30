@@ -10,10 +10,12 @@ import (
 type ItemTeamChannelsItemMessagesDeltaRequestBuilder struct {
     i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.BaseRequestBuilder
 }
-// ItemTeamChannelsItemMessagesDeltaRequestBuilderGetQueryParameters invoke function delta
+// ItemTeamChannelsItemMessagesDeltaRequestBuilderGetQueryParameters retrieve the list of messages (without the replies) in a channel of a team. By using delta query, you can get new or updated messages in a channel. Delta query supports both full synchronization that retrieves all the messages in the specified channel, and incremental synchronization that retrieves those messages that have been added or changed in the channel since the last synchronization. Typically, you would do an initial full synchronization, and then get incremental changes to that messages view periodically. To get the replies for a message, use the list message replies or the get message reply operation. A GET request with the delta function returns either: State tokens are opaque to the client. To proceed with a round of change tracking, copy and apply the @odata.nextLink or @odata.deltaLink URL returned from the last GET request to the next delta function call for that same calendar view. A @odata.deltaLink returned in a response signifies that the current round of change tracking is complete. You can save and use the @odata.deltaLink URL when you begin to retrieve more changes (messages changed or posted after acquiring @odata.deltaLink). For more information, see the delta query documentation.
 type ItemTeamChannelsItemMessagesDeltaRequestBuilderGetQueryParameters struct {
     // Include count of items
     Count *bool `uriparametername:"%24count"`
+    // Expand related entities
+    Expand []string `uriparametername:"%24expand"`
     // Filter items by property values
     Filter *string `uriparametername:"%24filter"`
     // Order items by property values
@@ -36,28 +38,33 @@ type ItemTeamChannelsItemMessagesDeltaRequestBuilderGetRequestConfiguration stru
     // Request query parameters
     QueryParameters *ItemTeamChannelsItemMessagesDeltaRequestBuilderGetQueryParameters
 }
-// NewItemTeamChannelsItemMessagesDeltaRequestBuilderInternal instantiates a new DeltaRequestBuilder and sets the default values.
+// NewItemTeamChannelsItemMessagesDeltaRequestBuilderInternal instantiates a new ItemTeamChannelsItemMessagesDeltaRequestBuilder and sets the default values.
 func NewItemTeamChannelsItemMessagesDeltaRequestBuilderInternal(pathParameters map[string]string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemTeamChannelsItemMessagesDeltaRequestBuilder) {
     m := &ItemTeamChannelsItemMessagesDeltaRequestBuilder{
-        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/groups/{group%2Did}/team/channels/{channel%2Did}/messages/delta(){?%24top,%24skip,%24search,%24filter,%24count,%24select,%24orderby}", pathParameters),
+        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/groups/{group%2Did}/team/channels/{channel%2Did}/messages/delta(){?%24count,%24expand,%24filter,%24orderby,%24search,%24select,%24skip,%24top}", pathParameters),
     }
     return m
 }
-// NewItemTeamChannelsItemMessagesDeltaRequestBuilder instantiates a new DeltaRequestBuilder and sets the default values.
+// NewItemTeamChannelsItemMessagesDeltaRequestBuilder instantiates a new ItemTeamChannelsItemMessagesDeltaRequestBuilder and sets the default values.
 func NewItemTeamChannelsItemMessagesDeltaRequestBuilder(rawUrl string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemTeamChannelsItemMessagesDeltaRequestBuilder) {
     urlParams := make(map[string]string)
     urlParams["request-raw-url"] = rawUrl
     return NewItemTeamChannelsItemMessagesDeltaRequestBuilderInternal(urlParams, requestAdapter)
 }
-// Get invoke function delta
+// Get retrieve the list of messages (without the replies) in a channel of a team. By using delta query, you can get new or updated messages in a channel. Delta query supports both full synchronization that retrieves all the messages in the specified channel, and incremental synchronization that retrieves those messages that have been added or changed in the channel since the last synchronization. Typically, you would do an initial full synchronization, and then get incremental changes to that messages view periodically. To get the replies for a message, use the list message replies or the get message reply operation. A GET request with the delta function returns either: State tokens are opaque to the client. To proceed with a round of change tracking, copy and apply the @odata.nextLink or @odata.deltaLink URL returned from the last GET request to the next delta function call for that same calendar view. A @odata.deltaLink returned in a response signifies that the current round of change tracking is complete. You can save and use the @odata.deltaLink URL when you begin to retrieve more changes (messages changed or posted after acquiring @odata.deltaLink). For more information, see the delta query documentation.
+// Deprecated: This method is obsolete. Use GetAsDeltaGetResponse instead.
+// returns a ItemTeamChannelsItemMessagesDeltaResponseable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
+// [Find more info here]
+// 
+// [Find more info here]: https://learn.microsoft.com/graph/api/chatmessage-delta?view=graph-rest-1.0
 func (m *ItemTeamChannelsItemMessagesDeltaRequestBuilder) Get(ctx context.Context, requestConfiguration *ItemTeamChannelsItemMessagesDeltaRequestBuilderGetRequestConfiguration)(ItemTeamChannelsItemMessagesDeltaResponseable, error) {
     requestInfo, err := m.ToGetRequestInformation(ctx, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, CreateItemTeamChannelsItemMessagesDeltaResponseFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -68,13 +75,33 @@ func (m *ItemTeamChannelsItemMessagesDeltaRequestBuilder) Get(ctx context.Contex
     }
     return res.(ItemTeamChannelsItemMessagesDeltaResponseable), nil
 }
-// ToGetRequestInformation invoke function delta
+// GetAsDeltaGetResponse retrieve the list of messages (without the replies) in a channel of a team. By using delta query, you can get new or updated messages in a channel. Delta query supports both full synchronization that retrieves all the messages in the specified channel, and incremental synchronization that retrieves those messages that have been added or changed in the channel since the last synchronization. Typically, you would do an initial full synchronization, and then get incremental changes to that messages view periodically. To get the replies for a message, use the list message replies or the get message reply operation. A GET request with the delta function returns either: State tokens are opaque to the client. To proceed with a round of change tracking, copy and apply the @odata.nextLink or @odata.deltaLink URL returned from the last GET request to the next delta function call for that same calendar view. A @odata.deltaLink returned in a response signifies that the current round of change tracking is complete. You can save and use the @odata.deltaLink URL when you begin to retrieve more changes (messages changed or posted after acquiring @odata.deltaLink). For more information, see the delta query documentation.
+// returns a ItemTeamChannelsItemMessagesDeltaGetResponseable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
+// [Find more info here]
+// 
+// [Find more info here]: https://learn.microsoft.com/graph/api/chatmessage-delta?view=graph-rest-1.0
+func (m *ItemTeamChannelsItemMessagesDeltaRequestBuilder) GetAsDeltaGetResponse(ctx context.Context, requestConfiguration *ItemTeamChannelsItemMessagesDeltaRequestBuilderGetRequestConfiguration)(ItemTeamChannelsItemMessagesDeltaGetResponseable, error) {
+    requestInfo, err := m.ToGetRequestInformation(ctx, requestConfiguration);
+    if err != nil {
+        return nil, err
+    }
+    errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+    }
+    res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, CreateItemTeamChannelsItemMessagesDeltaGetResponseFromDiscriminatorValue, errorMapping)
+    if err != nil {
+        return nil, err
+    }
+    if res == nil {
+        return nil, nil
+    }
+    return res.(ItemTeamChannelsItemMessagesDeltaGetResponseable), nil
+}
+// ToGetRequestInformation retrieve the list of messages (without the replies) in a channel of a team. By using delta query, you can get new or updated messages in a channel. Delta query supports both full synchronization that retrieves all the messages in the specified channel, and incremental synchronization that retrieves those messages that have been added or changed in the channel since the last synchronization. Typically, you would do an initial full synchronization, and then get incremental changes to that messages view periodically. To get the replies for a message, use the list message replies or the get message reply operation. A GET request with the delta function returns either: State tokens are opaque to the client. To proceed with a round of change tracking, copy and apply the @odata.nextLink or @odata.deltaLink URL returned from the last GET request to the next delta function call for that same calendar view. A @odata.deltaLink returned in a response signifies that the current round of change tracking is complete. You can save and use the @odata.deltaLink URL when you begin to retrieve more changes (messages changed or posted after acquiring @odata.deltaLink). For more information, see the delta query documentation.
+// returns a *RequestInformation when successful
 func (m *ItemTeamChannelsItemMessagesDeltaRequestBuilder) ToGetRequestInformation(ctx context.Context, requestConfiguration *ItemTeamChannelsItemMessagesDeltaRequestBuilderGetRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET
-    requestInfo.Headers.Add("Accept", "application/json")
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         if requestConfiguration.QueryParameters != nil {
             requestInfo.AddQueryParameters(*(requestConfiguration.QueryParameters))
@@ -82,5 +109,11 @@ func (m *ItemTeamChannelsItemMessagesDeltaRequestBuilder) ToGetRequestInformatio
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
     return requestInfo, nil
+}
+// WithUrl returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
+// returns a *ItemTeamChannelsItemMessagesDeltaRequestBuilder when successful
+func (m *ItemTeamChannelsItemMessagesDeltaRequestBuilder) WithUrl(rawUrl string)(*ItemTeamChannelsItemMessagesDeltaRequestBuilder) {
+    return NewItemTeamChannelsItemMessagesDeltaRequestBuilder(rawUrl, m.BaseRequestBuilder.RequestAdapter);
 }

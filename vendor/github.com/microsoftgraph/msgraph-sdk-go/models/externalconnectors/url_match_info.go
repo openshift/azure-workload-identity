@@ -5,12 +5,11 @@ import (
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e "github.com/microsoft/kiota-abstractions-go/store"
 )
 
-// UrlMatchInfo 
 type UrlMatchInfo struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
 }
-// NewUrlMatchInfo instantiates a new urlMatchInfo and sets the default values.
+// NewUrlMatchInfo instantiates a new UrlMatchInfo and sets the default values.
 func NewUrlMatchInfo()(*UrlMatchInfo) {
     m := &UrlMatchInfo{
     }
@@ -19,10 +18,12 @@ func NewUrlMatchInfo()(*UrlMatchInfo) {
     return m
 }
 // CreateUrlMatchInfoFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateUrlMatchInfoFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewUrlMatchInfo(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *UrlMatchInfo) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -34,11 +35,13 @@ func (m *UrlMatchInfo) GetAdditionalData()(map[string]any) {
     }
     return val.(map[string]any)
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *UrlMatchInfo) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
 // GetBaseUrls gets the baseUrls property value. A list of the URL prefixes that must match URLs to be processed by this URL-to-item-resolver.
+// returns a []string when successful
 func (m *UrlMatchInfo) GetBaseUrls()([]string) {
     val, err := m.GetBackingStore().Get("baseUrls")
     if err != nil {
@@ -50,6 +53,7 @@ func (m *UrlMatchInfo) GetBaseUrls()([]string) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *UrlMatchInfo) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["baseUrls"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -91,6 +95,7 @@ func (m *UrlMatchInfo) GetFieldDeserializers()(map[string]func(i878a80d2330e89d2
     return res
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *UrlMatchInfo) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -102,6 +107,7 @@ func (m *UrlMatchInfo) GetOdataType()(*string) {
     return nil
 }
 // GetUrlPattern gets the urlPattern property value. A regular expression that will be matched towards the URL that is processed by this URL-to-item-resolver. The ECMAScript specification for regular expressions (ECMA-262) is used for the evaluation. The named groups defined by the regular expression will be used later to extract values from the URL.
+// returns a *string when successful
 func (m *UrlMatchInfo) GetUrlPattern()(*string) {
     val, err := m.GetBackingStore().Get("urlPattern")
     if err != nil {
@@ -140,14 +146,14 @@ func (m *UrlMatchInfo) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *UrlMatchInfo) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *UrlMatchInfo) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
@@ -172,7 +178,6 @@ func (m *UrlMatchInfo) SetUrlPattern(value *string)() {
         panic(err)
     }
 }
-// UrlMatchInfoable 
 type UrlMatchInfoable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel

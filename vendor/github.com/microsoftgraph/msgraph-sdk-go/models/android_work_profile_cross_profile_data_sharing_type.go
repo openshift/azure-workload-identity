@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Android Work Profile cross profile data sharing type.
 type AndroidWorkProfileCrossProfileDataSharingType int
 
@@ -31,7 +28,7 @@ func ParseAndroidWorkProfileCrossProfileDataSharingType(v string) (any, error) {
         case "noRestrictions":
             result = NORESTRICTIONS_ANDROIDWORKPROFILECROSSPROFILEDATASHARINGTYPE
         default:
-            return 0, errors.New("Unknown AndroidWorkProfileCrossProfileDataSharingType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -41,4 +38,7 @@ func SerializeAndroidWorkProfileCrossProfileDataSharingType(values []AndroidWork
         result[i] = v.String()
     }
     return result
+}
+func (i AndroidWorkProfileCrossProfileDataSharingType) isMultiValue() bool {
+    return false
 }

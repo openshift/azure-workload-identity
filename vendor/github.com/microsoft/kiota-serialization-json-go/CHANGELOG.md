@@ -7,7 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.7] - 2024-02-29
+
+### Added
+
+- Adds support for serialization and deserialization untyped nodes.
+
+## [1.0.6] - 2024-02-12
+
 ### Changed
+
+- Fixes serilaization of `null` values in collections of Objects.
+
+## [1.0.5] - 2024-01-10
+
+### Changed
+
+- Fixes some special character escaping when serializing strings to JSON. Previous incorrect escaping could lead to deserialization errors if old serialized data is read again.
+
+## [1.0.4] - 2023-07-12
+
+### Changed
+
+- Fixes parsing time parsing without timezone information.
+
+## [1.0.3] - 2023-06-28
+
+### Changed
+
+- Fixes serialization of composed types for scalar values.
 
 ## [1.0.2] - 2023-06-14
 

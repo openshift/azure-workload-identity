@@ -4,7 +4,6 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// AllowedValue 
 type AllowedValue struct {
     Entity
 }
@@ -16,10 +15,12 @@ func NewAllowedValue()(*AllowedValue) {
     return m
 }
 // CreateAllowedValueFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateAllowedValueFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewAllowedValue(), nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *AllowedValue) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.Entity.GetFieldDeserializers()
     res["isActive"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -34,7 +35,8 @@ func (m *AllowedValue) GetFieldDeserializers()(map[string]func(i878a80d2330e89d2
     }
     return res
 }
-// GetIsActive gets the isActive property value. Indicates whether the predefined value is active or deactivated. If set to false, this predefined value cannot be assigned to any additional supported directory objects.
+// GetIsActive gets the isActive property value. Indicates whether the predefined value is active or deactivated. If set to false, this predefined value can't be assigned to any other supported directory objects.
+// returns a *bool when successful
 func (m *AllowedValue) GetIsActive()(*bool) {
     val, err := m.GetBackingStore().Get("isActive")
     if err != nil {
@@ -59,14 +61,13 @@ func (m *AllowedValue) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e
     }
     return nil
 }
-// SetIsActive sets the isActive property value. Indicates whether the predefined value is active or deactivated. If set to false, this predefined value cannot be assigned to any additional supported directory objects.
+// SetIsActive sets the isActive property value. Indicates whether the predefined value is active or deactivated. If set to false, this predefined value can't be assigned to any other supported directory objects.
 func (m *AllowedValue) SetIsActive(value *bool)() {
     err := m.GetBackingStore().Set("isActive", value)
     if err != nil {
         panic(err)
     }
 }
-// AllowedValueable 
 type AllowedValueable interface {
     Entityable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable

@@ -4,7 +4,6 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// UnifiedRoleManagementPolicyAuthenticationContextRule 
 type UnifiedRoleManagementPolicyAuthenticationContextRule struct {
     UnifiedRoleManagementPolicyRule
 }
@@ -18,10 +17,12 @@ func NewUnifiedRoleManagementPolicyAuthenticationContextRule()(*UnifiedRoleManag
     return m
 }
 // CreateUnifiedRoleManagementPolicyAuthenticationContextRuleFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateUnifiedRoleManagementPolicyAuthenticationContextRuleFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewUnifiedRoleManagementPolicyAuthenticationContextRule(), nil
 }
 // GetClaimValue gets the claimValue property value. The value of the authentication context claim.
+// returns a *string when successful
 func (m *UnifiedRoleManagementPolicyAuthenticationContextRule) GetClaimValue()(*string) {
     val, err := m.GetBackingStore().Get("claimValue")
     if err != nil {
@@ -33,6 +34,7 @@ func (m *UnifiedRoleManagementPolicyAuthenticationContextRule) GetClaimValue()(*
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *UnifiedRoleManagementPolicyAuthenticationContextRule) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.UnifiedRoleManagementPolicyRule.GetFieldDeserializers()
     res["claimValue"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -57,7 +59,8 @@ func (m *UnifiedRoleManagementPolicyAuthenticationContextRule) GetFieldDeseriali
     }
     return res
 }
-// GetIsEnabled gets the isEnabled property value. Whether this rule is enabled.
+// GetIsEnabled gets the isEnabled property value. Determines whether this rule is enabled.
+// returns a *bool when successful
 func (m *UnifiedRoleManagementPolicyAuthenticationContextRule) GetIsEnabled()(*bool) {
     val, err := m.GetBackingStore().Get("isEnabled")
     if err != nil {
@@ -95,14 +98,13 @@ func (m *UnifiedRoleManagementPolicyAuthenticationContextRule) SetClaimValue(val
         panic(err)
     }
 }
-// SetIsEnabled sets the isEnabled property value. Whether this rule is enabled.
+// SetIsEnabled sets the isEnabled property value. Determines whether this rule is enabled.
 func (m *UnifiedRoleManagementPolicyAuthenticationContextRule) SetIsEnabled(value *bool)() {
     err := m.GetBackingStore().Set("isEnabled", value)
     if err != nil {
         panic(err)
     }
 }
-// UnifiedRoleManagementPolicyAuthenticationContextRuleable 
 type UnifiedRoleManagementPolicyAuthenticationContextRuleable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable
     UnifiedRoleManagementPolicyRuleable

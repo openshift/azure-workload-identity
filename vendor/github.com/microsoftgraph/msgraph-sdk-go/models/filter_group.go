@@ -5,12 +5,11 @@ import (
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e "github.com/microsoft/kiota-abstractions-go/store"
 )
 
-// FilterGroup 
 type FilterGroup struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
 }
-// NewFilterGroup instantiates a new filterGroup and sets the default values.
+// NewFilterGroup instantiates a new FilterGroup and sets the default values.
 func NewFilterGroup()(*FilterGroup) {
     m := &FilterGroup{
     }
@@ -19,10 +18,12 @@ func NewFilterGroup()(*FilterGroup) {
     return m
 }
 // CreateFilterGroupFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateFilterGroupFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewFilterGroup(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *FilterGroup) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -34,11 +35,13 @@ func (m *FilterGroup) GetAdditionalData()(map[string]any) {
     }
     return val.(map[string]any)
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *FilterGroup) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
-// GetClauses gets the clauses property value. The clauses property
+// GetClauses gets the clauses property value. Filter clauses (conditions) of this group. All clauses in a group must be satisfied in order for the filter group to evaluate to true.
+// returns a []FilterClauseable when successful
 func (m *FilterGroup) GetClauses()([]FilterClauseable) {
     val, err := m.GetBackingStore().Get("clauses")
     if err != nil {
@@ -50,6 +53,7 @@ func (m *FilterGroup) GetClauses()([]FilterClauseable) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *FilterGroup) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["clauses"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -90,7 +94,8 @@ func (m *FilterGroup) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26
     }
     return res
 }
-// GetName gets the name property value. The name property
+// GetName gets the name property value. Human-readable name of the filter group.
+// returns a *string when successful
 func (m *FilterGroup) GetName()(*string) {
     val, err := m.GetBackingStore().Get("name")
     if err != nil {
@@ -102,6 +107,7 @@ func (m *FilterGroup) GetName()(*string) {
     return nil
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *FilterGroup) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -146,25 +152,25 @@ func (m *FilterGroup) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *FilterGroup) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *FilterGroup) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
-// SetClauses sets the clauses property value. The clauses property
+// SetClauses sets the clauses property value. Filter clauses (conditions) of this group. All clauses in a group must be satisfied in order for the filter group to evaluate to true.
 func (m *FilterGroup) SetClauses(value []FilterClauseable)() {
     err := m.GetBackingStore().Set("clauses", value)
     if err != nil {
         panic(err)
     }
 }
-// SetName sets the name property value. The name property
+// SetName sets the name property value. Human-readable name of the filter group.
 func (m *FilterGroup) SetName(value *string)() {
     err := m.GetBackingStore().Set("name", value)
     if err != nil {
@@ -178,7 +184,6 @@ func (m *FilterGroup) SetOdataType(value *string)() {
         panic(err)
     }
 }
-// FilterGroupable 
 type FilterGroupable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel

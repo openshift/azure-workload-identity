@@ -4,7 +4,6 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// EducationOutcomeCollectionResponse 
 type EducationOutcomeCollectionResponse struct {
     BaseCollectionPaginationCountResponse
 }
@@ -16,10 +15,12 @@ func NewEducationOutcomeCollectionResponse()(*EducationOutcomeCollectionResponse
     return m
 }
 // CreateEducationOutcomeCollectionResponseFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateEducationOutcomeCollectionResponseFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewEducationOutcomeCollectionResponse(), nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *EducationOutcomeCollectionResponse) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.BaseCollectionPaginationCountResponse.GetFieldDeserializers()
     res["value"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -41,6 +42,7 @@ func (m *EducationOutcomeCollectionResponse) GetFieldDeserializers()(map[string]
     return res
 }
 // GetValue gets the value property value. The value property
+// returns a []EducationOutcomeable when successful
 func (m *EducationOutcomeCollectionResponse) GetValue()([]EducationOutcomeable) {
     val, err := m.GetBackingStore().Get("value")
     if err != nil {
@@ -78,7 +80,6 @@ func (m *EducationOutcomeCollectionResponse) SetValue(value []EducationOutcomeab
         panic(err)
     }
 }
-// EducationOutcomeCollectionResponseable 
 type EducationOutcomeCollectionResponseable interface {
     BaseCollectionPaginationCountResponseable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable

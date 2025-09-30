@@ -11,6 +11,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/kubernetes/test/e2e/framework"
 	e2edeploy "k8s.io/kubernetes/test/e2e/framework/deployment"
@@ -24,12 +25,11 @@ const (
 )
 
 // createServiceAccount creates a service account with customizable name, namespace, labels and annotations.
-func createServiceAccount(c kubernetes.Interface, namespace, name string, labels, annotations map[string]string) string {
+func createServiceAccount(c kubernetes.Interface, namespace, name string, annotations map[string]string) string {
 	account := &corev1.ServiceAccount{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:        name,
 			Namespace:   namespace,
-			Labels:      labels,
 			Annotations: annotations,
 		},
 	}
@@ -128,7 +128,7 @@ func createPod(c kubernetes.Interface, pod *corev1.Pod) (*corev1.Pod, error) {
 }
 
 // createPodUsingDeploymentWithServiceAccount creates a deployment containing one pod with customizable service account.
-func createPodUsingDeploymentWithServiceAccount(f *framework.Framework, serviceAccount string) *corev1.Pod {
+func createPodUsingDeploymentWithServiceAccount(ctx context.Context, f *framework.Framework, serviceAccount string) *corev1.Pod {
 	framework.Logf("creating a deployment in %s namespace with service account %s", f.Namespace.Name, serviceAccount)
 
 	podLabels := map[string]string{
@@ -188,13 +188,13 @@ func createPodUsingDeploymentWithServiceAccount(f *framework.Framework, serviceA
 		},
 	})
 
-	d, err := f.ClientSet.AppsV1().Deployments(f.Namespace.Name).Create(context.TODO(), d, metav1.CreateOptions{})
+	d, err := f.ClientSet.AppsV1().Deployments(f.Namespace.Name).Create(ctx, d, metav1.CreateOptions{})
 	framework.ExpectNoError(err, "failed to create deployment %s", d.Name)
 
 	err = e2edeploy.WaitForDeploymentComplete(f.ClientSet, d)
 	framework.ExpectNoError(err, "failed to complete deployment %s", d.Name)
 
-	podList, err := e2edeploy.GetPodsForDeployment(f.ClientSet, d)
+	podList, err := e2edeploy.GetPodsForDeployment(ctx, f.ClientSet, d)
 	framework.ExpectNoError(err, "failed to get pods for deployment %s", d.Name)
 	pod := &podList.Items[0]
 
@@ -207,7 +207,7 @@ func createPodUsingDeploymentWithServiceAccount(f *framework.Framework, serviceA
 // 2. verify that all containers except the one in skipContainers have azure-identity-token mounted;
 // 3. verify that the pod has a service account token volume projected;
 // 4. verify that the pod has access to token file via `cat /var/run/secrets/azure/tokens/azure-identity-token`.
-func validateMutatedPod(f *framework.Framework, pod *corev1.Pod, skipContainers []string) {
+func validateMutatedPod(ctx context.Context, f *framework.Framework, pod *corev1.Pod, skipContainers []string) {
 	withoutSkipContainers := []corev1.Container{}
 	// consider init containers as well
 	allContainers := append(pod.Spec.Containers, pod.Spec.InitContainers...)
@@ -225,9 +225,9 @@ func validateMutatedPod(f *framework.Framework, pod *corev1.Pod, skipContainers 
 	}
 
 	for _, container := range withoutSkipContainers {
-		m := make(map[string]struct{})
+		m := sets.New[string]()
 		for _, env := range container.Env {
-			m[env.Name] = struct{}{}
+			m.Insert(env.Name)
 		}
 
 		framework.Logf("ensuring that the correct environment variables are injected to %s in %s", container.Name, pod.Name)
@@ -283,7 +283,7 @@ func validateMutatedPod(f *framework.Framework, pod *corev1.Pod, skipContainers 
 	}
 
 	if len(withoutSkipContainers) > 0 {
-		err := e2epod.WaitForPodNameRunningInNamespace(f.ClientSet, pod.Name, pod.Namespace)
+		err := e2epod.WaitForPodNameRunningInNamespace(ctx, f.ClientSet, pod.Name, pod.Namespace)
 		framework.ExpectNoError(err, "failed to start pod %s", pod.Name)
 		_ = e2epod.ExecCommandInContainer(f, pod.Name, withoutSkipContainers[0].Name, "cat", filepath.Join(tokenFileMountPath, tokenFilePathName))
 	}
@@ -319,4 +319,32 @@ func getVolumeProjectionSources(serviceAccountName string) []corev1.VolumeProjec
 			Audience:          "api://AzureADTokenExchange",
 		}},
 	}
+}
+
+func validateProxySideCarInMutatedPod(pod *corev1.Pod) {
+	framework.Logf("validating that the proxy sidecar is injected to %s", pod.Name)
+	containers := pod.Spec.Containers
+	if useNativeSidecar {
+		framework.Logf("validating that the proxy init container is injected as native sidecar to %s", pod.Name)
+		containers = pod.Spec.InitContainers
+	}
+
+	proxySidecar := getProxySidecarContainer(containers)
+	gomega.Expect(proxySidecar).NotTo(gomega.BeNil(), "proxy sidecar is not injected to pod %s", pod.Name)
+
+	if useNativeSidecar {
+		gomega.Expect(proxySidecar.RestartPolicy).ToNot(gomega.BeNil(), "proxy sidecar in pod %s should have a restart policy", pod.Name)
+		gomega.Expect(*proxySidecar.RestartPolicy).To(gomega.Equal(corev1.ContainerRestartPolicyAlways), "proxy sidecar in pod %s should have restart policy 'Always'", pod.Name)
+	} else {
+		gomega.Expect(proxySidecar.RestartPolicy).To(gomega.BeNil(), "proxy sidecar in pod %s should not have a restart policy", pod.Name)
+	}
+}
+
+func getProxySidecarContainer(containers []corev1.Container) *corev1.Container {
+	for _, container := range containers {
+		if container.Name == "azwi-proxy" {
+			return &container
+		}
+	}
+	return nil
 }

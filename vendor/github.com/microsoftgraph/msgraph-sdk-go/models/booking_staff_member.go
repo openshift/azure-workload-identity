@@ -4,7 +4,7 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// BookingStaffMember 
+// BookingStaffMember represents a staff member who provides services in a business.
 type BookingStaffMember struct {
     BookingStaffMemberBase
 }
@@ -18,10 +18,12 @@ func NewBookingStaffMember()(*BookingStaffMember) {
     return m
 }
 // CreateBookingStaffMemberFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateBookingStaffMemberFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewBookingStaffMember(), nil
 }
 // GetAvailabilityIsAffectedByPersonalCalendar gets the availabilityIsAffectedByPersonalCalendar property value. True means that if the staff member is a Microsoft 365 user, the Bookings API would verify the staff member's availability in their personal calendar in Microsoft 365, before making a booking.
+// returns a *bool when successful
 func (m *BookingStaffMember) GetAvailabilityIsAffectedByPersonalCalendar()(*bool) {
     val, err := m.GetBackingStore().Get("availabilityIsAffectedByPersonalCalendar")
     if err != nil {
@@ -33,6 +35,7 @@ func (m *BookingStaffMember) GetAvailabilityIsAffectedByPersonalCalendar()(*bool
     return nil
 }
 // GetDisplayName gets the displayName property value. The name of the staff member, as displayed to customers. Required.
+// returns a *string when successful
 func (m *BookingStaffMember) GetDisplayName()(*string) {
     val, err := m.GetBackingStore().Get("displayName")
     if err != nil {
@@ -44,6 +47,7 @@ func (m *BookingStaffMember) GetDisplayName()(*string) {
     return nil
 }
 // GetEmailAddress gets the emailAddress property value. The email address of the staff member. This can be in the same Microsoft 365 tenant as the business, or in a different email domain. This email address can be used if the sendConfirmationsToOwner property is set to true in the scheduling policy of the business. Required.
+// returns a *string when successful
 func (m *BookingStaffMember) GetEmailAddress()(*string) {
     val, err := m.GetBackingStore().Get("emailAddress")
     if err != nil {
@@ -55,6 +59,7 @@ func (m *BookingStaffMember) GetEmailAddress()(*string) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *BookingStaffMember) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.BookingStaffMemberBase.GetFieldDeserializers()
     res["availabilityIsAffectedByPersonalCalendar"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -94,6 +99,16 @@ func (m *BookingStaffMember) GetFieldDeserializers()(map[string]func(i878a80d233
         }
         if val != nil {
             m.SetIsEmailNotificationEnabled(val)
+        }
+        return nil
+    }
+    res["membershipStatus"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetEnumValue(ParseBookingStaffMembershipStatus)
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            m.SetMembershipStatus(val.(*BookingStaffMembershipStatus))
         }
         return nil
     }
@@ -146,6 +161,7 @@ func (m *BookingStaffMember) GetFieldDeserializers()(map[string]func(i878a80d233
     return res
 }
 // GetIsEmailNotificationEnabled gets the isEmailNotificationEnabled property value. True indicates that a staff member will be notified via email when a booking assigned to them is created or changed.
+// returns a *bool when successful
 func (m *BookingStaffMember) GetIsEmailNotificationEnabled()(*bool) {
     val, err := m.GetBackingStore().Get("isEmailNotificationEnabled")
     if err != nil {
@@ -156,7 +172,20 @@ func (m *BookingStaffMember) GetIsEmailNotificationEnabled()(*bool) {
     }
     return nil
 }
+// GetMembershipStatus gets the membershipStatus property value. The membershipStatus property
+// returns a *BookingStaffMembershipStatus when successful
+func (m *BookingStaffMember) GetMembershipStatus()(*BookingStaffMembershipStatus) {
+    val, err := m.GetBackingStore().Get("membershipStatus")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.(*BookingStaffMembershipStatus)
+    }
+    return nil
+}
 // GetRole gets the role property value. The role property
+// returns a *BookingStaffRole when successful
 func (m *BookingStaffMember) GetRole()(*BookingStaffRole) {
     val, err := m.GetBackingStore().Get("role")
     if err != nil {
@@ -168,6 +197,7 @@ func (m *BookingStaffMember) GetRole()(*BookingStaffRole) {
     return nil
 }
 // GetTimeZone gets the timeZone property value. The time zone of the staff member. For a list of possible values, see dateTimeTimeZone.
+// returns a *string when successful
 func (m *BookingStaffMember) GetTimeZone()(*string) {
     val, err := m.GetBackingStore().Get("timeZone")
     if err != nil {
@@ -179,6 +209,7 @@ func (m *BookingStaffMember) GetTimeZone()(*string) {
     return nil
 }
 // GetUseBusinessHours gets the useBusinessHours property value. True means the staff member's availability is as specified in the businessHours property of the business. False means the availability is determined by the staff member's workingHours property setting.
+// returns a *bool when successful
 func (m *BookingStaffMember) GetUseBusinessHours()(*bool) {
     val, err := m.GetBackingStore().Get("useBusinessHours")
     if err != nil {
@@ -190,6 +221,7 @@ func (m *BookingStaffMember) GetUseBusinessHours()(*bool) {
     return nil
 }
 // GetWorkingHours gets the workingHours property value. The range of hours each day of the week that the staff member is available for booking. By default, they are initialized to be the same as the businessHours property of the business.
+// returns a []BookingWorkHoursable when successful
 func (m *BookingStaffMember) GetWorkingHours()([]BookingWorkHoursable) {
     val, err := m.GetBackingStore().Get("workingHours")
     if err != nil {
@@ -226,6 +258,13 @@ func (m *BookingStaffMember) Serialize(writer i878a80d2330e89d26896388a3f487eef2
     }
     {
         err = writer.WriteBoolValue("isEmailNotificationEnabled", m.GetIsEmailNotificationEnabled())
+        if err != nil {
+            return err
+        }
+    }
+    if m.GetMembershipStatus() != nil {
+        cast := (*m.GetMembershipStatus()).String()
+        err = writer.WriteStringValue("membershipStatus", &cast)
         if err != nil {
             return err
         }
@@ -291,6 +330,13 @@ func (m *BookingStaffMember) SetIsEmailNotificationEnabled(value *bool)() {
         panic(err)
     }
 }
+// SetMembershipStatus sets the membershipStatus property value. The membershipStatus property
+func (m *BookingStaffMember) SetMembershipStatus(value *BookingStaffMembershipStatus)() {
+    err := m.GetBackingStore().Set("membershipStatus", value)
+    if err != nil {
+        panic(err)
+    }
+}
 // SetRole sets the role property value. The role property
 func (m *BookingStaffMember) SetRole(value *BookingStaffRole)() {
     err := m.GetBackingStore().Set("role", value)
@@ -319,7 +365,6 @@ func (m *BookingStaffMember) SetWorkingHours(value []BookingWorkHoursable)() {
         panic(err)
     }
 }
-// BookingStaffMemberable 
 type BookingStaffMemberable interface {
     BookingStaffMemberBaseable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable
@@ -327,6 +372,7 @@ type BookingStaffMemberable interface {
     GetDisplayName()(*string)
     GetEmailAddress()(*string)
     GetIsEmailNotificationEnabled()(*bool)
+    GetMembershipStatus()(*BookingStaffMembershipStatus)
     GetRole()(*BookingStaffRole)
     GetTimeZone()(*string)
     GetUseBusinessHours()(*bool)
@@ -335,6 +381,7 @@ type BookingStaffMemberable interface {
     SetDisplayName(value *string)()
     SetEmailAddress(value *string)()
     SetIsEmailNotificationEnabled(value *bool)()
+    SetMembershipStatus(value *BookingStaffMembershipStatus)()
     SetRole(value *BookingStaffRole)()
     SetTimeZone(value *string)()
     SetUseBusinessHours(value *bool)()

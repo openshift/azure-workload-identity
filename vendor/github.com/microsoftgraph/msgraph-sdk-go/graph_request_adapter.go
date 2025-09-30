@@ -9,8 +9,11 @@ import (
 )
 
 var clientOptions = core.GraphClientOptions{
-	GraphServiceVersion:        "", //v1 doesn't include the service version in the telemetry header
-	GraphServiceLibraryVersion: "1.7.0",
+	GraphServiceVersion: "", //v1 doesn't include the service version in the telemetry header
+	/** The SDK version */
+	// x-release-please-start-version
+	GraphServiceLibraryVersion: "1.45.0",
+	// x-release-please-end
 }
 
 // GetDefaultClientOptions returns the default client options used by the GraphRequestAdapterBase and the middleware.
@@ -72,9 +75,3 @@ func NewGraphRequestAdapterWithParseNodeFactoryAndSerializationWriterFactoryAndH
 
 	return result, nil
 }
-
-
-
-
-
-

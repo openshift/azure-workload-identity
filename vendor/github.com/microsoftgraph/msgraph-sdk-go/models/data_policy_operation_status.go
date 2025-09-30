@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type DataPolicyOperationStatus int
 
 const (
@@ -30,7 +26,7 @@ func ParseDataPolicyOperationStatus(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_DATAPOLICYOPERATIONSTATUS
         default:
-            return 0, errors.New("Unknown DataPolicyOperationStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeDataPolicyOperationStatus(values []DataPolicyOperationStatus) []st
         result[i] = v.String()
     }
     return result
+}
+func (i DataPolicyOperationStatus) isMultiValue() bool {
+    return false
 }

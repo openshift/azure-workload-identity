@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type Sensitivity int
 
 const (
@@ -27,7 +23,7 @@ func ParseSensitivity(v string) (any, error) {
         case "confidential":
             result = CONFIDENTIAL_SENSITIVITY
         default:
-            return 0, errors.New("Unknown Sensitivity value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeSensitivity(values []Sensitivity) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i Sensitivity) isMultiValue() bool {
+    return false
 }

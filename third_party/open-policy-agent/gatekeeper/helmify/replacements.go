@@ -5,9 +5,15 @@ var replacements = map[string]string{
 
 	`HELMSUBST_DEPLOYMENT_NODE_SELECTOR: ""`: `{{- toYaml .Values.nodeSelector | nindent 8 }}`,
 
+	`HELMSUBST_DEPLOYMENT_REVISION_HISTORY_LIMIT: ""`: `{{- if .Values.revisionHistoryLimit }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  {{- end }}`,
+
 	"HELMSUBST_DEPLOYMENT_REPLICAS": `{{ .Values.replicaCount }}`,
 
 	`HELMSUBST_DEPLOYMENT_AFFINITY: ""`: `{{- toYaml .Values.affinity | nindent 8 }}`,
+
+	`HELMSUBST_DEPLOYMENT_TOPOLOGY_SPREAD_CONSTRAINTS: ""`: `{{- toYaml .Values.topologySpreadConstraints | nindent 8 }}`,
 
 	`HELMSUBST_DEPLOYMENT_TOLERATIONS: ""`: `{{- toYaml .Values.tolerations | nindent 8 }}`,
 

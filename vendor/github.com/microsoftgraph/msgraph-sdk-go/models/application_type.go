@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Possible types of Application
 type ApplicationType int
 
@@ -23,7 +20,7 @@ func ParseApplicationType(v string) (any, error) {
         case "desktop":
             result = DESKTOP_APPLICATIONTYPE
         default:
-            return 0, errors.New("Unknown ApplicationType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -33,4 +30,7 @@ func SerializeApplicationType(values []ApplicationType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ApplicationType) isMultiValue() bool {
+    return false
 }

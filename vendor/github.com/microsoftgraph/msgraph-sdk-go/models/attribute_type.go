@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type AttributeType int
 
 const (
@@ -33,7 +29,7 @@ func ParseAttributeType(v string) (any, error) {
         case "DateTime":
             result = DATETIME_ATTRIBUTETYPE
         default:
-            return 0, errors.New("Unknown AttributeType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeAttributeType(values []AttributeType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i AttributeType) isMultiValue() bool {
+    return false
 }

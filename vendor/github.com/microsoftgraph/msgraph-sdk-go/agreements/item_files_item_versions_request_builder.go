@@ -11,7 +11,7 @@ import (
 type ItemFilesItemVersionsRequestBuilder struct {
     i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.BaseRequestBuilder
 }
-// ItemFilesItemVersionsRequestBuilderGetQueryParameters read-only. Customized versions of the terms of use agreement in the Azure AD tenant.
+// ItemFilesItemVersionsRequestBuilderGetQueryParameters read-only. Customized versions of the terms of use agreement in the Microsoft Entra tenant.
 type ItemFilesItemVersionsRequestBuilderGetQueryParameters struct {
     // Include count of items
     Count *bool `uriparametername:"%24count"`
@@ -47,6 +47,7 @@ type ItemFilesItemVersionsRequestBuilderPostRequestConfiguration struct {
     Options []i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestOption
 }
 // ByAgreementFileVersionId provides operations to manage the versions property of the microsoft.graph.agreementFileLocalization entity.
+// returns a *ItemFilesItemVersionsAgreementFileVersionItemRequestBuilder when successful
 func (m *ItemFilesItemVersionsRequestBuilder) ByAgreementFileVersionId(agreementFileVersionId string)(*ItemFilesItemVersionsAgreementFileVersionItemRequestBuilder) {
     urlTplParams := make(map[string]string)
     for idx, item := range m.BaseRequestBuilder.PathParameters {
@@ -57,32 +58,34 @@ func (m *ItemFilesItemVersionsRequestBuilder) ByAgreementFileVersionId(agreement
     }
     return NewItemFilesItemVersionsAgreementFileVersionItemRequestBuilderInternal(urlTplParams, m.BaseRequestBuilder.RequestAdapter)
 }
-// NewItemFilesItemVersionsRequestBuilderInternal instantiates a new VersionsRequestBuilder and sets the default values.
+// NewItemFilesItemVersionsRequestBuilderInternal instantiates a new ItemFilesItemVersionsRequestBuilder and sets the default values.
 func NewItemFilesItemVersionsRequestBuilderInternal(pathParameters map[string]string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemFilesItemVersionsRequestBuilder) {
     m := &ItemFilesItemVersionsRequestBuilder{
-        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/agreements/{agreement%2Did}/files/{agreementFileLocalization%2Did}/versions{?%24top,%24skip,%24search,%24filter,%24count,%24orderby,%24select,%24expand}", pathParameters),
+        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/agreements/{agreement%2Did}/files/{agreementFileLocalization%2Did}/versions{?%24count,%24expand,%24filter,%24orderby,%24search,%24select,%24skip,%24top}", pathParameters),
     }
     return m
 }
-// NewItemFilesItemVersionsRequestBuilder instantiates a new VersionsRequestBuilder and sets the default values.
+// NewItemFilesItemVersionsRequestBuilder instantiates a new ItemFilesItemVersionsRequestBuilder and sets the default values.
 func NewItemFilesItemVersionsRequestBuilder(rawUrl string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemFilesItemVersionsRequestBuilder) {
     urlParams := make(map[string]string)
     urlParams["request-raw-url"] = rawUrl
     return NewItemFilesItemVersionsRequestBuilderInternal(urlParams, requestAdapter)
 }
 // Count provides operations to count the resources in the collection.
+// returns a *ItemFilesItemVersionsCountRequestBuilder when successful
 func (m *ItemFilesItemVersionsRequestBuilder) Count()(*ItemFilesItemVersionsCountRequestBuilder) {
     return NewItemFilesItemVersionsCountRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
-// Get read-only. Customized versions of the terms of use agreement in the Azure AD tenant.
+// Get read-only. Customized versions of the terms of use agreement in the Microsoft Entra tenant.
+// returns a AgreementFileVersionCollectionResponseable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemFilesItemVersionsRequestBuilder) Get(ctx context.Context, requestConfiguration *ItemFilesItemVersionsRequestBuilderGetRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.AgreementFileVersionCollectionResponseable, error) {
     requestInfo, err := m.ToGetRequestInformation(ctx, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateAgreementFileVersionCollectionResponseFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -94,14 +97,15 @@ func (m *ItemFilesItemVersionsRequestBuilder) Get(ctx context.Context, requestCo
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.AgreementFileVersionCollectionResponseable), nil
 }
 // Post create new navigation property to versions for agreements
+// returns a AgreementFileVersionable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemFilesItemVersionsRequestBuilder) Post(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.AgreementFileVersionable, requestConfiguration *ItemFilesItemVersionsRequestBuilderPostRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.AgreementFileVersionable, error) {
     requestInfo, err := m.ToPostRequestInformation(ctx, body, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateAgreementFileVersionFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -112,13 +116,10 @@ func (m *ItemFilesItemVersionsRequestBuilder) Post(ctx context.Context, body iad
     }
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.AgreementFileVersionable), nil
 }
-// ToGetRequestInformation read-only. Customized versions of the terms of use agreement in the Azure AD tenant.
+// ToGetRequestInformation read-only. Customized versions of the terms of use agreement in the Microsoft Entra tenant.
+// returns a *RequestInformation when successful
 func (m *ItemFilesItemVersionsRequestBuilder) ToGetRequestInformation(ctx context.Context, requestConfiguration *ItemFilesItemVersionsRequestBuilderGetRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET
-    requestInfo.Headers.Add("Accept", "application/json")
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         if requestConfiguration.QueryParameters != nil {
             requestInfo.AddQueryParameters(*(requestConfiguration.QueryParameters))
@@ -126,22 +127,26 @@ func (m *ItemFilesItemVersionsRequestBuilder) ToGetRequestInformation(ctx contex
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
     return requestInfo, nil
 }
 // ToPostRequestInformation create new navigation property to versions for agreements
+// returns a *RequestInformation when successful
 func (m *ItemFilesItemVersionsRequestBuilder) ToPostRequestInformation(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.AgreementFileVersionable, requestConfiguration *ItemFilesItemVersionsRequestBuilderPostRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.POST
-    requestInfo.Headers.Add("Accept", "application/json")
-    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
-    if err != nil {
-        return nil, err
-    }
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.POST, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
+    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
+    if err != nil {
+        return nil, err
+    }
     return requestInfo, nil
+}
+// WithUrl returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
+// returns a *ItemFilesItemVersionsRequestBuilder when successful
+func (m *ItemFilesItemVersionsRequestBuilder) WithUrl(rawUrl string)(*ItemFilesItemVersionsRequestBuilder) {
+    return NewItemFilesItemVersionsRequestBuilder(rawUrl, m.BaseRequestBuilder.RequestAdapter);
 }

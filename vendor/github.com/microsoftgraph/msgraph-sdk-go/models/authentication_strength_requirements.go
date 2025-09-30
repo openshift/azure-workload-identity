@@ -1,30 +1,41 @@
 package models
 import (
-    "errors"
+    "math"
+    "strings"
 )
-// 
 type AuthenticationStrengthRequirements int
 
 const (
-    NONE_AUTHENTICATIONSTRENGTHREQUIREMENTS AuthenticationStrengthRequirements = iota
-    MFA_AUTHENTICATIONSTRENGTHREQUIREMENTS
-    UNKNOWNFUTUREVALUE_AUTHENTICATIONSTRENGTHREQUIREMENTS
+    NONE_AUTHENTICATIONSTRENGTHREQUIREMENTS = 1
+    MFA_AUTHENTICATIONSTRENGTHREQUIREMENTS = 2
+    UNKNOWNFUTUREVALUE_AUTHENTICATIONSTRENGTHREQUIREMENTS = 4
 )
 
 func (i AuthenticationStrengthRequirements) String() string {
-    return []string{"none", "mfa", "unknownFutureValue"}[i]
+    var values []string
+    options := []string{"none", "mfa", "unknownFutureValue"}
+    for p := 0; p < 3; p++ {
+        mantis := AuthenticationStrengthRequirements(int(math.Pow(2, float64(p))))
+        if i&mantis == mantis {
+            values = append(values, options[p])
+        }
+    }
+    return strings.Join(values, ",")
 }
 func ParseAuthenticationStrengthRequirements(v string) (any, error) {
-    result := NONE_AUTHENTICATIONSTRENGTHREQUIREMENTS
-    switch v {
-        case "none":
-            result = NONE_AUTHENTICATIONSTRENGTHREQUIREMENTS
-        case "mfa":
-            result = MFA_AUTHENTICATIONSTRENGTHREQUIREMENTS
-        case "unknownFutureValue":
-            result = UNKNOWNFUTUREVALUE_AUTHENTICATIONSTRENGTHREQUIREMENTS
-        default:
-            return 0, errors.New("Unknown AuthenticationStrengthRequirements value: " + v)
+    var result AuthenticationStrengthRequirements
+    values := strings.Split(v, ",")
+    for _, str := range values {
+        switch str {
+            case "none":
+                result |= NONE_AUTHENTICATIONSTRENGTHREQUIREMENTS
+            case "mfa":
+                result |= MFA_AUTHENTICATIONSTRENGTHREQUIREMENTS
+            case "unknownFutureValue":
+                result |= UNKNOWNFUTUREVALUE_AUTHENTICATIONSTRENGTHREQUIREMENTS
+            default:
+                return nil, nil
+        }
     }
     return &result, nil
 }
@@ -34,4 +45,7 @@ func SerializeAuthenticationStrengthRequirements(values []AuthenticationStrength
         result[i] = v.String()
     }
     return result
+}
+func (i AuthenticationStrengthRequirements) isMultiValue() bool {
+    return true
 }

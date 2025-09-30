@@ -11,7 +11,7 @@ import (
 type ItemCalendarEventsRequestBuilder struct {
     i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.BaseRequestBuilder
 }
-// ItemCalendarEventsRequestBuilderGetQueryParameters retrieve a list of events in a calendar. The calendar can be one for a user, or the default calendar of a Microsoft 365 group. The list of events contains single instance meetings and series masters. To get expanded event instances, you can get the calendar view, or get the instances of an event.
+// ItemCalendarEventsRequestBuilderGetQueryParameters the events in the calendar. Navigation property. Read-only.
 type ItemCalendarEventsRequestBuilderGetQueryParameters struct {
     // Include count of items
     Count *bool `uriparametername:"%24count"`
@@ -21,6 +21,8 @@ type ItemCalendarEventsRequestBuilderGetQueryParameters struct {
     Filter *string `uriparametername:"%24filter"`
     // Order items by property values
     Orderby []string `uriparametername:"%24orderby"`
+    // Search items by search phrases
+    Search *string `uriparametername:"%24search"`
     // Select properties to be returned
     Select []string `uriparametername:"%24select"`
     // Skip the first n items
@@ -45,6 +47,7 @@ type ItemCalendarEventsRequestBuilderPostRequestConfiguration struct {
     Options []i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestOption
 }
 // ByEventId provides operations to manage the events property of the microsoft.graph.calendar entity.
+// returns a *ItemCalendarEventsEventItemRequestBuilder when successful
 func (m *ItemCalendarEventsRequestBuilder) ByEventId(eventId string)(*ItemCalendarEventsEventItemRequestBuilder) {
     urlTplParams := make(map[string]string)
     for idx, item := range m.BaseRequestBuilder.PathParameters {
@@ -55,39 +58,39 @@ func (m *ItemCalendarEventsRequestBuilder) ByEventId(eventId string)(*ItemCalend
     }
     return NewItemCalendarEventsEventItemRequestBuilderInternal(urlTplParams, m.BaseRequestBuilder.RequestAdapter)
 }
-// NewItemCalendarEventsRequestBuilderInternal instantiates a new EventsRequestBuilder and sets the default values.
+// NewItemCalendarEventsRequestBuilderInternal instantiates a new ItemCalendarEventsRequestBuilder and sets the default values.
 func NewItemCalendarEventsRequestBuilderInternal(pathParameters map[string]string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemCalendarEventsRequestBuilder) {
     m := &ItemCalendarEventsRequestBuilder{
-        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/users/{user%2Did}/calendar/events{?%24top,%24skip,%24filter,%24count,%24orderby,%24select,%24expand}", pathParameters),
+        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/users/{user%2Did}/calendar/events{?%24count,%24expand,%24filter,%24orderby,%24search,%24select,%24skip,%24top}", pathParameters),
     }
     return m
 }
-// NewItemCalendarEventsRequestBuilder instantiates a new EventsRequestBuilder and sets the default values.
+// NewItemCalendarEventsRequestBuilder instantiates a new ItemCalendarEventsRequestBuilder and sets the default values.
 func NewItemCalendarEventsRequestBuilder(rawUrl string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemCalendarEventsRequestBuilder) {
     urlParams := make(map[string]string)
     urlParams["request-raw-url"] = rawUrl
     return NewItemCalendarEventsRequestBuilderInternal(urlParams, requestAdapter)
 }
 // Count provides operations to count the resources in the collection.
+// returns a *ItemCalendarEventsCountRequestBuilder when successful
 func (m *ItemCalendarEventsRequestBuilder) Count()(*ItemCalendarEventsCountRequestBuilder) {
     return NewItemCalendarEventsCountRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
 // Delta provides operations to call the delta method.
+// returns a *ItemCalendarEventsDeltaRequestBuilder when successful
 func (m *ItemCalendarEventsRequestBuilder) Delta()(*ItemCalendarEventsDeltaRequestBuilder) {
     return NewItemCalendarEventsDeltaRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
-// Get retrieve a list of events in a calendar. The calendar can be one for a user, or the default calendar of a Microsoft 365 group. The list of events contains single instance meetings and series masters. To get expanded event instances, you can get the calendar view, or get the instances of an event.
-// [Find more info here]
-// 
-// [Find more info here]: https://docs.microsoft.com/graph/api/calendar-list-events?view=graph-rest-1.0
+// Get the events in the calendar. Navigation property. Read-only.
+// returns a EventCollectionResponseable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemCalendarEventsRequestBuilder) Get(ctx context.Context, requestConfiguration *ItemCalendarEventsRequestBuilderGetRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.EventCollectionResponseable, error) {
     requestInfo, err := m.ToGetRequestInformation(ctx, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateEventCollectionResponseFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -98,18 +101,16 @@ func (m *ItemCalendarEventsRequestBuilder) Get(ctx context.Context, requestConfi
     }
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.EventCollectionResponseable), nil
 }
-// Post use this API to create a new event in a calendar. The calendar can be one for a user, or the default calendar of a Microsoft 365 group. 
-// [Find more info here]
-// 
-// [Find more info here]: https://docs.microsoft.com/graph/api/calendar-post-events?view=graph-rest-1.0
+// Post create new navigation property to events for users
+// returns a Eventable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemCalendarEventsRequestBuilder) Post(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Eventable, requestConfiguration *ItemCalendarEventsRequestBuilderPostRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Eventable, error) {
     requestInfo, err := m.ToPostRequestInformation(ctx, body, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateEventFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -120,13 +121,10 @@ func (m *ItemCalendarEventsRequestBuilder) Post(ctx context.Context, body iadcd8
     }
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Eventable), nil
 }
-// ToGetRequestInformation retrieve a list of events in a calendar. The calendar can be one for a user, or the default calendar of a Microsoft 365 group. The list of events contains single instance meetings and series masters. To get expanded event instances, you can get the calendar view, or get the instances of an event.
+// ToGetRequestInformation the events in the calendar. Navigation property. Read-only.
+// returns a *RequestInformation when successful
 func (m *ItemCalendarEventsRequestBuilder) ToGetRequestInformation(ctx context.Context, requestConfiguration *ItemCalendarEventsRequestBuilderGetRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET
-    requestInfo.Headers.Add("Accept", "application/json")
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         if requestConfiguration.QueryParameters != nil {
             requestInfo.AddQueryParameters(*(requestConfiguration.QueryParameters))
@@ -134,22 +132,26 @@ func (m *ItemCalendarEventsRequestBuilder) ToGetRequestInformation(ctx context.C
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
     return requestInfo, nil
 }
-// ToPostRequestInformation use this API to create a new event in a calendar. The calendar can be one for a user, or the default calendar of a Microsoft 365 group. 
+// ToPostRequestInformation create new navigation property to events for users
+// returns a *RequestInformation when successful
 func (m *ItemCalendarEventsRequestBuilder) ToPostRequestInformation(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Eventable, requestConfiguration *ItemCalendarEventsRequestBuilderPostRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.POST
-    requestInfo.Headers.Add("Accept", "application/json")
-    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
-    if err != nil {
-        return nil, err
-    }
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.POST, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
+    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
+    if err != nil {
+        return nil, err
+    }
     return requestInfo, nil
+}
+// WithUrl returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
+// returns a *ItemCalendarEventsRequestBuilder when successful
+func (m *ItemCalendarEventsRequestBuilder) WithUrl(rawUrl string)(*ItemCalendarEventsRequestBuilder) {
+    return NewItemCalendarEventsRequestBuilder(rawUrl, m.BaseRequestBuilder.RequestAdapter);
 }

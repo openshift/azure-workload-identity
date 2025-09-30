@@ -1,8 +1,4 @@
 package security
-import (
-    "errors"
-)
-// 
 type CaseOperationStatus int
 
 const (
@@ -36,7 +32,7 @@ func ParseCaseOperationStatus(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_CASEOPERATIONSTATUS
         default:
-            return 0, errors.New("Unknown CaseOperationStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -46,4 +42,7 @@ func SerializeCaseOperationStatus(values []CaseOperationStatus) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i CaseOperationStatus) isMultiValue() bool {
+    return false
 }

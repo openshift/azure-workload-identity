@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type PrintOrientation int
 
 const (
@@ -30,7 +26,7 @@ func ParsePrintOrientation(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_PRINTORIENTATION
         default:
-            return 0, errors.New("Unknown PrintOrientation value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializePrintOrientation(values []PrintOrientation) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i PrintOrientation) isMultiValue() bool {
+    return false
 }

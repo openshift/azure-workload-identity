@@ -11,7 +11,7 @@ import (
 type ItemCalendarsRequestBuilder struct {
     i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.BaseRequestBuilder
 }
-// ItemCalendarsRequestBuilderGetQueryParameters get all the user's calendars (`/calendars` navigation property), get the calendars from the default calendar group or from a specific calendar group. 
+// ItemCalendarsRequestBuilderGetQueryParameters the user's calendars. Read-only. Nullable.
 type ItemCalendarsRequestBuilderGetQueryParameters struct {
     // Include count of items
     Count *bool `uriparametername:"%24count"`
@@ -21,6 +21,8 @@ type ItemCalendarsRequestBuilderGetQueryParameters struct {
     Filter *string `uriparametername:"%24filter"`
     // Order items by property values
     Orderby []string `uriparametername:"%24orderby"`
+    // Search items by search phrases
+    Search *string `uriparametername:"%24search"`
     // Select properties to be returned
     Select []string `uriparametername:"%24select"`
     // Skip the first n items
@@ -45,6 +47,7 @@ type ItemCalendarsRequestBuilderPostRequestConfiguration struct {
     Options []i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestOption
 }
 // ByCalendarId provides operations to manage the calendars property of the microsoft.graph.user entity.
+// returns a *ItemCalendarsCalendarItemRequestBuilder when successful
 func (m *ItemCalendarsRequestBuilder) ByCalendarId(calendarId string)(*ItemCalendarsCalendarItemRequestBuilder) {
     urlTplParams := make(map[string]string)
     for idx, item := range m.BaseRequestBuilder.PathParameters {
@@ -55,35 +58,34 @@ func (m *ItemCalendarsRequestBuilder) ByCalendarId(calendarId string)(*ItemCalen
     }
     return NewItemCalendarsCalendarItemRequestBuilderInternal(urlTplParams, m.BaseRequestBuilder.RequestAdapter)
 }
-// NewItemCalendarsRequestBuilderInternal instantiates a new CalendarsRequestBuilder and sets the default values.
+// NewItemCalendarsRequestBuilderInternal instantiates a new ItemCalendarsRequestBuilder and sets the default values.
 func NewItemCalendarsRequestBuilderInternal(pathParameters map[string]string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemCalendarsRequestBuilder) {
     m := &ItemCalendarsRequestBuilder{
-        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/users/{user%2Did}/calendars{?%24top,%24skip,%24filter,%24count,%24orderby,%24select,%24expand}", pathParameters),
+        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/users/{user%2Did}/calendars{?%24count,%24expand,%24filter,%24orderby,%24search,%24select,%24skip,%24top}", pathParameters),
     }
     return m
 }
-// NewItemCalendarsRequestBuilder instantiates a new CalendarsRequestBuilder and sets the default values.
+// NewItemCalendarsRequestBuilder instantiates a new ItemCalendarsRequestBuilder and sets the default values.
 func NewItemCalendarsRequestBuilder(rawUrl string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemCalendarsRequestBuilder) {
     urlParams := make(map[string]string)
     urlParams["request-raw-url"] = rawUrl
     return NewItemCalendarsRequestBuilderInternal(urlParams, requestAdapter)
 }
 // Count provides operations to count the resources in the collection.
+// returns a *ItemCalendarsCountRequestBuilder when successful
 func (m *ItemCalendarsRequestBuilder) Count()(*ItemCalendarsCountRequestBuilder) {
     return NewItemCalendarsCountRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
-// Get get all the user's calendars (`/calendars` navigation property), get the calendars from the default calendar group or from a specific calendar group. 
-// [Find more info here]
-// 
-// [Find more info here]: https://docs.microsoft.com/graph/api/user-list-calendars?view=graph-rest-1.0
+// Get the user's calendars. Read-only. Nullable.
+// returns a CalendarCollectionResponseable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemCalendarsRequestBuilder) Get(ctx context.Context, requestConfiguration *ItemCalendarsRequestBuilderGetRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CalendarCollectionResponseable, error) {
     requestInfo, err := m.ToGetRequestInformation(ctx, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateCalendarCollectionResponseFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -94,18 +96,16 @@ func (m *ItemCalendarsRequestBuilder) Get(ctx context.Context, requestConfigurat
     }
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CalendarCollectionResponseable), nil
 }
-// Post create a new calendar for a user.
-// [Find more info here]
-// 
-// [Find more info here]: https://docs.microsoft.com/graph/api/user-post-calendars?view=graph-rest-1.0
+// Post create new navigation property to calendars for users
+// returns a Calendarable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemCalendarsRequestBuilder) Post(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Calendarable, requestConfiguration *ItemCalendarsRequestBuilderPostRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Calendarable, error) {
     requestInfo, err := m.ToPostRequestInformation(ctx, body, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateCalendarFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -116,13 +116,10 @@ func (m *ItemCalendarsRequestBuilder) Post(ctx context.Context, body iadcd811244
     }
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Calendarable), nil
 }
-// ToGetRequestInformation get all the user's calendars (`/calendars` navigation property), get the calendars from the default calendar group or from a specific calendar group. 
+// ToGetRequestInformation the user's calendars. Read-only. Nullable.
+// returns a *RequestInformation when successful
 func (m *ItemCalendarsRequestBuilder) ToGetRequestInformation(ctx context.Context, requestConfiguration *ItemCalendarsRequestBuilderGetRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET
-    requestInfo.Headers.Add("Accept", "application/json")
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         if requestConfiguration.QueryParameters != nil {
             requestInfo.AddQueryParameters(*(requestConfiguration.QueryParameters))
@@ -130,22 +127,26 @@ func (m *ItemCalendarsRequestBuilder) ToGetRequestInformation(ctx context.Contex
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
     return requestInfo, nil
 }
-// ToPostRequestInformation create a new calendar for a user.
+// ToPostRequestInformation create new navigation property to calendars for users
+// returns a *RequestInformation when successful
 func (m *ItemCalendarsRequestBuilder) ToPostRequestInformation(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Calendarable, requestConfiguration *ItemCalendarsRequestBuilderPostRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.POST
-    requestInfo.Headers.Add("Accept", "application/json")
-    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
-    if err != nil {
-        return nil, err
-    }
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.POST, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
+    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
+    if err != nil {
+        return nil, err
+    }
     return requestInfo, nil
+}
+// WithUrl returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
+// returns a *ItemCalendarsRequestBuilder when successful
+func (m *ItemCalendarsRequestBuilder) WithUrl(rawUrl string)(*ItemCalendarsRequestBuilder) {
+    return NewItemCalendarsRequestBuilder(rawUrl, m.BaseRequestBuilder.RequestAdapter);
 }

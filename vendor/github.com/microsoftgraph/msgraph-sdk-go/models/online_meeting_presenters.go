@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type OnlineMeetingPresenters int
 
 const (
@@ -30,7 +26,7 @@ func ParseOnlineMeetingPresenters(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_ONLINEMEETINGPRESENTERS
         default:
-            return 0, errors.New("Unknown OnlineMeetingPresenters value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeOnlineMeetingPresenters(values []OnlineMeetingPresenters) []string
         result[i] = v.String()
     }
     return result
+}
+func (i OnlineMeetingPresenters) isMultiValue() bool {
+    return false
 }

@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type SynchronizationStatusCode int
 
 const (
@@ -30,7 +26,7 @@ func ParseSynchronizationStatusCode(v string) (any, error) {
         case "Quarantine":
             result = QUARANTINE_SYNCHRONIZATIONSTATUSCODE
         default:
-            return 0, errors.New("Unknown SynchronizationStatusCode value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeSynchronizationStatusCode(values []SynchronizationStatusCode) []st
         result[i] = v.String()
     }
     return result
+}
+func (i SynchronizationStatusCode) isMultiValue() bool {
+    return false
 }

@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ExternalAudienceScope int
 
 const (
@@ -24,7 +20,7 @@ func ParseExternalAudienceScope(v string) (any, error) {
         case "all":
             result = ALL_EXTERNALAUDIENCESCOPE
         default:
-            return 0, errors.New("Unknown ExternalAudienceScope value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeExternalAudienceScope(values []ExternalAudienceScope) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ExternalAudienceScope) isMultiValue() bool {
+    return false
 }

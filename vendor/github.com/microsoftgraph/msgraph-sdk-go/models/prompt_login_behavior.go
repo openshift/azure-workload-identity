@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type PromptLoginBehavior int
 
 const (
@@ -27,7 +23,7 @@ func ParsePromptLoginBehavior(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_PROMPTLOGINBEHAVIOR
         default:
-            return 0, errors.New("Unknown PromptLoginBehavior value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializePromptLoginBehavior(values []PromptLoginBehavior) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i PromptLoginBehavior) isMultiValue() bool {
+    return false
 }

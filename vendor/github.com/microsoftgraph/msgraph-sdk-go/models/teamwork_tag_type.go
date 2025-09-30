@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type TeamworkTagType int
 
 const (
@@ -21,7 +17,7 @@ func ParseTeamworkTagType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_TEAMWORKTAGTYPE
         default:
-            return 0, errors.New("Unknown TeamworkTagType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -31,4 +27,7 @@ func SerializeTeamworkTagType(values []TeamworkTagType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i TeamworkTagType) isMultiValue() bool {
+    return false
 }

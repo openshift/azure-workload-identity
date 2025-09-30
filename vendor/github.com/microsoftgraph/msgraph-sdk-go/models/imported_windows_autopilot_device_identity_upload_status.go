@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ImportedWindowsAutopilotDeviceIdentityUploadStatus int
 
 const (
@@ -31,7 +27,7 @@ func ParseImportedWindowsAutopilotDeviceIdentityUploadStatus(v string) (any, err
         case "error":
             result = ERROR_IMPORTEDWINDOWSAUTOPILOTDEVICEIDENTITYUPLOADSTATUS
         default:
-            return 0, errors.New("Unknown ImportedWindowsAutopilotDeviceIdentityUploadStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -41,4 +37,7 @@ func SerializeImportedWindowsAutopilotDeviceIdentityUploadStatus(values []Import
         result[i] = v.String()
     }
     return result
+}
+func (i ImportedWindowsAutopilotDeviceIdentityUploadStatus) isMultiValue() bool {
+    return false
 }

@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type MeetingChatMode int
 
 const (
@@ -27,7 +23,7 @@ func ParseMeetingChatMode(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_MEETINGCHATMODE
         default:
-            return 0, errors.New("Unknown MeetingChatMode value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeMeetingChatMode(values []MeetingChatMode) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i MeetingChatMode) isMultiValue() bool {
+    return false
 }

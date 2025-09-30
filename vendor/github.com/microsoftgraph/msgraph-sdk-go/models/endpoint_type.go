@@ -1,12 +1,8 @@
 package models
-import (
-    "errors"
-)
-// 
 type EndpointType int
 
 const (
-    DEFAULTESCAPED_ENDPOINTTYPE EndpointType = iota
+    DEFAULT_ENDPOINTTYPE EndpointType = iota
     VOICEMAIL_ENDPOINTTYPE
     SKYPEFORBUSINESS_ENDPOINTTYPE
     SKYPEFORBUSINESSVOIPPHONE_ENDPOINTTYPE
@@ -17,10 +13,10 @@ func (i EndpointType) String() string {
     return []string{"default", "voicemail", "skypeForBusiness", "skypeForBusinessVoipPhone", "unknownFutureValue"}[i]
 }
 func ParseEndpointType(v string) (any, error) {
-    result := DEFAULTESCAPED_ENDPOINTTYPE
+    result := DEFAULT_ENDPOINTTYPE
     switch v {
         case "default":
-            result = DEFAULTESCAPED_ENDPOINTTYPE
+            result = DEFAULT_ENDPOINTTYPE
         case "voicemail":
             result = VOICEMAIL_ENDPOINTTYPE
         case "skypeForBusiness":
@@ -30,7 +26,7 @@ func ParseEndpointType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_ENDPOINTTYPE
         default:
-            return 0, errors.New("Unknown EndpointType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeEndpointType(values []EndpointType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i EndpointType) isMultiValue() bool {
+    return false
 }

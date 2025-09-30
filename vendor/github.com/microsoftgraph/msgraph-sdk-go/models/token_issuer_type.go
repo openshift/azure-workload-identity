@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type TokenIssuerType int
 
 const (
@@ -33,7 +29,7 @@ func ParseTokenIssuerType(v string) (any, error) {
         case "NPSExtension":
             result = NPSEXTENSION_TOKENISSUERTYPE
         default:
-            return 0, errors.New("Unknown TokenIssuerType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeTokenIssuerType(values []TokenIssuerType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i TokenIssuerType) isMultiValue() bool {
+    return false
 }

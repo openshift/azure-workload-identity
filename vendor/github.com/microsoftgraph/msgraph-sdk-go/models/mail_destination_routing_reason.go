@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type MailDestinationRoutingReason int
 
 const (
@@ -63,7 +59,7 @@ func ParseMailDestinationRoutingReason(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_MAILDESTINATIONROUTINGREASON
         default:
-            return 0, errors.New("Unknown MailDestinationRoutingReason value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -73,4 +69,7 @@ func SerializeMailDestinationRoutingReason(values []MailDestinationRoutingReason
         result[i] = v.String()
     }
     return result
+}
+func (i MailDestinationRoutingReason) isMultiValue() bool {
+    return false
 }

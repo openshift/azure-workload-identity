@@ -1,16 +1,16 @@
 package models
-import (
-    "errors"
-)
-// 
 type UserExperienceAnalyticsHealthState int
 
 const (
+    // Indicates that the health state is unknown.
     UNKNOWN_USEREXPERIENCEANALYTICSHEALTHSTATE UserExperienceAnalyticsHealthState = iota
+    // Indicates that the health state is insufficient data.
     INSUFFICIENTDATA_USEREXPERIENCEANALYTICSHEALTHSTATE
+    // Indicates that the health state needs attention.
     NEEDSATTENTION_USEREXPERIENCEANALYTICSHEALTHSTATE
+    // Indicates that the health state is meeting goals.
     MEETINGGOALS_USEREXPERIENCEANALYTICSHEALTHSTATE
-    // Evolvable enum member
+    // Evolvable enumeration sentinel value. Do not use.
     UNKNOWNFUTUREVALUE_USEREXPERIENCEANALYTICSHEALTHSTATE
 )
 
@@ -31,7 +31,7 @@ func ParseUserExperienceAnalyticsHealthState(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_USEREXPERIENCEANALYTICSHEALTHSTATE
         default:
-            return 0, errors.New("Unknown UserExperienceAnalyticsHealthState value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -41,4 +41,7 @@ func SerializeUserExperienceAnalyticsHealthState(values []UserExperienceAnalytic
         result[i] = v.String()
     }
     return result
+}
+func (i UserExperienceAnalyticsHealthState) isMultiValue() bool {
+    return false
 }

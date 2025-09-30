@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Partner state of this tenant.
 type MobileThreatPartnerTenantState int
 
@@ -14,10 +11,12 @@ const (
     ENABLED_MOBILETHREATPARTNERTENANTSTATE
     // Partner is unresponsive.
     UNRESPONSIVE_MOBILETHREATPARTNERTENANTSTATE
+    // Evolvable enumeration sentinel value. Do not use.
+    UNKNOWNFUTUREVALUE_MOBILETHREATPARTNERTENANTSTATE
 )
 
 func (i MobileThreatPartnerTenantState) String() string {
-    return []string{"unavailable", "available", "enabled", "unresponsive"}[i]
+    return []string{"unavailable", "available", "enabled", "unresponsive", "unknownFutureValue"}[i]
 }
 func ParseMobileThreatPartnerTenantState(v string) (any, error) {
     result := UNAVAILABLE_MOBILETHREATPARTNERTENANTSTATE
@@ -30,8 +29,10 @@ func ParseMobileThreatPartnerTenantState(v string) (any, error) {
             result = ENABLED_MOBILETHREATPARTNERTENANTSTATE
         case "unresponsive":
             result = UNRESPONSIVE_MOBILETHREATPARTNERTENANTSTATE
+        case "unknownFutureValue":
+            result = UNKNOWNFUTUREVALUE_MOBILETHREATPARTNERTENANTSTATE
         default:
-            return 0, errors.New("Unknown MobileThreatPartnerTenantState value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -41,4 +42,7 @@ func SerializeMobileThreatPartnerTenantState(values []MobileThreatPartnerTenantS
         result[i] = v.String()
     }
     return result
+}
+func (i MobileThreatPartnerTenantState) isMultiValue() bool {
+    return false
 }

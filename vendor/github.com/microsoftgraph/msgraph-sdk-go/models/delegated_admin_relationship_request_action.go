@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type DelegatedAdminRelationshipRequestAction int
 
 const (
@@ -10,10 +6,11 @@ const (
     APPROVE_DELEGATEDADMINRELATIONSHIPREQUESTACTION
     TERMINATE_DELEGATEDADMINRELATIONSHIPREQUESTACTION
     UNKNOWNFUTUREVALUE_DELEGATEDADMINRELATIONSHIPREQUESTACTION
+    REJECT_DELEGATEDADMINRELATIONSHIPREQUESTACTION
 )
 
 func (i DelegatedAdminRelationshipRequestAction) String() string {
-    return []string{"lockForApproval", "approve", "terminate", "unknownFutureValue"}[i]
+    return []string{"lockForApproval", "approve", "terminate", "unknownFutureValue", "reject"}[i]
 }
 func ParseDelegatedAdminRelationshipRequestAction(v string) (any, error) {
     result := LOCKFORAPPROVAL_DELEGATEDADMINRELATIONSHIPREQUESTACTION
@@ -26,8 +23,10 @@ func ParseDelegatedAdminRelationshipRequestAction(v string) (any, error) {
             result = TERMINATE_DELEGATEDADMINRELATIONSHIPREQUESTACTION
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_DELEGATEDADMINRELATIONSHIPREQUESTACTION
+        case "reject":
+            result = REJECT_DELEGATEDADMINRELATIONSHIPREQUESTACTION
         default:
-            return 0, errors.New("Unknown DelegatedAdminRelationshipRequestAction value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +36,7 @@ func SerializeDelegatedAdminRelationshipRequestAction(values []DelegatedAdminRel
         result[i] = v.String()
     }
     return result
+}
+func (i DelegatedAdminRelationshipRequestAction) isMultiValue() bool {
+    return false
 }

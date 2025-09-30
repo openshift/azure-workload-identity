@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type SecurityResourceType int
 
 const (
@@ -27,7 +23,7 @@ func ParseSecurityResourceType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_SECURITYRESOURCETYPE
         default:
-            return 0, errors.New("Unknown SecurityResourceType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeSecurityResourceType(values []SecurityResourceType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i SecurityResourceType) isMultiValue() bool {
+    return false
 }

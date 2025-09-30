@@ -4,7 +4,7 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// DeleteUserFromSharedAppleDeviceActionResult 
+// DeleteUserFromSharedAppleDeviceActionResult delete user from shared apple device action result
 type DeleteUserFromSharedAppleDeviceActionResult struct {
     DeviceActionResult
 }
@@ -16,10 +16,12 @@ func NewDeleteUserFromSharedAppleDeviceActionResult()(*DeleteUserFromSharedApple
     return m
 }
 // CreateDeleteUserFromSharedAppleDeviceActionResultFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateDeleteUserFromSharedAppleDeviceActionResultFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewDeleteUserFromSharedAppleDeviceActionResult(), nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *DeleteUserFromSharedAppleDeviceActionResult) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.DeviceActionResult.GetFieldDeserializers()
     res["userPrincipalName"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -35,6 +37,7 @@ func (m *DeleteUserFromSharedAppleDeviceActionResult) GetFieldDeserializers()(ma
     return res
 }
 // GetUserPrincipalName gets the userPrincipalName property value. User principal name of the user to be deleted
+// returns a *string when successful
 func (m *DeleteUserFromSharedAppleDeviceActionResult) GetUserPrincipalName()(*string) {
     val, err := m.GetBackingStore().Get("userPrincipalName")
     if err != nil {
@@ -66,7 +69,6 @@ func (m *DeleteUserFromSharedAppleDeviceActionResult) SetUserPrincipalName(value
         panic(err)
     }
 }
-// DeleteUserFromSharedAppleDeviceActionResultable 
 type DeleteUserFromSharedAppleDeviceActionResultable interface {
     DeviceActionResultable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable

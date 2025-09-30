@@ -13,6 +13,8 @@ type ItemOutlookRequestBuilder struct {
 }
 // ItemOutlookRequestBuilderGetQueryParameters get outlook from users
 type ItemOutlookRequestBuilderGetQueryParameters struct {
+    // Expand related entities
+    Expand []string `uriparametername:"%24expand"`
     // Select properties to be returned
     Select []string `uriparametername:"%24select"`
 }
@@ -25,28 +27,29 @@ type ItemOutlookRequestBuilderGetRequestConfiguration struct {
     // Request query parameters
     QueryParameters *ItemOutlookRequestBuilderGetQueryParameters
 }
-// NewItemOutlookRequestBuilderInternal instantiates a new OutlookRequestBuilder and sets the default values.
+// NewItemOutlookRequestBuilderInternal instantiates a new ItemOutlookRequestBuilder and sets the default values.
 func NewItemOutlookRequestBuilderInternal(pathParameters map[string]string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemOutlookRequestBuilder) {
     m := &ItemOutlookRequestBuilder{
-        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/users/{user%2Did}/outlook{?%24select}", pathParameters),
+        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/users/{user%2Did}/outlook{?%24expand,%24select}", pathParameters),
     }
     return m
 }
-// NewItemOutlookRequestBuilder instantiates a new OutlookRequestBuilder and sets the default values.
+// NewItemOutlookRequestBuilder instantiates a new ItemOutlookRequestBuilder and sets the default values.
 func NewItemOutlookRequestBuilder(rawUrl string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemOutlookRequestBuilder) {
     urlParams := make(map[string]string)
     urlParams["request-raw-url"] = rawUrl
     return NewItemOutlookRequestBuilderInternal(urlParams, requestAdapter)
 }
 // Get get outlook from users
+// returns a OutlookUserable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemOutlookRequestBuilder) Get(ctx context.Context, requestConfiguration *ItemOutlookRequestBuilderGetRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.OutlookUserable, error) {
     requestInfo, err := m.ToGetRequestInformation(ctx, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateOutlookUserFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -58,28 +61,29 @@ func (m *ItemOutlookRequestBuilder) Get(ctx context.Context, requestConfiguratio
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.OutlookUserable), nil
 }
 // MasterCategories provides operations to manage the masterCategories property of the microsoft.graph.outlookUser entity.
-func (m *ItemOutlookRequestBuilder) MasterCategories()(*ItemOutlookMasterCategoriesRequestBuilder) {
-    return NewItemOutlookMasterCategoriesRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
+// returns a *ItemOutlookMastercategoriesMasterCategoriesRequestBuilder when successful
+func (m *ItemOutlookRequestBuilder) MasterCategories()(*ItemOutlookMastercategoriesMasterCategoriesRequestBuilder) {
+    return NewItemOutlookMastercategoriesMasterCategoriesRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
 // SupportedLanguages provides operations to call the supportedLanguages method.
-func (m *ItemOutlookRequestBuilder) SupportedLanguages()(*ItemOutlookSupportedLanguagesRequestBuilder) {
-    return NewItemOutlookSupportedLanguagesRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
+// returns a *ItemOutlookSupportedlanguagesSupportedLanguagesRequestBuilder when successful
+func (m *ItemOutlookRequestBuilder) SupportedLanguages()(*ItemOutlookSupportedlanguagesSupportedLanguagesRequestBuilder) {
+    return NewItemOutlookSupportedlanguagesSupportedLanguagesRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
 // SupportedTimeZones provides operations to call the supportedTimeZones method.
-func (m *ItemOutlookRequestBuilder) SupportedTimeZones()(*ItemOutlookSupportedTimeZonesRequestBuilder) {
-    return NewItemOutlookSupportedTimeZonesRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
+// returns a *ItemOutlookSupportedtimezonesSupportedTimeZonesRequestBuilder when successful
+func (m *ItemOutlookRequestBuilder) SupportedTimeZones()(*ItemOutlookSupportedtimezonesSupportedTimeZonesRequestBuilder) {
+    return NewItemOutlookSupportedtimezonesSupportedTimeZonesRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
 // SupportedTimeZonesWithTimeZoneStandard provides operations to call the supportedTimeZones method.
-func (m *ItemOutlookRequestBuilder) SupportedTimeZonesWithTimeZoneStandard(timeZoneStandard *string)(*ItemOutlookSupportedTimeZonesWithTimeZoneStandardRequestBuilder) {
-    return NewItemOutlookSupportedTimeZonesWithTimeZoneStandardRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter, timeZoneStandard)
+// returns a *ItemOutlookSupportedtimezoneswithtimezonestandardSupportedTimeZonesWithTimeZoneStandardRequestBuilder when successful
+func (m *ItemOutlookRequestBuilder) SupportedTimeZonesWithTimeZoneStandard(timeZoneStandard *string)(*ItemOutlookSupportedtimezoneswithtimezonestandardSupportedTimeZonesWithTimeZoneStandardRequestBuilder) {
+    return NewItemOutlookSupportedtimezoneswithtimezonestandardSupportedTimeZonesWithTimeZoneStandardRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter, timeZoneStandard)
 }
 // ToGetRequestInformation get outlook from users
+// returns a *RequestInformation when successful
 func (m *ItemOutlookRequestBuilder) ToGetRequestInformation(ctx context.Context, requestConfiguration *ItemOutlookRequestBuilderGetRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET
-    requestInfo.Headers.Add("Accept", "application/json")
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         if requestConfiguration.QueryParameters != nil {
             requestInfo.AddQueryParameters(*(requestConfiguration.QueryParameters))
@@ -87,5 +91,11 @@ func (m *ItemOutlookRequestBuilder) ToGetRequestInformation(ctx context.Context,
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
     return requestInfo, nil
+}
+// WithUrl returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
+// returns a *ItemOutlookRequestBuilder when successful
+func (m *ItemOutlookRequestBuilder) WithUrl(rawUrl string)(*ItemOutlookRequestBuilder) {
+    return NewItemOutlookRequestBuilder(rawUrl, m.BaseRequestBuilder.RequestAdapter);
 }

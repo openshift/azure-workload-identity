@@ -11,7 +11,7 @@ import (
 type ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder struct {
     i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.BaseRequestBuilder
 }
-// ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilderGetQueryParameters retrieve a list of chart objects.
+// ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilderGetQueryParameters returns collection of charts that are part of the worksheet. Read-only.
 type ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilderGetQueryParameters struct {
     // Include count of items
     Count *bool `uriparametername:"%24count"`
@@ -47,10 +47,12 @@ type ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilderPostRequestConfigura
     Options []i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestOption
 }
 // Add provides operations to call the add method.
+// returns a *ItemItemsItemWorkbookWorksheetsItemChartsAddRequestBuilder when successful
 func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) Add()(*ItemItemsItemWorkbookWorksheetsItemChartsAddRequestBuilder) {
     return NewItemItemsItemWorkbookWorksheetsItemChartsAddRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
 // ByWorkbookChartId provides operations to manage the charts property of the microsoft.graph.workbookWorksheet entity.
+// returns a *ItemItemsItemWorkbookWorksheetsItemChartsWorkbookChartItemRequestBuilder when successful
 func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) ByWorkbookChartId(workbookChartId string)(*ItemItemsItemWorkbookWorksheetsItemChartsWorkbookChartItemRequestBuilder) {
     urlTplParams := make(map[string]string)
     for idx, item := range m.BaseRequestBuilder.PathParameters {
@@ -61,35 +63,34 @@ func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) ByWorkbookChar
     }
     return NewItemItemsItemWorkbookWorksheetsItemChartsWorkbookChartItemRequestBuilderInternal(urlTplParams, m.BaseRequestBuilder.RequestAdapter)
 }
-// NewItemItemsItemWorkbookWorksheetsItemChartsRequestBuilderInternal instantiates a new ChartsRequestBuilder and sets the default values.
+// NewItemItemsItemWorkbookWorksheetsItemChartsRequestBuilderInternal instantiates a new ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder and sets the default values.
 func NewItemItemsItemWorkbookWorksheetsItemChartsRequestBuilderInternal(pathParameters map[string]string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) {
     m := &ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder{
-        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/drives/{drive%2Did}/items/{driveItem%2Did}/workbook/worksheets/{workbookWorksheet%2Did}/charts{?%24top,%24skip,%24search,%24filter,%24count,%24orderby,%24select,%24expand}", pathParameters),
+        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/drives/{drive%2Did}/items/{driveItem%2Did}/workbook/worksheets/{workbookWorksheet%2Did}/charts{?%24count,%24expand,%24filter,%24orderby,%24search,%24select,%24skip,%24top}", pathParameters),
     }
     return m
 }
-// NewItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder instantiates a new ChartsRequestBuilder and sets the default values.
+// NewItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder instantiates a new ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder and sets the default values.
 func NewItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder(rawUrl string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) {
     urlParams := make(map[string]string)
     urlParams["request-raw-url"] = rawUrl
     return NewItemItemsItemWorkbookWorksheetsItemChartsRequestBuilderInternal(urlParams, requestAdapter)
 }
 // Count provides operations to call the count method.
+// returns a *ItemItemsItemWorkbookWorksheetsItemChartsCountRequestBuilder when successful
 func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) Count()(*ItemItemsItemWorkbookWorksheetsItemChartsCountRequestBuilder) {
     return NewItemItemsItemWorkbookWorksheetsItemChartsCountRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter)
 }
-// Get retrieve a list of chart objects.
-// [Find more info here]
-// 
-// [Find more info here]: https://docs.microsoft.com/graph/api/worksheet-list-charts?view=graph-rest-1.0
+// Get returns collection of charts that are part of the worksheet. Read-only.
+// returns a WorkbookChartCollectionResponseable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) Get(ctx context.Context, requestConfiguration *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilderGetRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.WorkbookChartCollectionResponseable, error) {
     requestInfo, err := m.ToGetRequestInformation(ctx, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateWorkbookChartCollectionResponseFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -101,25 +102,25 @@ func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) Get(ctx contex
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.WorkbookChartCollectionResponseable), nil
 }
 // ItemAtWithIndex provides operations to call the itemAt method.
-func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) ItemAtWithIndex(index *int32)(*ItemItemsItemWorkbookWorksheetsItemChartsItemAtWithIndexRequestBuilder) {
-    return NewItemItemsItemWorkbookWorksheetsItemChartsItemAtWithIndexRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter, index)
+// returns a *ItemItemsItemWorkbookWorksheetsItemChartsItematwithindexItemAtWithIndexRequestBuilder when successful
+func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) ItemAtWithIndex(index *int32)(*ItemItemsItemWorkbookWorksheetsItemChartsItematwithindexItemAtWithIndexRequestBuilder) {
+    return NewItemItemsItemWorkbookWorksheetsItemChartsItematwithindexItemAtWithIndexRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter, index)
 }
 // ItemWithName provides operations to call the item method.
-func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) ItemWithName(name *string)(*ItemItemsItemWorkbookWorksheetsItemChartsItemWithNameRequestBuilder) {
-    return NewItemItemsItemWorkbookWorksheetsItemChartsItemWithNameRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter, name)
+// returns a *ItemItemsItemWorkbookWorksheetsItemChartsItemwithnameItemWithNameRequestBuilder when successful
+func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) ItemWithName(name *string)(*ItemItemsItemWorkbookWorksheetsItemChartsItemwithnameItemWithNameRequestBuilder) {
+    return NewItemItemsItemWorkbookWorksheetsItemChartsItemwithnameItemWithNameRequestBuilderInternal(m.BaseRequestBuilder.PathParameters, m.BaseRequestBuilder.RequestAdapter, name)
 }
-// Post use this API to create a new Chart.
-// [Find more info here]
-// 
-// [Find more info here]: https://docs.microsoft.com/graph/api/worksheet-post-charts?view=graph-rest-1.0
+// Post create new navigation property to charts for drives
+// returns a WorkbookChartable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
 func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) Post(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.WorkbookChartable, requestConfiguration *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilderPostRequestConfiguration)(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.WorkbookChartable, error) {
     requestInfo, err := m.ToPostRequestInformation(ctx, body, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateWorkbookChartFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -130,13 +131,10 @@ func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) Post(ctx conte
     }
     return res.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.WorkbookChartable), nil
 }
-// ToGetRequestInformation retrieve a list of chart objects.
+// ToGetRequestInformation returns collection of charts that are part of the worksheet. Read-only.
+// returns a *RequestInformation when successful
 func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) ToGetRequestInformation(ctx context.Context, requestConfiguration *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilderGetRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET
-    requestInfo.Headers.Add("Accept", "application/json")
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         if requestConfiguration.QueryParameters != nil {
             requestInfo.AddQueryParameters(*(requestConfiguration.QueryParameters))
@@ -144,22 +142,26 @@ func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) ToGetRequestIn
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
     return requestInfo, nil
 }
-// ToPostRequestInformation use this API to create a new Chart.
+// ToPostRequestInformation create new navigation property to charts for drives
+// returns a *RequestInformation when successful
 func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) ToPostRequestInformation(ctx context.Context, body iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.WorkbookChartable, requestConfiguration *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilderPostRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.POST
-    requestInfo.Headers.Add("Accept", "application/json")
-    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
-    if err != nil {
-        return nil, err
-    }
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.POST, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
+    err := requestInfo.SetContentFromParsable(ctx, m.BaseRequestBuilder.RequestAdapter, "application/json", body)
+    if err != nil {
+        return nil, err
+    }
     return requestInfo, nil
+}
+// WithUrl returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
+// returns a *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder when successful
+func (m *ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) WithUrl(rawUrl string)(*ItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder) {
+    return NewItemItemsItemWorkbookWorksheetsItemChartsRequestBuilder(rawUrl, m.BaseRequestBuilder.RequestAdapter);
 }

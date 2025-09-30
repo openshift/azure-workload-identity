@@ -1,8 +1,5 @@
-ARG BUILDER=mcr.microsoft.com/oss/go/microsoft/golang:1.20-bullseye
-ARG BASEIMAGE=gcr.io/distroless/static:nonroot
-
 # Build the manager binary
-FROM ${BUILDER} as builder
+FROM mcr.microsoft.com/oss/go/microsoft/golang:1.24.6-bookworm@sha256:b55cd0118651789c1c3623f8d8ba7e9f9e131817ec20af3505ca5410603e47a2 as builder
 
 ARG LDFLAGS
 
@@ -22,9 +19,7 @@ COPY pkg/ pkg/
 ARG TARGETARCH
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH} GO111MODULE=on go build -a -ldflags "${LDFLAGS:--X github.com/Azure/azure-workload-identity/pkg/version.BuildVersion=latest}" -o manager main.go
 
-# Use distroless as minimal base image to package the manager binary
-# Refer to https://github.com/GoogleContainerTools/distroless for more details
-FROM --platform=${TARGETPLATFORM:-linux/amd64} ${BASEIMAGE}
+FROM --platform=${TARGETPLATFORM:-linux/amd64} mcr.microsoft.com/cbl-mariner/distroless/minimal:2.0-nonroot
 WORKDIR /
 COPY --from=builder /workspace/manager .
 # Kubernetes runAsNonRoot requires USER to be numeric

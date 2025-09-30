@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type EducationSubmissionStatus int
 
 const (
@@ -12,10 +8,11 @@ const (
     RETURNED_EDUCATIONSUBMISSIONSTATUS
     UNKNOWNFUTUREVALUE_EDUCATIONSUBMISSIONSTATUS
     REASSIGNED_EDUCATIONSUBMISSIONSTATUS
+    EXCUSED_EDUCATIONSUBMISSIONSTATUS
 )
 
 func (i EducationSubmissionStatus) String() string {
-    return []string{"working", "submitted", "released", "returned", "unknownFutureValue", "reassigned"}[i]
+    return []string{"working", "submitted", "released", "returned", "unknownFutureValue", "reassigned", "excused"}[i]
 }
 func ParseEducationSubmissionStatus(v string) (any, error) {
     result := WORKING_EDUCATIONSUBMISSIONSTATUS
@@ -32,8 +29,10 @@ func ParseEducationSubmissionStatus(v string) (any, error) {
             result = UNKNOWNFUTUREVALUE_EDUCATIONSUBMISSIONSTATUS
         case "reassigned":
             result = REASSIGNED_EDUCATIONSUBMISSIONSTATUS
+        case "excused":
+            result = EXCUSED_EDUCATIONSUBMISSIONSTATUS
         default:
-            return 0, errors.New("Unknown EducationSubmissionStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +42,7 @@ func SerializeEducationSubmissionStatus(values []EducationSubmissionStatus) []st
         result[i] = v.String()
     }
     return result
+}
+func (i EducationSubmissionStatus) isMultiValue() bool {
+    return false
 }

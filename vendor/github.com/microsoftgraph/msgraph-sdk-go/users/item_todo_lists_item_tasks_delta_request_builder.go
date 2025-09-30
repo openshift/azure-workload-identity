@@ -10,10 +10,12 @@ import (
 type ItemTodoListsItemTasksDeltaRequestBuilder struct {
     i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.BaseRequestBuilder
 }
-// ItemTodoListsItemTasksDeltaRequestBuilderGetQueryParameters invoke function delta
+// ItemTodoListsItemTasksDeltaRequestBuilderGetQueryParameters get a set of todoTask resources that have been added, deleted, or updated in a specified todoTaskList. A delta function call for todoTask resources in a todoTaskList is similar to a GET request, except that by appropriately applying state tokens in one or more of these calls, you can query for incremental changes in the todoTask in that todoTaskList. This allows you to maintain and synchronize a local store of a user's todoTask resources without having to fetch the entire set from the server every time.  
 type ItemTodoListsItemTasksDeltaRequestBuilderGetQueryParameters struct {
     // Include count of items
     Count *bool `uriparametername:"%24count"`
+    // Expand related entities
+    Expand []string `uriparametername:"%24expand"`
     // Filter items by property values
     Filter *string `uriparametername:"%24filter"`
     // Order items by property values
@@ -36,28 +38,33 @@ type ItemTodoListsItemTasksDeltaRequestBuilderGetRequestConfiguration struct {
     // Request query parameters
     QueryParameters *ItemTodoListsItemTasksDeltaRequestBuilderGetQueryParameters
 }
-// NewItemTodoListsItemTasksDeltaRequestBuilderInternal instantiates a new DeltaRequestBuilder and sets the default values.
+// NewItemTodoListsItemTasksDeltaRequestBuilderInternal instantiates a new ItemTodoListsItemTasksDeltaRequestBuilder and sets the default values.
 func NewItemTodoListsItemTasksDeltaRequestBuilderInternal(pathParameters map[string]string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemTodoListsItemTasksDeltaRequestBuilder) {
     m := &ItemTodoListsItemTasksDeltaRequestBuilder{
-        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/users/{user%2Did}/todo/lists/{todoTaskList%2Did}/tasks/delta(){?%24top,%24skip,%24search,%24filter,%24count,%24select,%24orderby}", pathParameters),
+        BaseRequestBuilder: *i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewBaseRequestBuilder(requestAdapter, "{+baseurl}/users/{user%2Did}/todo/lists/{todoTaskList%2Did}/tasks/delta(){?%24count,%24expand,%24filter,%24orderby,%24search,%24select,%24skip,%24top}", pathParameters),
     }
     return m
 }
-// NewItemTodoListsItemTasksDeltaRequestBuilder instantiates a new DeltaRequestBuilder and sets the default values.
+// NewItemTodoListsItemTasksDeltaRequestBuilder instantiates a new ItemTodoListsItemTasksDeltaRequestBuilder and sets the default values.
 func NewItemTodoListsItemTasksDeltaRequestBuilder(rawUrl string, requestAdapter i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestAdapter)(*ItemTodoListsItemTasksDeltaRequestBuilder) {
     urlParams := make(map[string]string)
     urlParams["request-raw-url"] = rawUrl
     return NewItemTodoListsItemTasksDeltaRequestBuilderInternal(urlParams, requestAdapter)
 }
-// Get invoke function delta
+// Get get a set of todoTask resources that have been added, deleted, or updated in a specified todoTaskList. A delta function call for todoTask resources in a todoTaskList is similar to a GET request, except that by appropriately applying state tokens in one or more of these calls, you can query for incremental changes in the todoTask in that todoTaskList. This allows you to maintain and synchronize a local store of a user's todoTask resources without having to fetch the entire set from the server every time.  
+// Deprecated: This method is obsolete. Use GetAsDeltaGetResponse instead.
+// returns a ItemTodoListsItemTasksDeltaResponseable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
+// [Find more info here]
+// 
+// [Find more info here]: https://learn.microsoft.com/graph/api/todotask-delta?view=graph-rest-1.0
 func (m *ItemTodoListsItemTasksDeltaRequestBuilder) Get(ctx context.Context, requestConfiguration *ItemTodoListsItemTasksDeltaRequestBuilderGetRequestConfiguration)(ItemTodoListsItemTasksDeltaResponseable, error) {
     requestInfo, err := m.ToGetRequestInformation(ctx, requestConfiguration);
     if err != nil {
         return nil, err
     }
     errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
-        "4XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
-        "5XX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
     }
     res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, CreateItemTodoListsItemTasksDeltaResponseFromDiscriminatorValue, errorMapping)
     if err != nil {
@@ -68,13 +75,33 @@ func (m *ItemTodoListsItemTasksDeltaRequestBuilder) Get(ctx context.Context, req
     }
     return res.(ItemTodoListsItemTasksDeltaResponseable), nil
 }
-// ToGetRequestInformation invoke function delta
+// GetAsDeltaGetResponse get a set of todoTask resources that have been added, deleted, or updated in a specified todoTaskList. A delta function call for todoTask resources in a todoTaskList is similar to a GET request, except that by appropriately applying state tokens in one or more of these calls, you can query for incremental changes in the todoTask in that todoTaskList. This allows you to maintain and synchronize a local store of a user's todoTask resources without having to fetch the entire set from the server every time.  
+// returns a ItemTodoListsItemTasksDeltaGetResponseable when successful
+// returns a ODataError error when the service returns a 4XX or 5XX status code
+// [Find more info here]
+// 
+// [Find more info here]: https://learn.microsoft.com/graph/api/todotask-delta?view=graph-rest-1.0
+func (m *ItemTodoListsItemTasksDeltaRequestBuilder) GetAsDeltaGetResponse(ctx context.Context, requestConfiguration *ItemTodoListsItemTasksDeltaRequestBuilderGetRequestConfiguration)(ItemTodoListsItemTasksDeltaGetResponseable, error) {
+    requestInfo, err := m.ToGetRequestInformation(ctx, requestConfiguration);
+    if err != nil {
+        return nil, err
+    }
+    errorMapping := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.ErrorMappings {
+        "XXX": ia572726a95efa92ddd544552cd950653dc691023836923576b2f4bf716cf204a.CreateODataErrorFromDiscriminatorValue,
+    }
+    res, err := m.BaseRequestBuilder.RequestAdapter.Send(ctx, requestInfo, CreateItemTodoListsItemTasksDeltaGetResponseFromDiscriminatorValue, errorMapping)
+    if err != nil {
+        return nil, err
+    }
+    if res == nil {
+        return nil, nil
+    }
+    return res.(ItemTodoListsItemTasksDeltaGetResponseable), nil
+}
+// ToGetRequestInformation get a set of todoTask resources that have been added, deleted, or updated in a specified todoTaskList. A delta function call for todoTask resources in a todoTaskList is similar to a GET request, except that by appropriately applying state tokens in one or more of these calls, you can query for incremental changes in the todoTask in that todoTaskList. This allows you to maintain and synchronize a local store of a user's todoTask resources without having to fetch the entire set from the server every time.  
+// returns a *RequestInformation when successful
 func (m *ItemTodoListsItemTasksDeltaRequestBuilder) ToGetRequestInformation(ctx context.Context, requestConfiguration *ItemTodoListsItemTasksDeltaRequestBuilderGetRequestConfiguration)(*i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.RequestInformation, error) {
-    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformation()
-    requestInfo.UrlTemplate = m.BaseRequestBuilder.UrlTemplate
-    requestInfo.PathParameters = m.BaseRequestBuilder.PathParameters
-    requestInfo.Method = i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET
-    requestInfo.Headers.Add("Accept", "application/json")
+    requestInfo := i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.NewRequestInformationWithMethodAndUrlTemplateAndPathParameters(i2ae4187f7daee263371cb1c977df639813ab50ffa529013b7437480d1ec0158f.GET, m.BaseRequestBuilder.UrlTemplate, m.BaseRequestBuilder.PathParameters)
     if requestConfiguration != nil {
         if requestConfiguration.QueryParameters != nil {
             requestInfo.AddQueryParameters(*(requestConfiguration.QueryParameters))
@@ -82,5 +109,11 @@ func (m *ItemTodoListsItemTasksDeltaRequestBuilder) ToGetRequestInformation(ctx 
         requestInfo.Headers.AddAll(requestConfiguration.Headers)
         requestInfo.AddRequestOptions(requestConfiguration.Options)
     }
+    requestInfo.Headers.TryAdd("Accept", "application/json")
     return requestInfo, nil
+}
+// WithUrl returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
+// returns a *ItemTodoListsItemTasksDeltaRequestBuilder when successful
+func (m *ItemTodoListsItemTasksDeltaRequestBuilder) WithUrl(rawUrl string)(*ItemTodoListsItemTasksDeltaRequestBuilder) {
+    return NewItemTodoListsItemTasksDeltaRequestBuilder(rawUrl, m.BaseRequestBuilder.RequestAdapter);
 }

@@ -1,8 +1,4 @@
 package externalconnectors
-import (
-    "errors"
-)
-// 
 type Label int
 
 const (
@@ -16,10 +12,11 @@ const (
     FILENAME_LABEL
     FILEEXTENSION_LABEL
     UNKNOWNFUTUREVALUE_LABEL
+    ICONURL_LABEL
 )
 
 func (i Label) String() string {
-    return []string{"title", "url", "createdBy", "lastModifiedBy", "authors", "createdDateTime", "lastModifiedDateTime", "fileName", "fileExtension", "unknownFutureValue"}[i]
+    return []string{"title", "url", "createdBy", "lastModifiedBy", "authors", "createdDateTime", "lastModifiedDateTime", "fileName", "fileExtension", "unknownFutureValue", "iconUrl"}[i]
 }
 func ParseLabel(v string) (any, error) {
     result := TITLE_LABEL
@@ -44,8 +41,10 @@ func ParseLabel(v string) (any, error) {
             result = FILEEXTENSION_LABEL
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_LABEL
+        case "iconUrl":
+            result = ICONURL_LABEL
         default:
-            return 0, errors.New("Unknown Label value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -55,4 +54,7 @@ func SerializeLabel(values []Label) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i Label) isMultiValue() bool {
+    return false
 }

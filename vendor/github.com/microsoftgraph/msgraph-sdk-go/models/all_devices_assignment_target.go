@@ -4,7 +4,7 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// AllDevicesAssignmentTarget 
+// AllDevicesAssignmentTarget represents an assignment to all managed devices in the tenant.
 type AllDevicesAssignmentTarget struct {
     DeviceAndAppManagementAssignmentTarget
 }
@@ -18,10 +18,12 @@ func NewAllDevicesAssignmentTarget()(*AllDevicesAssignmentTarget) {
     return m
 }
 // CreateAllDevicesAssignmentTargetFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateAllDevicesAssignmentTargetFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewAllDevicesAssignmentTarget(), nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *AllDevicesAssignmentTarget) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.DeviceAndAppManagementAssignmentTarget.GetFieldDeserializers()
     return res
@@ -34,7 +36,6 @@ func (m *AllDevicesAssignmentTarget) Serialize(writer i878a80d2330e89d26896388a3
     }
     return nil
 }
-// AllDevicesAssignmentTargetable 
 type AllDevicesAssignmentTargetable interface {
     DeviceAndAppManagementAssignmentTargetable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable

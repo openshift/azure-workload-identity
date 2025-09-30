@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type RecurrencePatternType int
 
 const (
@@ -33,7 +29,7 @@ func ParseRecurrencePatternType(v string) (any, error) {
         case "relativeYearly":
             result = RELATIVEYEARLY_RECURRENCEPATTERNTYPE
         default:
-            return 0, errors.New("Unknown RecurrencePatternType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeRecurrencePatternType(values []RecurrencePatternType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i RecurrencePatternType) isMultiValue() bool {
+    return false
 }

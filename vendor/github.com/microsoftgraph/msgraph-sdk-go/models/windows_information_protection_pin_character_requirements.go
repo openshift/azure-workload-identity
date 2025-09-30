@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Pin Character Requirements
 type WindowsInformationProtectionPinCharacterRequirements int
 
@@ -27,7 +24,7 @@ func ParseWindowsInformationProtectionPinCharacterRequirements(v string) (any, e
         case "allow":
             result = ALLOW_WINDOWSINFORMATIONPROTECTIONPINCHARACTERREQUIREMENTS
         default:
-            return 0, errors.New("Unknown WindowsInformationProtectionPinCharacterRequirements value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +34,7 @@ func SerializeWindowsInformationProtectionPinCharacterRequirements(values []Wind
         result[i] = v.String()
     }
     return result
+}
+func (i WindowsInformationProtectionPinCharacterRequirements) isMultiValue() bool {
+    return false
 }

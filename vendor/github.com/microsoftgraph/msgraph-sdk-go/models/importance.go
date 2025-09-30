@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type Importance int
 
 const (
@@ -24,7 +20,7 @@ func ParseImportance(v string) (any, error) {
         case "high":
             result = HIGH_IMPORTANCE
         default:
-            return 0, errors.New("Unknown Importance value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeImportance(values []Importance) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i Importance) isMultiValue() bool {
+    return false
 }

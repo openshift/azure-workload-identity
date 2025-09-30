@@ -1,8 +1,4 @@
 package externalconnectors
-import (
-    "errors"
-)
-// 
 type IdentityType int
 
 const (
@@ -27,7 +23,7 @@ func ParseIdentityType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_IDENTITYTYPE
         default:
-            return 0, errors.New("Unknown IdentityType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeIdentityType(values []IdentityType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i IdentityType) isMultiValue() bool {
+    return false
 }

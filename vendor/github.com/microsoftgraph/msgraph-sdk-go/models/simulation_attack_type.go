@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type SimulationAttackType int
 
 const (
@@ -30,7 +26,7 @@ func ParseSimulationAttackType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_SIMULATIONATTACKTYPE
         default:
-            return 0, errors.New("Unknown SimulationAttackType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeSimulationAttackType(values []SimulationAttackType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i SimulationAttackType) isMultiValue() bool {
+    return false
 }

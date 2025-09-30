@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ObjectDefinitionMetadata int
 
 const (
@@ -36,7 +32,7 @@ func ParseObjectDefinitionMetadata(v string) (any, error) {
         case "BaseObjectName":
             result = BASEOBJECTNAME_OBJECTDEFINITIONMETADATA
         default:
-            return 0, errors.New("Unknown ObjectDefinitionMetadata value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -46,4 +42,7 @@ func SerializeObjectDefinitionMetadata(values []ObjectDefinitionMetadata) []stri
         result[i] = v.String()
     }
     return result
+}
+func (i ObjectDefinitionMetadata) isMultiValue() bool {
+    return false
 }

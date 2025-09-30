@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type EnrollmentState int
 
 const (
@@ -35,7 +31,7 @@ func ParseEnrollmentState(v string) (any, error) {
         case "notContacted":
             result = NOTCONTACTED_ENROLLMENTSTATE
         default:
-            return 0, errors.New("Unknown EnrollmentState value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -45,4 +41,7 @@ func SerializeEnrollmentState(values []EnrollmentState) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i EnrollmentState) isMultiValue() bool {
+    return false
 }

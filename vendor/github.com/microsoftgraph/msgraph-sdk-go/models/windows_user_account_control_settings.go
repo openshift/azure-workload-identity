@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Possible values for Windows user account control settings.
 type WindowsUserAccountControlSettings int
 
@@ -35,7 +32,7 @@ func ParseWindowsUserAccountControlSettings(v string) (any, error) {
         case "neverNotify":
             result = NEVERNOTIFY_WINDOWSUSERACCOUNTCONTROLSETTINGS
         default:
-            return 0, errors.New("Unknown WindowsUserAccountControlSettings value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -45,4 +42,7 @@ func SerializeWindowsUserAccountControlSettings(values []WindowsUserAccountContr
         result[i] = v.String()
     }
     return result
+}
+func (i WindowsUserAccountControlSettings) isMultiValue() bool {
+    return false
 }

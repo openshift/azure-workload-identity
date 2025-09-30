@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ConditionalAccessStatus int
 
 const (
@@ -27,7 +23,7 @@ func ParseConditionalAccessStatus(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_CONDITIONALACCESSSTATUS
         default:
-            return 0, errors.New("Unknown ConditionalAccessStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeConditionalAccessStatus(values []ConditionalAccessStatus) []string
         result[i] = v.String()
     }
     return result
+}
+func (i ConditionalAccessStatus) isMultiValue() bool {
+    return false
 }

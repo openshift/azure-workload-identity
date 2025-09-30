@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ManagementAgentType int
 
 const (
@@ -66,7 +62,7 @@ func ParseManagementAgentType(v string) (any, error) {
         case "msSense":
             result = MSSENSE_MANAGEMENTAGENTTYPE
         default:
-            return 0, errors.New("Unknown ManagementAgentType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -76,4 +72,7 @@ func SerializeManagementAgentType(values []ManagementAgentType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ManagementAgentType) isMultiValue() bool {
+    return false
 }

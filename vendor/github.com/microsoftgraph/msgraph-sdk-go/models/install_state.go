@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Possible values for install state.
 type InstallState int
 
@@ -39,7 +36,7 @@ func ParseInstallState(v string) (any, error) {
         case "unknown":
             result = UNKNOWN_INSTALLSTATE
         default:
-            return 0, errors.New("Unknown InstallState value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -49,4 +46,7 @@ func SerializeInstallState(values []InstallState) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i InstallState) isMultiValue() bool {
+    return false
 }

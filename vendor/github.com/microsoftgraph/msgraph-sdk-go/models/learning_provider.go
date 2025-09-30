@@ -4,7 +4,6 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// LearningProvider 
 type LearningProvider struct {
     Entity
 }
@@ -16,10 +15,12 @@ func NewLearningProvider()(*LearningProvider) {
     return m
 }
 // CreateLearningProviderFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateLearningProviderFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewLearningProvider(), nil
 }
 // GetDisplayName gets the displayName property value. The display name that appears in Viva Learning. Required.
+// returns a *string when successful
 func (m *LearningProvider) GetDisplayName()(*string) {
     val, err := m.GetBackingStore().Get("displayName")
     if err != nil {
@@ -31,6 +32,7 @@ func (m *LearningProvider) GetDisplayName()(*string) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *LearningProvider) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.Entity.GetFieldDeserializers()
     res["displayName"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -66,6 +68,22 @@ func (m *LearningProvider) GetFieldDeserializers()(map[string]func(i878a80d2330e
                 }
             }
             m.SetLearningContents(res)
+        }
+        return nil
+    }
+    res["learningCourseActivities"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetCollectionOfObjectValues(CreateLearningCourseActivityFromDiscriminatorValue)
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            res := make([]LearningCourseActivityable, len(val))
+            for i, v := range val {
+                if v != nil {
+                    res[i] = v.(LearningCourseActivityable)
+                }
+            }
+            m.SetLearningCourseActivities(res)
         }
         return nil
     }
@@ -122,6 +140,7 @@ func (m *LearningProvider) GetFieldDeserializers()(map[string]func(i878a80d2330e
     return res
 }
 // GetIsCourseActivitySyncEnabled gets the isCourseActivitySyncEnabled property value. Indicates whether a provider can ingest learning course activity records. The default value is false. Set to true to make learningCourseActivities available for this provider.
+// returns a *bool when successful
 func (m *LearningProvider) GetIsCourseActivitySyncEnabled()(*bool) {
     val, err := m.GetBackingStore().Get("isCourseActivitySyncEnabled")
     if err != nil {
@@ -133,6 +152,7 @@ func (m *LearningProvider) GetIsCourseActivitySyncEnabled()(*bool) {
     return nil
 }
 // GetLearningContents gets the learningContents property value. Learning catalog items for the provider.
+// returns a []LearningContentable when successful
 func (m *LearningProvider) GetLearningContents()([]LearningContentable) {
     val, err := m.GetBackingStore().Get("learningContents")
     if err != nil {
@@ -143,7 +163,20 @@ func (m *LearningProvider) GetLearningContents()([]LearningContentable) {
     }
     return nil
 }
+// GetLearningCourseActivities gets the learningCourseActivities property value. The learningCourseActivities property
+// returns a []LearningCourseActivityable when successful
+func (m *LearningProvider) GetLearningCourseActivities()([]LearningCourseActivityable) {
+    val, err := m.GetBackingStore().Get("learningCourseActivities")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.([]LearningCourseActivityable)
+    }
+    return nil
+}
 // GetLoginWebUrl gets the loginWebUrl property value. Authentication URL to access the courses for the provider. Optional.
+// returns a *string when successful
 func (m *LearningProvider) GetLoginWebUrl()(*string) {
     val, err := m.GetBackingStore().Get("loginWebUrl")
     if err != nil {
@@ -155,6 +188,7 @@ func (m *LearningProvider) GetLoginWebUrl()(*string) {
     return nil
 }
 // GetLongLogoWebUrlForDarkTheme gets the longLogoWebUrlForDarkTheme property value. The long logo URL for the dark mode that needs to be a publicly accessible image. This image would be saved to the blob storage of Viva Learning for rendering within the Viva Learning app. Required.
+// returns a *string when successful
 func (m *LearningProvider) GetLongLogoWebUrlForDarkTheme()(*string) {
     val, err := m.GetBackingStore().Get("longLogoWebUrlForDarkTheme")
     if err != nil {
@@ -166,6 +200,7 @@ func (m *LearningProvider) GetLongLogoWebUrlForDarkTheme()(*string) {
     return nil
 }
 // GetLongLogoWebUrlForLightTheme gets the longLogoWebUrlForLightTheme property value. The long logo URL for the light mode that needs to be a publicly accessible image. This image would be saved to the blob storage of Viva Learning for rendering within the Viva Learning app. Required.
+// returns a *string when successful
 func (m *LearningProvider) GetLongLogoWebUrlForLightTheme()(*string) {
     val, err := m.GetBackingStore().Get("longLogoWebUrlForLightTheme")
     if err != nil {
@@ -177,6 +212,7 @@ func (m *LearningProvider) GetLongLogoWebUrlForLightTheme()(*string) {
     return nil
 }
 // GetSquareLogoWebUrlForDarkTheme gets the squareLogoWebUrlForDarkTheme property value. The square logo URL for the dark mode that needs to be a publicly accessible image. This image would be saved to the blob storage of Viva Learning for rendering within the Viva Learning app. Required.
+// returns a *string when successful
 func (m *LearningProvider) GetSquareLogoWebUrlForDarkTheme()(*string) {
     val, err := m.GetBackingStore().Get("squareLogoWebUrlForDarkTheme")
     if err != nil {
@@ -188,6 +224,7 @@ func (m *LearningProvider) GetSquareLogoWebUrlForDarkTheme()(*string) {
     return nil
 }
 // GetSquareLogoWebUrlForLightTheme gets the squareLogoWebUrlForLightTheme property value. The square logo URL for the light mode that needs to be a publicly accessible image. This image would be saved to the blob storage of Viva Learning for rendering within the Viva Learning app. Required.
+// returns a *string when successful
 func (m *LearningProvider) GetSquareLogoWebUrlForLightTheme()(*string) {
     val, err := m.GetBackingStore().Get("squareLogoWebUrlForLightTheme")
     if err != nil {
@@ -224,6 +261,18 @@ func (m *LearningProvider) Serialize(writer i878a80d2330e89d26896388a3f487eef27b
             }
         }
         err = writer.WriteCollectionOfObjectValues("learningContents", cast)
+        if err != nil {
+            return err
+        }
+    }
+    if m.GetLearningCourseActivities() != nil {
+        cast := make([]i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, len(m.GetLearningCourseActivities()))
+        for i, v := range m.GetLearningCourseActivities() {
+            if v != nil {
+                cast[i] = v.(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable)
+            }
+        }
+        err = writer.WriteCollectionOfObjectValues("learningCourseActivities", cast)
         if err != nil {
             return err
         }
@@ -281,6 +330,13 @@ func (m *LearningProvider) SetLearningContents(value []LearningContentable)() {
         panic(err)
     }
 }
+// SetLearningCourseActivities sets the learningCourseActivities property value. The learningCourseActivities property
+func (m *LearningProvider) SetLearningCourseActivities(value []LearningCourseActivityable)() {
+    err := m.GetBackingStore().Set("learningCourseActivities", value)
+    if err != nil {
+        panic(err)
+    }
+}
 // SetLoginWebUrl sets the loginWebUrl property value. Authentication URL to access the courses for the provider. Optional.
 func (m *LearningProvider) SetLoginWebUrl(value *string)() {
     err := m.GetBackingStore().Set("loginWebUrl", value)
@@ -316,13 +372,13 @@ func (m *LearningProvider) SetSquareLogoWebUrlForLightTheme(value *string)() {
         panic(err)
     }
 }
-// LearningProviderable 
 type LearningProviderable interface {
     Entityable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable
     GetDisplayName()(*string)
     GetIsCourseActivitySyncEnabled()(*bool)
     GetLearningContents()([]LearningContentable)
+    GetLearningCourseActivities()([]LearningCourseActivityable)
     GetLoginWebUrl()(*string)
     GetLongLogoWebUrlForDarkTheme()(*string)
     GetLongLogoWebUrlForLightTheme()(*string)
@@ -331,6 +387,7 @@ type LearningProviderable interface {
     SetDisplayName(value *string)()
     SetIsCourseActivitySyncEnabled(value *bool)()
     SetLearningContents(value []LearningContentable)()
+    SetLearningCourseActivities(value []LearningCourseActivityable)()
     SetLoginWebUrl(value *string)()
     SetLongLogoWebUrlForDarkTheme(value *string)()
     SetLongLogoWebUrlForLightTheme(value *string)()

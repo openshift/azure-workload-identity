@@ -5,12 +5,11 @@ import (
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e "github.com/microsoft/kiota-abstractions-go/store"
 )
 
-// Entity 
 type Entity struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
 }
-// NewEntity instantiates a new entity and sets the default values.
+// NewEntity instantiates a new Entity and sets the default values.
 func NewEntity()(*Entity) {
     m := &Entity{
     }
@@ -19,6 +18,7 @@ func NewEntity()(*Entity) {
     return m
 }
 // CreateEntityFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     if parseNode != nil {
         mappingValueNode, err := parseNode.GetChildNode("@odata.type")
@@ -42,12 +42,28 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewAccessPackageAssignmentPolicy(), nil
                     case "#microsoft.graph.accessPackageAssignmentRequest":
                         return NewAccessPackageAssignmentRequest(), nil
+                    case "#microsoft.graph.accessPackageAssignmentRequestWorkflowExtension":
+                        return NewAccessPackageAssignmentRequestWorkflowExtension(), nil
+                    case "#microsoft.graph.accessPackageAssignmentWorkflowExtension":
+                        return NewAccessPackageAssignmentWorkflowExtension(), nil
                     case "#microsoft.graph.accessPackageCatalog":
                         return NewAccessPackageCatalog(), nil
                     case "#microsoft.graph.accessPackageMultipleChoiceQuestion":
                         return NewAccessPackageMultipleChoiceQuestion(), nil
                     case "#microsoft.graph.accessPackageQuestion":
                         return NewAccessPackageQuestion(), nil
+                    case "#microsoft.graph.accessPackageResource":
+                        return NewAccessPackageResource(), nil
+                    case "#microsoft.graph.accessPackageResourceEnvironment":
+                        return NewAccessPackageResourceEnvironment(), nil
+                    case "#microsoft.graph.accessPackageResourceRequest":
+                        return NewAccessPackageResourceRequest(), nil
+                    case "#microsoft.graph.accessPackageResourceRole":
+                        return NewAccessPackageResourceRole(), nil
+                    case "#microsoft.graph.accessPackageResourceRoleScope":
+                        return NewAccessPackageResourceRoleScope(), nil
+                    case "#microsoft.graph.accessPackageResourceScope":
+                        return NewAccessPackageResourceScope(), nil
                     case "#microsoft.graph.accessPackageSubject":
                         return NewAccessPackageSubject(), nil
                     case "#microsoft.graph.accessPackageTextInputQuestion":
@@ -78,6 +94,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewAdminConsentRequestPolicy(), nil
                     case "#microsoft.graph.administrativeUnit":
                         return NewAdministrativeUnit(), nil
+                    case "#microsoft.graph.adminMicrosoft365Apps":
+                        return NewAdminMicrosoft365Apps(), nil
                     case "#microsoft.graph.agreement":
                         return NewAgreement(), nil
                     case "#microsoft.graph.agreementAcceptance":
@@ -132,6 +150,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewApplication(), nil
                     case "#microsoft.graph.applicationTemplate":
                         return NewApplicationTemplate(), nil
+                    case "#microsoft.graph.appLogCollectionRequest":
+                        return NewAppLogCollectionRequest(), nil
                     case "#microsoft.graph.appManagementPolicy":
                         return NewAppManagementPolicy(), nil
                     case "#microsoft.graph.appRoleAssignment":
@@ -150,6 +170,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewAttachmentBase(), nil
                     case "#microsoft.graph.attachmentSession":
                         return NewAttachmentSession(), nil
+                    case "#microsoft.graph.attackSimulationOperation":
+                        return NewAttackSimulationOperation(), nil
                     case "#microsoft.graph.attackSimulationRoot":
                         return NewAttackSimulationRoot(), nil
                     case "#microsoft.graph.attendanceRecord":
@@ -170,6 +192,10 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewAuthenticationCombinationConfiguration(), nil
                     case "#microsoft.graph.authenticationContextClassReference":
                         return NewAuthenticationContextClassReference(), nil
+                    case "#microsoft.graph.authenticationEventListener":
+                        return NewAuthenticationEventListener(), nil
+                    case "#microsoft.graph.authenticationEventsFlow":
+                        return NewAuthenticationEventsFlow(), nil
                     case "#microsoft.graph.authenticationFlowsPolicy":
                         return NewAuthenticationFlowsPolicy(), nil
                     case "#microsoft.graph.authenticationMethod":
@@ -180,6 +206,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewAuthenticationMethodModeDetail(), nil
                     case "#microsoft.graph.authenticationMethodsPolicy":
                         return NewAuthenticationMethodsPolicy(), nil
+                    case "#microsoft.graph.authenticationMethodsRoot":
+                        return NewAuthenticationMethodsRoot(), nil
                     case "#microsoft.graph.authenticationMethodTarget":
                         return NewAuthenticationMethodTarget(), nil
                     case "#microsoft.graph.authenticationStrengthPolicy":
@@ -198,6 +226,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewBaseItem(), nil
                     case "#microsoft.graph.baseItemVersion":
                         return NewBaseItemVersion(), nil
+                    case "#microsoft.graph.baseSitePage":
+                        return NewBaseSitePage(), nil
                     case "#microsoft.graph.bitlocker":
                         return NewBitlocker(), nil
                     case "#microsoft.graph.bitlockerRecoveryKey":
@@ -228,6 +258,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewBrowserSiteList(), nil
                     case "#microsoft.graph.builtInIdentityProvider":
                         return NewBuiltInIdentityProvider(), nil
+                    case "#microsoft.graph.bulkUpload":
+                        return NewBulkUpload(), nil
                     case "#microsoft.graph.calendar":
                         return NewCalendar(), nil
                     case "#microsoft.graph.calendarGroup":
@@ -238,8 +270,14 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewCalendarSharingMessage(), nil
                     case "#microsoft.graph.call":
                         return NewCall(), nil
+                    case "#microsoft.graph.callRecording":
+                        return NewCallRecording(), nil
+                    case "#microsoft.graph.callTranscript":
+                        return NewCallTranscript(), nil
                     case "#microsoft.graph.cancelMediaProcessingOperation":
                         return NewCancelMediaProcessingOperation(), nil
+                    case "#microsoft.graph.canvasLayout":
+                        return NewCanvasLayout(), nil
                     case "#microsoft.graph.certificateBasedAuthConfiguration":
                         return NewCertificateBasedAuthConfiguration(), nil
                     case "#microsoft.graph.changeTrackedEntity":
@@ -258,12 +296,36 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewChecklistItem(), nil
                     case "#microsoft.graph.claimsMappingPolicy":
                         return NewClaimsMappingPolicy(), nil
+                    case "#microsoft.graph.cloudClipboardItem":
+                        return NewCloudClipboardItem(), nil
+                    case "#microsoft.graph.cloudClipboardRoot":
+                        return NewCloudClipboardRoot(), nil
+                    case "#microsoft.graph.cloudPC":
+                        return NewCloudPC(), nil
+                    case "#microsoft.graph.cloudPcAuditEvent":
+                        return NewCloudPcAuditEvent(), nil
+                    case "#microsoft.graph.cloudPcDeviceImage":
+                        return NewCloudPcDeviceImage(), nil
+                    case "#microsoft.graph.cloudPcGalleryImage":
+                        return NewCloudPcGalleryImage(), nil
+                    case "#microsoft.graph.cloudPcOnPremisesConnection":
+                        return NewCloudPcOnPremisesConnection(), nil
+                    case "#microsoft.graph.cloudPcProvisioningPolicy":
+                        return NewCloudPcProvisioningPolicy(), nil
+                    case "#microsoft.graph.cloudPcProvisioningPolicyAssignment":
+                        return NewCloudPcProvisioningPolicyAssignment(), nil
+                    case "#microsoft.graph.cloudPcUserSetting":
+                        return NewCloudPcUserSetting(), nil
+                    case "#microsoft.graph.cloudPcUserSettingAssignment":
+                        return NewCloudPcUserSettingAssignment(), nil
                     case "#microsoft.graph.columnDefinition":
                         return NewColumnDefinition(), nil
                     case "#microsoft.graph.columnLink":
                         return NewColumnLink(), nil
                     case "#microsoft.graph.commsOperation":
                         return NewCommsOperation(), nil
+                    case "#microsoft.graph.companySubscription":
+                        return NewCompanySubscription(), nil
                     case "#microsoft.graph.complianceManagementPartner":
                         return NewComplianceManagementPartner(), nil
                     case "#microsoft.graph.conditionalAccessPolicy":
@@ -296,6 +358,12 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewCrossTenantAccessPolicy(), nil
                     case "#microsoft.graph.crossTenantAccessPolicyConfigurationDefault":
                         return NewCrossTenantAccessPolicyConfigurationDefault(), nil
+                    case "#microsoft.graph.customAuthenticationExtension":
+                        return NewCustomAuthenticationExtension(), nil
+                    case "#microsoft.graph.customCalloutExtension":
+                        return NewCustomCalloutExtension(), nil
+                    case "#microsoft.graph.customExtensionStageSetting":
+                        return NewCustomExtensionStageSetting(), nil
                     case "#microsoft.graph.customSecurityAttributeDefinition":
                         return NewCustomSecurityAttributeDefinition(), nil
                     case "#microsoft.graph.dataPolicyOperation":
@@ -316,8 +384,14 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewDelegatedAdminServiceManagementDetail(), nil
                     case "#microsoft.graph.delegatedPermissionClassification":
                         return NewDelegatedPermissionClassification(), nil
+                    case "#microsoft.graph.deletedChat":
+                        return NewDeletedChat(), nil
+                    case "#microsoft.graph.deletedItemContainer":
+                        return NewDeletedItemContainer(), nil
                     case "#microsoft.graph.deletedTeam":
                         return NewDeletedTeam(), nil
+                    case "#microsoft.graph.deltaParticipants":
+                        return NewDeltaParticipants(), nil
                     case "#microsoft.graph.detectedApp":
                         return NewDetectedApp(), nil
                     case "#microsoft.graph.device":
@@ -380,8 +454,14 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewDeviceEnrollmentWindowsHelloForBusinessConfiguration(), nil
                     case "#microsoft.graph.deviceInstallState":
                         return NewDeviceInstallState(), nil
+                    case "#microsoft.graph.deviceLocalCredentialInfo":
+                        return NewDeviceLocalCredentialInfo(), nil
+                    case "#microsoft.graph.deviceLogCollectionResponse":
+                        return NewDeviceLogCollectionResponse(), nil
                     case "#microsoft.graph.deviceManagement":
                         return NewDeviceManagement(), nil
+                    case "#microsoft.graph.deviceManagementCachedReportConfiguration":
+                        return NewDeviceManagementCachedReportConfiguration(), nil
                     case "#microsoft.graph.deviceManagementExchangeConnector":
                         return NewDeviceManagementExchangeConnector(), nil
                     case "#microsoft.graph.deviceManagementExportJob":
@@ -392,6 +472,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewDeviceManagementReports(), nil
                     case "#microsoft.graph.deviceManagementTroubleshootingEvent":
                         return NewDeviceManagementTroubleshootingEvent(), nil
+                    case "#microsoft.graph.deviceRegistrationPolicy":
+                        return NewDeviceRegistrationPolicy(), nil
                     case "#microsoft.graph.directory":
                         return NewDirectory(), nil
                     case "#microsoft.graph.directoryAudit":
@@ -450,6 +532,12 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewEducationFeedbackOutcome(), nil
                     case "#microsoft.graph.educationFeedbackResourceOutcome":
                         return NewEducationFeedbackResourceOutcome(), nil
+                    case "#microsoft.graph.educationGradingCategory":
+                        return NewEducationGradingCategory(), nil
+                    case "#microsoft.graph.educationModule":
+                        return NewEducationModule(), nil
+                    case "#microsoft.graph.educationModuleResource":
+                        return NewEducationModuleResource(), nil
                     case "#microsoft.graph.educationOrganization":
                         return NewEducationOrganization(), nil
                     case "#microsoft.graph.educationOutcome":
@@ -474,8 +562,14 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewEmailAuthenticationMethodConfiguration(), nil
                     case "#microsoft.graph.emailFileAssessmentRequest":
                         return NewEmailFileAssessmentRequest(), nil
+                    case "#microsoft.graph.employeeExperienceUser":
+                        return NewEmployeeExperienceUser(), nil
                     case "#microsoft.graph.endpoint":
                         return NewEndpoint(), nil
+                    case "#microsoft.graph.endUserNotification":
+                        return NewEndUserNotification(), nil
+                    case "#microsoft.graph.endUserNotificationDetail":
+                        return NewEndUserNotificationDetail(), nil
                     case "#microsoft.graph.enrollmentConfigurationAssignment":
                         return NewEnrollmentConfigurationAssignment(), nil
                     case "#microsoft.graph.enrollmentTroubleshootingEvent":
@@ -500,6 +594,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewExtensionProperty(), nil
                     case "#microsoft.graph.externalDomainName":
                         return NewExternalDomainName(), nil
+                    case "#microsoft.graph.externalUsersSelfServiceSignUpEventsFlow":
+                        return NewExternalUsersSelfServiceSignUpEventsFlow(), nil
                     case "#microsoft.graph.featureRolloutPolicy":
                         return NewFeatureRolloutPolicy(), nil
                     case "#microsoft.graph.federatedIdentityCredential":
@@ -516,8 +612,14 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewFileAssessmentRequest(), nil
                     case "#microsoft.graph.fileAttachment":
                         return NewFileAttachment(), nil
+                    case "#microsoft.graph.fileStorage":
+                        return NewFileStorage(), nil
+                    case "#microsoft.graph.fileStorageContainer":
+                        return NewFileStorageContainer(), nil
                     case "#microsoft.graph.filterOperatorSchema":
                         return NewFilterOperatorSchema(), nil
+                    case "#microsoft.graph.governanceInsight":
+                        return NewGovernanceInsight(), nil
                     case "#microsoft.graph.group":
                         return NewGroup(), nil
                     case "#microsoft.graph.groupLifecyclePolicy":
@@ -528,6 +630,10 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewGroupSettingTemplate(), nil
                     case "#microsoft.graph.homeRealmDiscoveryPolicy":
                         return NewHomeRealmDiscoveryPolicy(), nil
+                    case "#microsoft.graph.horizontalSection":
+                        return NewHorizontalSection(), nil
+                    case "#microsoft.graph.horizontalSectionColumn":
+                        return NewHorizontalSectionColumn(), nil
                     case "#microsoft.graph.identityApiConnector":
                         return NewIdentityApiConnector(), nil
                     case "#microsoft.graph.identityBuiltInUserFlowAttribute":
@@ -608,10 +714,22 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewItemAnalytics(), nil
                     case "#microsoft.graph.itemAttachment":
                         return NewItemAttachment(), nil
+                    case "#microsoft.graph.itemRetentionLabel":
+                        return NewItemRetentionLabel(), nil
+                    case "#microsoft.graph.landingPage":
+                        return NewLandingPage(), nil
+                    case "#microsoft.graph.landingPageDetail":
+                        return NewLandingPageDetail(), nil
+                    case "#microsoft.graph.learningAssignment":
+                        return NewLearningAssignment(), nil
                     case "#microsoft.graph.learningContent":
                         return NewLearningContent(), nil
+                    case "#microsoft.graph.learningCourseActivity":
+                        return NewLearningCourseActivity(), nil
                     case "#microsoft.graph.learningProvider":
                         return NewLearningProvider(), nil
+                    case "#microsoft.graph.learningSelfInitiatedCourse":
+                        return NewLearningSelfInitiatedCourse(), nil
                     case "#microsoft.graph.licenseDetails":
                         return NewLicenseDetails(), nil
                     case "#microsoft.graph.linkedResource":
@@ -624,18 +742,26 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewListItemVersion(), nil
                     case "#microsoft.graph.localizedNotificationMessage":
                         return NewLocalizedNotificationMessage(), nil
+                    case "#microsoft.graph.loginPage":
+                        return NewLoginPage(), nil
                     case "#microsoft.graph.longRunningOperation":
                         return NewLongRunningOperation(), nil
+                    case "#microsoft.graph.m365AppsInstallationOptions":
+                        return NewM365AppsInstallationOptions(), nil
                     case "#microsoft.graph.macOSCompliancePolicy":
                         return NewMacOSCompliancePolicy(), nil
                     case "#microsoft.graph.macOSCustomConfiguration":
                         return NewMacOSCustomConfiguration(), nil
                     case "#microsoft.graph.macOSDeviceFeaturesConfiguration":
                         return NewMacOSDeviceFeaturesConfiguration(), nil
+                    case "#microsoft.graph.macOSDmgApp":
+                        return NewMacOSDmgApp(), nil
                     case "#microsoft.graph.macOSGeneralDeviceConfiguration":
                         return NewMacOSGeneralDeviceConfiguration(), nil
                     case "#microsoft.graph.macOSLobApp":
                         return NewMacOSLobApp(), nil
+                    case "#microsoft.graph.macOSMicrosoftDefenderApp":
+                        return NewMacOSMicrosoftDefenderApp(), nil
                     case "#microsoft.graph.macOSMicrosoftEdgeApp":
                         return NewMacOSMicrosoftEdgeApp(), nil
                     case "#microsoft.graph.macOSOfficeSuiteApp":
@@ -646,6 +772,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewMailFolder(), nil
                     case "#microsoft.graph.mailSearchFolder":
                         return NewMailSearchFolder(), nil
+                    case "#microsoft.graph.malwareStateForWindowsDevice":
+                        return NewMalwareStateForWindowsDevice(), nil
                     case "#microsoft.graph.managedAndroidLobApp":
                         return NewManagedAndroidLobApp(), nil
                     case "#microsoft.graph.managedAndroidStoreApp":
@@ -700,6 +828,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewMdmWindowsInformationProtectionPolicy(), nil
                     case "#microsoft.graph.meetingAttendanceReport":
                         return NewMeetingAttendanceReport(), nil
+                    case "#microsoft.graph.membershipOutlierInsight":
+                        return NewMembershipOutlierInsight(), nil
                     case "#microsoft.graph.message":
                         return NewMessage(), nil
                     case "#microsoft.graph.messageRule":
@@ -724,12 +854,24 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewMobileAppContent(), nil
                     case "#microsoft.graph.mobileAppContentFile":
                         return NewMobileAppContentFile(), nil
+                    case "#microsoft.graph.mobileAppTroubleshootingEvent":
+                        return NewMobileAppTroubleshootingEvent(), nil
                     case "#microsoft.graph.mobileContainedApp":
                         return NewMobileContainedApp(), nil
                     case "#microsoft.graph.mobileLobApp":
                         return NewMobileLobApp(), nil
                     case "#microsoft.graph.mobileThreatDefenseConnector":
                         return NewMobileThreatDefenseConnector(), nil
+                    case "#microsoft.graph.multiTenantOrganization":
+                        return NewMultiTenantOrganization(), nil
+                    case "#microsoft.graph.multiTenantOrganizationIdentitySyncPolicyTemplate":
+                        return NewMultiTenantOrganizationIdentitySyncPolicyTemplate(), nil
+                    case "#microsoft.graph.multiTenantOrganizationJoinRequestRecord":
+                        return NewMultiTenantOrganizationJoinRequestRecord(), nil
+                    case "#microsoft.graph.multiTenantOrganizationMember":
+                        return NewMultiTenantOrganizationMember(), nil
+                    case "#microsoft.graph.multiTenantOrganizationPartnerConfigurationTemplate":
+                        return NewMultiTenantOrganizationPartnerConfigurationTemplate(), nil
                     case "#microsoft.graph.multiValueLegacyExtendedProperty":
                         return NewMultiValueLegacyExtendedProperty(), nil
                     case "#microsoft.graph.muteParticipantOperation":
@@ -746,6 +888,10 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewOfferShiftRequest(), nil
                     case "#microsoft.graph.officeGraphInsights":
                         return NewOfficeGraphInsights(), nil
+                    case "#microsoft.graph.onAttributeCollectionListener":
+                        return NewOnAttributeCollectionListener(), nil
+                    case "#microsoft.graph.onAuthenticationMethodLoadStartListener":
+                        return NewOnAuthenticationMethodLoadStartListener(), nil
                     case "#microsoft.graph.onenote":
                         return NewOnenote(), nil
                     case "#microsoft.graph.onenoteEntityBaseModel":
@@ -762,12 +908,22 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewOnenoteResource(), nil
                     case "#microsoft.graph.onenoteSection":
                         return NewOnenoteSection(), nil
+                    case "#microsoft.graph.onInteractiveAuthFlowStartListener":
+                        return NewOnInteractiveAuthFlowStartListener(), nil
                     case "#microsoft.graph.onlineMeeting":
                         return NewOnlineMeeting(), nil
+                    case "#microsoft.graph.onlineMeetingBase":
+                        return NewOnlineMeetingBase(), nil
                     case "#microsoft.graph.onPremisesConditionalAccessSettings":
                         return NewOnPremisesConditionalAccessSettings(), nil
                     case "#microsoft.graph.onPremisesDirectorySynchronization":
                         return NewOnPremisesDirectorySynchronization(), nil
+                    case "#microsoft.graph.onTokenIssuanceStartCustomExtension":
+                        return NewOnTokenIssuanceStartCustomExtension(), nil
+                    case "#microsoft.graph.onTokenIssuanceStartListener":
+                        return NewOnTokenIssuanceStartListener(), nil
+                    case "#microsoft.graph.onUserCreateStartListener":
+                        return NewOnUserCreateStartListener(), nil
                     case "#microsoft.graph.openShift":
                         return NewOpenShift(), nil
                     case "#microsoft.graph.openShiftChangeRequest":
@@ -798,8 +954,14 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewParticipantJoiningNotification(), nil
                     case "#microsoft.graph.participantLeftNotification":
                         return NewParticipantLeftNotification(), nil
+                    case "#microsoft.graph.partners":
+                        return NewPartners(), nil
                     case "#microsoft.graph.passwordAuthenticationMethod":
                         return NewPasswordAuthenticationMethod(), nil
+                    case "#microsoft.graph.payload":
+                        return NewPayload(), nil
+                    case "#microsoft.graph.peopleAdminSettings":
+                        return NewPeopleAdminSettings(), nil
                     case "#microsoft.graph.permission":
                         return NewPermission(), nil
                     case "#microsoft.graph.permissionGrantConditionSet":
@@ -842,6 +1004,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewPolicyBase(), nil
                     case "#microsoft.graph.policyRoot":
                         return NewPolicyRoot(), nil
+                    case "#microsoft.graph.policyTemplate":
+                        return NewPolicyTemplate(), nil
                     case "#microsoft.graph.post":
                         return NewPost(), nil
                     case "#microsoft.graph.presence":
@@ -878,8 +1042,34 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewPrintUsageByPrinter(), nil
                     case "#microsoft.graph.printUsageByUser":
                         return NewPrintUsageByUser(), nil
+                    case "#microsoft.graph.privilegedAccessGroup":
+                        return NewPrivilegedAccessGroup(), nil
+                    case "#microsoft.graph.privilegedAccessGroupAssignmentSchedule":
+                        return NewPrivilegedAccessGroupAssignmentSchedule(), nil
+                    case "#microsoft.graph.privilegedAccessGroupAssignmentScheduleInstance":
+                        return NewPrivilegedAccessGroupAssignmentScheduleInstance(), nil
+                    case "#microsoft.graph.privilegedAccessGroupAssignmentScheduleRequest":
+                        return NewPrivilegedAccessGroupAssignmentScheduleRequest(), nil
+                    case "#microsoft.graph.privilegedAccessGroupEligibilitySchedule":
+                        return NewPrivilegedAccessGroupEligibilitySchedule(), nil
+                    case "#microsoft.graph.privilegedAccessGroupEligibilityScheduleInstance":
+                        return NewPrivilegedAccessGroupEligibilityScheduleInstance(), nil
+                    case "#microsoft.graph.privilegedAccessGroupEligibilityScheduleRequest":
+                        return NewPrivilegedAccessGroupEligibilityScheduleRequest(), nil
+                    case "#microsoft.graph.privilegedAccessRoot":
+                        return NewPrivilegedAccessRoot(), nil
+                    case "#microsoft.graph.privilegedAccessSchedule":
+                        return NewPrivilegedAccessSchedule(), nil
+                    case "#microsoft.graph.privilegedAccessScheduleInstance":
+                        return NewPrivilegedAccessScheduleInstance(), nil
+                    case "#microsoft.graph.privilegedAccessScheduleRequest":
+                        return NewPrivilegedAccessScheduleRequest(), nil
+                    case "#microsoft.graph.profileCardProperty":
+                        return NewProfileCardProperty(), nil
                     case "#microsoft.graph.profilePhoto":
                         return NewProfilePhoto(), nil
+                    case "#microsoft.graph.pronounsSettings":
+                        return NewPronounsSettings(), nil
                     case "#microsoft.graph.provisioningObjectSummary":
                         return NewProvisioningObjectSummary(), nil
                     case "#microsoft.graph.rbacApplication":
@@ -888,10 +1078,16 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewRecordOperation(), nil
                     case "#microsoft.graph.referenceAttachment":
                         return NewReferenceAttachment(), nil
+                    case "#microsoft.graph.relyingPartyDetailedSummary":
+                        return NewRelyingPartyDetailedSummary(), nil
                     case "#microsoft.graph.remoteAssistancePartner":
                         return NewRemoteAssistancePartner(), nil
+                    case "#microsoft.graph.remoteDesktopSecurityConfiguration":
+                        return NewRemoteDesktopSecurityConfiguration(), nil
                     case "#microsoft.graph.request":
                         return NewRequest(), nil
+                    case "#microsoft.graph.resellerDelegatedAdminRelationship":
+                        return NewResellerDelegatedAdminRelationship(), nil
                     case "#microsoft.graph.resourceOperation":
                         return NewResourceOperation(), nil
                     case "#microsoft.graph.resourceSpecificPermissionGrant":
@@ -942,6 +1138,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewSecurity(), nil
                     case "#microsoft.graph.securityReportsRoot":
                         return NewSecurityReportsRoot(), nil
+                    case "#microsoft.graph.sendDtmfTonesOperation":
+                        return NewSendDtmfTonesOperation(), nil
                     case "#microsoft.graph.serviceAnnouncement":
                         return NewServiceAnnouncement(), nil
                     case "#microsoft.graph.serviceAnnouncementAttachment":
@@ -988,6 +1186,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewSingleValueLegacyExtendedProperty(), nil
                     case "#microsoft.graph.site":
                         return NewSite(), nil
+                    case "#microsoft.graph.sitePage":
+                        return NewSitePage(), nil
                     case "#microsoft.graph.skypeForBusinessUserConversationMember":
                         return NewSkypeForBusinessUserConversationMember(), nil
                     case "#microsoft.graph.skypeUserConversationMember":
@@ -1004,6 +1204,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewSoftwareOathAuthenticationMethodConfiguration(), nil
                     case "#microsoft.graph.softwareUpdateStatusSummary":
                         return NewSoftwareUpdateStatusSummary(), nil
+                    case "#microsoft.graph.standardWebPart":
+                        return NewStandardWebPart(), nil
                     case "#microsoft.graph.startHoldMusicOperation":
                         return NewStartHoldMusicOperation(), nil
                     case "#microsoft.graph.stopHoldMusicOperation":
@@ -1028,6 +1230,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewSynchronizationSchema(), nil
                     case "#microsoft.graph.synchronizationTemplate":
                         return NewSynchronizationTemplate(), nil
+                    case "#microsoft.graph.targetDeviceGroup":
+                        return NewTargetDeviceGroup(), nil
                     case "#microsoft.graph.targetedManagedAppConfiguration":
                         return NewTargetedManagedAppConfiguration(), nil
                     case "#microsoft.graph.targetedManagedAppPolicyAssignment":
@@ -1046,6 +1250,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewTeamsAppDefinition(), nil
                     case "#microsoft.graph.teamsAppInstallation":
                         return NewTeamsAppInstallation(), nil
+                    case "#microsoft.graph.teamsAppSettings":
+                        return NewTeamsAppSettings(), nil
                     case "#microsoft.graph.teamsAsyncOperation":
                         return NewTeamsAsyncOperation(), nil
                     case "#microsoft.graph.teamsTab":
@@ -1078,6 +1284,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewTermsAndConditionsAssignment(), nil
                     case "#microsoft.graph.termsOfUseContainer":
                         return NewTermsOfUseContainer(), nil
+                    case "#microsoft.graph.textWebPart":
+                        return NewTextWebPart(), nil
                     case "#microsoft.graph.threatAssessmentRequest":
                         return NewThreatAssessmentRequest(), nil
                     case "#microsoft.graph.threatAssessmentResult":
@@ -1100,6 +1308,10 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewTokenIssuancePolicy(), nil
                     case "#microsoft.graph.tokenLifetimePolicy":
                         return NewTokenLifetimePolicy(), nil
+                    case "#microsoft.graph.training":
+                        return NewTraining(), nil
+                    case "#microsoft.graph.trainingLanguageDetail":
+                        return NewTrainingLanguageDetail(), nil
                     case "#microsoft.graph.trending":
                         return NewTrending(), nil
                     case "#microsoft.graph.unifiedRbacResourceAction":
@@ -1156,26 +1368,92 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewUserActivity(), nil
                     case "#microsoft.graph.userConsentRequest":
                         return NewUserConsentRequest(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsAppHealthApplicationPerformance":
+                        return NewUserExperienceAnalyticsAppHealthApplicationPerformance(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsAppHealthAppPerformanceByAppVersionDetails":
+                        return NewUserExperienceAnalyticsAppHealthAppPerformanceByAppVersionDetails(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsAppHealthAppPerformanceByAppVersionDeviceId":
+                        return NewUserExperienceAnalyticsAppHealthAppPerformanceByAppVersionDeviceId(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsAppHealthAppPerformanceByOSVersion":
+                        return NewUserExperienceAnalyticsAppHealthAppPerformanceByOSVersion(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsAppHealthDeviceModelPerformance":
+                        return NewUserExperienceAnalyticsAppHealthDeviceModelPerformance(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsAppHealthDevicePerformance":
+                        return NewUserExperienceAnalyticsAppHealthDevicePerformance(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsAppHealthDevicePerformanceDetails":
+                        return NewUserExperienceAnalyticsAppHealthDevicePerformanceDetails(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsAppHealthOSVersionPerformance":
+                        return NewUserExperienceAnalyticsAppHealthOSVersionPerformance(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsBaseline":
+                        return NewUserExperienceAnalyticsBaseline(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsCategory":
+                        return NewUserExperienceAnalyticsCategory(), nil
                     case "#microsoft.graph.userExperienceAnalyticsDevicePerformance":
                         return NewUserExperienceAnalyticsDevicePerformance(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsDeviceScores":
+                        return NewUserExperienceAnalyticsDeviceScores(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsDeviceStartupHistory":
+                        return NewUserExperienceAnalyticsDeviceStartupHistory(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsDeviceStartupProcess":
+                        return NewUserExperienceAnalyticsDeviceStartupProcess(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsDeviceStartupProcessPerformance":
+                        return NewUserExperienceAnalyticsDeviceStartupProcessPerformance(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsMetric":
+                        return NewUserExperienceAnalyticsMetric(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsMetricHistory":
+                        return NewUserExperienceAnalyticsMetricHistory(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsModelScores":
+                        return NewUserExperienceAnalyticsModelScores(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsOverview":
+                        return NewUserExperienceAnalyticsOverview(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsScoreHistory":
+                        return NewUserExperienceAnalyticsScoreHistory(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsWorkFromAnywhereDevice":
+                        return NewUserExperienceAnalyticsWorkFromAnywhereDevice(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsWorkFromAnywhereHardwareReadinessMetric":
+                        return NewUserExperienceAnalyticsWorkFromAnywhereHardwareReadinessMetric(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsWorkFromAnywhereMetric":
+                        return NewUserExperienceAnalyticsWorkFromAnywhereMetric(), nil
+                    case "#microsoft.graph.userExperienceAnalyticsWorkFromAnywhereModelPerformance":
+                        return NewUserExperienceAnalyticsWorkFromAnywhereModelPerformance(), nil
                     case "#microsoft.graph.userFlowLanguageConfiguration":
                         return NewUserFlowLanguageConfiguration(), nil
                     case "#microsoft.graph.userFlowLanguagePage":
                         return NewUserFlowLanguagePage(), nil
                     case "#microsoft.graph.userInstallStateSummary":
                         return NewUserInstallStateSummary(), nil
+                    case "#microsoft.graph.userRegistrationDetails":
+                        return NewUserRegistrationDetails(), nil
                     case "#microsoft.graph.userScopeTeamsAppInstallation":
                         return NewUserScopeTeamsAppInstallation(), nil
                     case "#microsoft.graph.userSettings":
                         return NewUserSettings(), nil
+                    case "#microsoft.graph.userSignInInsight":
+                        return NewUserSignInInsight(), nil
                     case "#microsoft.graph.userTeamwork":
                         return NewUserTeamwork(), nil
+                    case "#microsoft.graph.verticalSection":
+                        return NewVerticalSection(), nil
+                    case "#microsoft.graph.virtualEndpoint":
+                        return NewVirtualEndpoint(), nil
+                    case "#microsoft.graph.virtualEvent":
+                        return NewVirtualEvent(), nil
+                    case "#microsoft.graph.virtualEventRegistration":
+                        return NewVirtualEventRegistration(), nil
+                    case "#microsoft.graph.virtualEventSession":
+                        return NewVirtualEventSession(), nil
+                    case "#microsoft.graph.virtualEventsRoot":
+                        return NewVirtualEventsRoot(), nil
+                    case "#microsoft.graph.virtualEventWebinar":
+                        return NewVirtualEventWebinar(), nil
                     case "#microsoft.graph.voiceAuthenticationMethodConfiguration":
                         return NewVoiceAuthenticationMethodConfiguration(), nil
                     case "#microsoft.graph.vppToken":
                         return NewVppToken(), nil
                     case "#microsoft.graph.webApp":
                         return NewWebApp(), nil
+                    case "#microsoft.graph.webPart":
+                        return NewWebPart(), nil
                     case "#microsoft.graph.win32LobApp":
                         return NewWin32LobApp(), nil
                     case "#microsoft.graph.windows10CompliancePolicy":
@@ -1184,6 +1462,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewWindows10CustomConfiguration(), nil
                     case "#microsoft.graph.windows10EndpointProtectionConfiguration":
                         return NewWindows10EndpointProtectionConfiguration(), nil
+                    case "#microsoft.graph.windows10EnrollmentCompletionPageConfiguration":
+                        return NewWindows10EnrollmentCompletionPageConfiguration(), nil
                     case "#microsoft.graph.windows10EnterpriseModernAppManagementConfiguration":
                         return NewWindows10EnterpriseModernAppManagementConfiguration(), nil
                     case "#microsoft.graph.windows10GeneralConfiguration":
@@ -1200,10 +1480,16 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewWindows81GeneralConfiguration(), nil
                     case "#microsoft.graph.windowsAppX":
                         return NewWindowsAppX(), nil
+                    case "#microsoft.graph.windowsAutopilotDeploymentProfile":
+                        return NewWindowsAutopilotDeploymentProfile(), nil
+                    case "#microsoft.graph.windowsAutopilotDeploymentProfileAssignment":
+                        return NewWindowsAutopilotDeploymentProfileAssignment(), nil
                     case "#microsoft.graph.windowsAutopilotDeviceIdentity":
                         return NewWindowsAutopilotDeviceIdentity(), nil
                     case "#microsoft.graph.windowsDefenderAdvancedThreatProtectionConfiguration":
                         return NewWindowsDefenderAdvancedThreatProtectionConfiguration(), nil
+                    case "#microsoft.graph.windowsDeviceMalwareState":
+                        return NewWindowsDeviceMalwareState(), nil
                     case "#microsoft.graph.windowsHelloForBusinessAuthenticationMethod":
                         return NewWindowsHelloForBusinessAuthenticationMethod(), nil
                     case "#microsoft.graph.windowsInformationProtection":
@@ -1216,6 +1502,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewWindowsInformationProtectionNetworkLearningSummary(), nil
                     case "#microsoft.graph.windowsInformationProtectionPolicy":
                         return NewWindowsInformationProtectionPolicy(), nil
+                    case "#microsoft.graph.windowsMalwareInformation":
+                        return NewWindowsMalwareInformation(), nil
                     case "#microsoft.graph.windowsMicrosoftEdgeApp":
                         return NewWindowsMicrosoftEdgeApp(), nil
                     case "#microsoft.graph.windowsMobileMSI":
@@ -1226,6 +1514,12 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
                         return NewWindowsPhone81CustomConfiguration(), nil
                     case "#microsoft.graph.windowsPhone81GeneralConfiguration":
                         return NewWindowsPhone81GeneralConfiguration(), nil
+                    case "#microsoft.graph.windowsProtectionState":
+                        return NewWindowsProtectionState(), nil
+                    case "#microsoft.graph.windowsSetting":
+                        return NewWindowsSetting(), nil
+                    case "#microsoft.graph.windowsSettingInstance":
+                        return NewWindowsSettingInstance(), nil
                     case "#microsoft.graph.windowsUniversalAppX":
                         return NewWindowsUniversalAppX(), nil
                     case "#microsoft.graph.windowsUniversalAppXContainedApp":
@@ -1336,7 +1630,8 @@ func CreateEntityFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487
     }
     return NewEntity(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *Entity) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -1348,11 +1643,13 @@ func (m *Entity) GetAdditionalData()(map[string]any) {
     }
     return val.(map[string]any)
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *Entity) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *Entity) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["id"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -1377,7 +1674,8 @@ func (m *Entity) GetFieldDeserializers()(map[string]func(i878a80d2330e89d2689638
     }
     return res
 }
-// GetId gets the id property value. The unique idenfier for an entity. Read-only.
+// GetId gets the id property value. The unique identifier for an entity. Read-only.
+// returns a *string when successful
 func (m *Entity) GetId()(*string) {
     val, err := m.GetBackingStore().Get("id")
     if err != nil {
@@ -1389,6 +1687,7 @@ func (m *Entity) GetId()(*string) {
     return nil
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *Entity) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -1421,18 +1720,18 @@ func (m *Entity) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6c010c
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *Entity) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *Entity) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
-// SetId sets the id property value. The unique idenfier for an entity. Read-only.
+// SetId sets the id property value. The unique identifier for an entity. Read-only.
 func (m *Entity) SetId(value *string)() {
     err := m.GetBackingStore().Set("id", value)
     if err != nil {
@@ -1446,7 +1745,6 @@ func (m *Entity) SetOdataType(value *string)() {
         panic(err)
     }
 }
-// Entityable 
 type Entityable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel

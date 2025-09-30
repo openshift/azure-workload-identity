@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type WorkforceIntegrationEncryptionProtocol int
 
 const (
@@ -21,7 +17,7 @@ func ParseWorkforceIntegrationEncryptionProtocol(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_WORKFORCEINTEGRATIONENCRYPTIONPROTOCOL
         default:
-            return 0, errors.New("Unknown WorkforceIntegrationEncryptionProtocol value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -31,4 +27,7 @@ func SerializeWorkforceIntegrationEncryptionProtocol(values []WorkforceIntegrati
         result[i] = v.String()
     }
     return result
+}
+func (i WorkforceIntegrationEncryptionProtocol) isMultiValue() bool {
+    return false
 }

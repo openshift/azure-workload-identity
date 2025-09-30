@@ -4,11 +4,10 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// UserTeamwork 
 type UserTeamwork struct {
     Entity
 }
-// NewUserTeamwork instantiates a new userTeamwork and sets the default values.
+// NewUserTeamwork instantiates a new UserTeamwork and sets the default values.
 func NewUserTeamwork()(*UserTeamwork) {
     m := &UserTeamwork{
         Entity: *NewEntity(),
@@ -16,10 +15,12 @@ func NewUserTeamwork()(*UserTeamwork) {
     return m
 }
 // CreateUserTeamworkFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateUserTeamworkFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewUserTeamwork(), nil
 }
 // GetAssociatedTeams gets the associatedTeams property value. The list of associatedTeamInfo objects that a user is associated with.
+// returns a []AssociatedTeamInfoable when successful
 func (m *UserTeamwork) GetAssociatedTeams()([]AssociatedTeamInfoable) {
     val, err := m.GetBackingStore().Get("associatedTeams")
     if err != nil {
@@ -31,6 +32,7 @@ func (m *UserTeamwork) GetAssociatedTeams()([]AssociatedTeamInfoable) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *UserTeamwork) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.Entity.GetFieldDeserializers()
     res["associatedTeams"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -65,9 +67,30 @@ func (m *UserTeamwork) GetFieldDeserializers()(map[string]func(i878a80d2330e89d2
         }
         return nil
     }
+    res["locale"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetStringValue()
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            m.SetLocale(val)
+        }
+        return nil
+    }
+    res["region"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetStringValue()
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            m.SetRegion(val)
+        }
+        return nil
+    }
     return res
 }
 // GetInstalledApps gets the installedApps property value. The apps installed in the personal scope of this user.
+// returns a []UserScopeTeamsAppInstallationable when successful
 func (m *UserTeamwork) GetInstalledApps()([]UserScopeTeamsAppInstallationable) {
     val, err := m.GetBackingStore().Get("installedApps")
     if err != nil {
@@ -75,6 +98,30 @@ func (m *UserTeamwork) GetInstalledApps()([]UserScopeTeamsAppInstallationable) {
     }
     if val != nil {
         return val.([]UserScopeTeamsAppInstallationable)
+    }
+    return nil
+}
+// GetLocale gets the locale property value. The chosen locale of a user in Microsoft Teams.
+// returns a *string when successful
+func (m *UserTeamwork) GetLocale()(*string) {
+    val, err := m.GetBackingStore().Get("locale")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.(*string)
+    }
+    return nil
+}
+// GetRegion gets the region property value. The region of the user in Microsoft Teams.
+// returns a *string when successful
+func (m *UserTeamwork) GetRegion()(*string) {
+    val, err := m.GetBackingStore().Get("region")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.(*string)
     }
     return nil
 }
@@ -108,6 +155,18 @@ func (m *UserTeamwork) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e
             return err
         }
     }
+    {
+        err = writer.WriteStringValue("locale", m.GetLocale())
+        if err != nil {
+            return err
+        }
+    }
+    {
+        err = writer.WriteStringValue("region", m.GetRegion())
+        if err != nil {
+            return err
+        }
+    }
     return nil
 }
 // SetAssociatedTeams sets the associatedTeams property value. The list of associatedTeamInfo objects that a user is associated with.
@@ -124,12 +183,29 @@ func (m *UserTeamwork) SetInstalledApps(value []UserScopeTeamsAppInstallationabl
         panic(err)
     }
 }
-// UserTeamworkable 
+// SetLocale sets the locale property value. The chosen locale of a user in Microsoft Teams.
+func (m *UserTeamwork) SetLocale(value *string)() {
+    err := m.GetBackingStore().Set("locale", value)
+    if err != nil {
+        panic(err)
+    }
+}
+// SetRegion sets the region property value. The region of the user in Microsoft Teams.
+func (m *UserTeamwork) SetRegion(value *string)() {
+    err := m.GetBackingStore().Set("region", value)
+    if err != nil {
+        panic(err)
+    }
+}
 type UserTeamworkable interface {
     Entityable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable
     GetAssociatedTeams()([]AssociatedTeamInfoable)
     GetInstalledApps()([]UserScopeTeamsAppInstallationable)
+    GetLocale()(*string)
+    GetRegion()(*string)
     SetAssociatedTeams(value []AssociatedTeamInfoable)()
     SetInstalledApps(value []UserScopeTeamsAppInstallationable)()
+    SetLocale(value *string)()
+    SetRegion(value *string)()
 }

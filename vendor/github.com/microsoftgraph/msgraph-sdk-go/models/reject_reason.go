@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type RejectReason int
 
 const (
@@ -27,7 +23,7 @@ func ParseRejectReason(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_REJECTREASON
         default:
-            return 0, errors.New("Unknown RejectReason value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeRejectReason(values []RejectReason) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i RejectReason) isMultiValue() bool {
+    return false
 }

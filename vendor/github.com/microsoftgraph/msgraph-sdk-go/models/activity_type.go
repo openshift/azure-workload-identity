@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ActivityType int
 
 const (
@@ -27,7 +23,7 @@ func ParseActivityType(v string) (any, error) {
         case "servicePrincipal":
             result = SERVICEPRINCIPAL_ACTIVITYTYPE
         default:
-            return 0, errors.New("Unknown ActivityType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeActivityType(values []ActivityType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ActivityType) isMultiValue() bool {
+    return false
 }

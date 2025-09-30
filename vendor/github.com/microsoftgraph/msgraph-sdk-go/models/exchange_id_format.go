@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ExchangeIdFormat int
 
 const (
@@ -30,7 +26,7 @@ func ParseExchangeIdFormat(v string) (any, error) {
         case "restImmutableEntryId":
             result = RESTIMMUTABLEENTRYID_EXCHANGEIDFORMAT
         default:
-            return 0, errors.New("Unknown ExchangeIdFormat value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeExchangeIdFormat(values []ExchangeIdFormat) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ExchangeIdFormat) isMultiValue() bool {
+    return false
 }

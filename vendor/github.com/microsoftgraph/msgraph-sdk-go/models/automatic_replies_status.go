@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type AutomaticRepliesStatus int
 
 const (
@@ -24,7 +20,7 @@ func ParseAutomaticRepliesStatus(v string) (any, error) {
         case "scheduled":
             result = SCHEDULED_AUTOMATICREPLIESSTATUS
         default:
-            return 0, errors.New("Unknown AutomaticRepliesStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeAutomaticRepliesStatus(values []AutomaticRepliesStatus) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i AutomaticRepliesStatus) isMultiValue() bool {
+    return false
 }

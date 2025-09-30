@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ServiceUpdateCategory int
 
 const (
@@ -27,7 +23,7 @@ func ParseServiceUpdateCategory(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_SERVICEUPDATECATEGORY
         default:
-            return 0, errors.New("Unknown ServiceUpdateCategory value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeServiceUpdateCategory(values []ServiceUpdateCategory) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ServiceUpdateCategory) isMultiValue() bool {
+    return false
 }

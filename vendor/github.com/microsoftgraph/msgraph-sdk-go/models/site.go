@@ -4,11 +4,10 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// Site 
 type Site struct {
     BaseItem
 }
-// NewSite instantiates a new site and sets the default values.
+// NewSite instantiates a new Site and sets the default values.
 func NewSite()(*Site) {
     m := &Site{
         BaseItem: *NewBaseItem(),
@@ -18,10 +17,12 @@ func NewSite()(*Site) {
     return m
 }
 // CreateSiteFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateSiteFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewSite(), nil
 }
-// GetAnalytics gets the analytics property value. Analytics about the view activities that took place in this site.
+// GetAnalytics gets the analytics property value. Analytics about the view activities that took place on this site.
+// returns a ItemAnalyticsable when successful
 func (m *Site) GetAnalytics()(ItemAnalyticsable) {
     val, err := m.GetBackingStore().Get("analytics")
     if err != nil {
@@ -33,6 +34,7 @@ func (m *Site) GetAnalytics()(ItemAnalyticsable) {
     return nil
 }
 // GetColumns gets the columns property value. The collection of column definitions reusable across lists under this site.
+// returns a []ColumnDefinitionable when successful
 func (m *Site) GetColumns()([]ColumnDefinitionable) {
     val, err := m.GetBackingStore().Get("columns")
     if err != nil {
@@ -44,6 +46,7 @@ func (m *Site) GetColumns()([]ColumnDefinitionable) {
     return nil
 }
 // GetContentTypes gets the contentTypes property value. The collection of content types defined for this site.
+// returns a []ContentTypeable when successful
 func (m *Site) GetContentTypes()([]ContentTypeable) {
     val, err := m.GetBackingStore().Get("contentTypes")
     if err != nil {
@@ -55,6 +58,7 @@ func (m *Site) GetContentTypes()([]ContentTypeable) {
     return nil
 }
 // GetDisplayName gets the displayName property value. The full title for the site. Read-only.
+// returns a *string when successful
 func (m *Site) GetDisplayName()(*string) {
     val, err := m.GetBackingStore().Get("displayName")
     if err != nil {
@@ -66,6 +70,7 @@ func (m *Site) GetDisplayName()(*string) {
     return nil
 }
 // GetDrive gets the drive property value. The default drive (document library) for this site.
+// returns a Driveable when successful
 func (m *Site) GetDrive()(Driveable) {
     val, err := m.GetBackingStore().Get("drive")
     if err != nil {
@@ -77,6 +82,7 @@ func (m *Site) GetDrive()(Driveable) {
     return nil
 }
 // GetDrives gets the drives property value. The collection of drives (document libraries) under this site.
+// returns a []Driveable when successful
 func (m *Site) GetDrives()([]Driveable) {
     val, err := m.GetBackingStore().Get("drives")
     if err != nil {
@@ -88,6 +94,7 @@ func (m *Site) GetDrives()([]Driveable) {
     return nil
 }
 // GetError gets the error property value. The error property
+// returns a PublicErrorable when successful
 func (m *Site) GetError()(PublicErrorable) {
     val, err := m.GetBackingStore().Get("error")
     if err != nil {
@@ -99,6 +106,7 @@ func (m *Site) GetError()(PublicErrorable) {
     return nil
 }
 // GetExternalColumns gets the externalColumns property value. The externalColumns property
+// returns a []ColumnDefinitionable when successful
 func (m *Site) GetExternalColumns()([]ColumnDefinitionable) {
     val, err := m.GetBackingStore().Get("externalColumns")
     if err != nil {
@@ -110,6 +118,7 @@ func (m *Site) GetExternalColumns()([]ColumnDefinitionable) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *Site) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.BaseItem.GetFieldDeserializers()
     res["analytics"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -216,6 +225,16 @@ func (m *Site) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a
         }
         return nil
     }
+    res["isPersonalSite"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetBoolValue()
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            m.SetIsPersonalSite(val)
+        }
+        return nil
+    }
     res["items"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
         val, err := n.GetCollectionOfObjectValues(CreateBaseItemFromDiscriminatorValue)
         if err != nil {
@@ -271,6 +290,22 @@ func (m *Site) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a
                 }
             }
             m.SetOperations(res)
+        }
+        return nil
+    }
+    res["pages"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetCollectionOfObjectValues(CreateBaseSitePageFromDiscriminatorValue)
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            res := make([]BaseSitePageable, len(val))
+            for i, v := range val {
+                if v != nil {
+                    res[i] = v.(BaseSitePageable)
+                }
+            }
+            m.SetPages(res)
         }
         return nil
     }
@@ -338,7 +373,20 @@ func (m *Site) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a
     }
     return res
 }
+// GetIsPersonalSite gets the isPersonalSite property value. Identifies whether the site is personal or not. Read-only.
+// returns a *bool when successful
+func (m *Site) GetIsPersonalSite()(*bool) {
+    val, err := m.GetBackingStore().Get("isPersonalSite")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.(*bool)
+    }
+    return nil
+}
 // GetItems gets the items property value. Used to address any item contained in this site. This collection can't be enumerated.
+// returns a []BaseItemable when successful
 func (m *Site) GetItems()([]BaseItemable) {
     val, err := m.GetBackingStore().Get("items")
     if err != nil {
@@ -350,6 +398,7 @@ func (m *Site) GetItems()([]BaseItemable) {
     return nil
 }
 // GetLists gets the lists property value. The collection of lists under this site.
+// returns a []Listable when successful
 func (m *Site) GetLists()([]Listable) {
     val, err := m.GetBackingStore().Get("lists")
     if err != nil {
@@ -361,6 +410,7 @@ func (m *Site) GetLists()([]Listable) {
     return nil
 }
 // GetOnenote gets the onenote property value. Calls the OneNote service for notebook related operations.
+// returns a Onenoteable when successful
 func (m *Site) GetOnenote()(Onenoteable) {
     val, err := m.GetBackingStore().Get("onenote")
     if err != nil {
@@ -372,6 +422,7 @@ func (m *Site) GetOnenote()(Onenoteable) {
     return nil
 }
 // GetOperations gets the operations property value. The collection of long-running operations on the site.
+// returns a []RichLongRunningOperationable when successful
 func (m *Site) GetOperations()([]RichLongRunningOperationable) {
     val, err := m.GetBackingStore().Get("operations")
     if err != nil {
@@ -382,7 +433,20 @@ func (m *Site) GetOperations()([]RichLongRunningOperationable) {
     }
     return nil
 }
+// GetPages gets the pages property value. The collection of pages in the baseSitePages list in this site.
+// returns a []BaseSitePageable when successful
+func (m *Site) GetPages()([]BaseSitePageable) {
+    val, err := m.GetBackingStore().Get("pages")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.([]BaseSitePageable)
+    }
+    return nil
+}
 // GetPermissions gets the permissions property value. The permissions associated with the site. Nullable.
+// returns a []Permissionable when successful
 func (m *Site) GetPermissions()([]Permissionable) {
     val, err := m.GetBackingStore().Get("permissions")
     if err != nil {
@@ -393,7 +457,8 @@ func (m *Site) GetPermissions()([]Permissionable) {
     }
     return nil
 }
-// GetRoot gets the root property value. If present, indicates that this is the root site in the site collection. Read-only.
+// GetRoot gets the root property value. If present, provides the root site in the site collection. Read-only.
+// returns a Rootable when successful
 func (m *Site) GetRoot()(Rootable) {
     val, err := m.GetBackingStore().Get("root")
     if err != nil {
@@ -405,6 +470,7 @@ func (m *Site) GetRoot()(Rootable) {
     return nil
 }
 // GetSharepointIds gets the sharepointIds property value. Returns identifiers useful for SharePoint REST compatibility. Read-only.
+// returns a SharepointIdsable when successful
 func (m *Site) GetSharepointIds()(SharepointIdsable) {
     val, err := m.GetBackingStore().Get("sharepointIds")
     if err != nil {
@@ -416,6 +482,7 @@ func (m *Site) GetSharepointIds()(SharepointIdsable) {
     return nil
 }
 // GetSiteCollection gets the siteCollection property value. Provides details about the site's site collection. Available only on the root site. Read-only.
+// returns a SiteCollectionable when successful
 func (m *Site) GetSiteCollection()(SiteCollectionable) {
     val, err := m.GetBackingStore().Get("siteCollection")
     if err != nil {
@@ -427,6 +494,7 @@ func (m *Site) GetSiteCollection()(SiteCollectionable) {
     return nil
 }
 // GetSites gets the sites property value. The collection of the sub-sites under this site.
+// returns a []Siteable when successful
 func (m *Site) GetSites()([]Siteable) {
     val, err := m.GetBackingStore().Get("sites")
     if err != nil {
@@ -515,6 +583,12 @@ func (m *Site) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6c010c49
             return err
         }
     }
+    {
+        err = writer.WriteBoolValue("isPersonalSite", m.GetIsPersonalSite())
+        if err != nil {
+            return err
+        }
+    }
     if m.GetItems() != nil {
         cast := make([]i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, len(m.GetItems()))
         for i, v := range m.GetItems() {
@@ -553,6 +627,18 @@ func (m *Site) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6c010c49
             }
         }
         err = writer.WriteCollectionOfObjectValues("operations", cast)
+        if err != nil {
+            return err
+        }
+    }
+    if m.GetPages() != nil {
+        cast := make([]i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, len(m.GetPages()))
+        for i, v := range m.GetPages() {
+            if v != nil {
+                cast[i] = v.(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable)
+            }
+        }
+        err = writer.WriteCollectionOfObjectValues("pages", cast)
         if err != nil {
             return err
         }
@@ -601,7 +687,7 @@ func (m *Site) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6c010c49
     }
     return nil
 }
-// SetAnalytics sets the analytics property value. Analytics about the view activities that took place in this site.
+// SetAnalytics sets the analytics property value. Analytics about the view activities that took place on this site.
 func (m *Site) SetAnalytics(value ItemAnalyticsable)() {
     err := m.GetBackingStore().Set("analytics", value)
     if err != nil {
@@ -657,6 +743,13 @@ func (m *Site) SetExternalColumns(value []ColumnDefinitionable)() {
         panic(err)
     }
 }
+// SetIsPersonalSite sets the isPersonalSite property value. Identifies whether the site is personal or not. Read-only.
+func (m *Site) SetIsPersonalSite(value *bool)() {
+    err := m.GetBackingStore().Set("isPersonalSite", value)
+    if err != nil {
+        panic(err)
+    }
+}
 // SetItems sets the items property value. Used to address any item contained in this site. This collection can't be enumerated.
 func (m *Site) SetItems(value []BaseItemable)() {
     err := m.GetBackingStore().Set("items", value)
@@ -685,6 +778,13 @@ func (m *Site) SetOperations(value []RichLongRunningOperationable)() {
         panic(err)
     }
 }
+// SetPages sets the pages property value. The collection of pages in the baseSitePages list in this site.
+func (m *Site) SetPages(value []BaseSitePageable)() {
+    err := m.GetBackingStore().Set("pages", value)
+    if err != nil {
+        panic(err)
+    }
+}
 // SetPermissions sets the permissions property value. The permissions associated with the site. Nullable.
 func (m *Site) SetPermissions(value []Permissionable)() {
     err := m.GetBackingStore().Set("permissions", value)
@@ -692,7 +792,7 @@ func (m *Site) SetPermissions(value []Permissionable)() {
         panic(err)
     }
 }
-// SetRoot sets the root property value. If present, indicates that this is the root site in the site collection. Read-only.
+// SetRoot sets the root property value. If present, provides the root site in the site collection. Read-only.
 func (m *Site) SetRoot(value Rootable)() {
     err := m.GetBackingStore().Set("root", value)
     if err != nil {
@@ -720,7 +820,6 @@ func (m *Site) SetSites(value []Siteable)() {
         panic(err)
     }
 }
-// Siteable 
 type Siteable interface {
     BaseItemable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable
@@ -732,10 +831,12 @@ type Siteable interface {
     GetDrives()([]Driveable)
     GetError()(PublicErrorable)
     GetExternalColumns()([]ColumnDefinitionable)
+    GetIsPersonalSite()(*bool)
     GetItems()([]BaseItemable)
     GetLists()([]Listable)
     GetOnenote()(Onenoteable)
     GetOperations()([]RichLongRunningOperationable)
+    GetPages()([]BaseSitePageable)
     GetPermissions()([]Permissionable)
     GetRoot()(Rootable)
     GetSharepointIds()(SharepointIdsable)
@@ -749,10 +850,12 @@ type Siteable interface {
     SetDrives(value []Driveable)()
     SetError(value PublicErrorable)()
     SetExternalColumns(value []ColumnDefinitionable)()
+    SetIsPersonalSite(value *bool)()
     SetItems(value []BaseItemable)()
     SetLists(value []Listable)()
     SetOnenote(value Onenoteable)()
     SetOperations(value []RichLongRunningOperationable)()
+    SetPages(value []BaseSitePageable)()
     SetPermissions(value []Permissionable)()
     SetRoot(value Rootable)()
     SetSharepointIds(value SharepointIdsable)()

@@ -1,8 +1,4 @@
 package security
-import (
-    "errors"
-)
-// 
 type DeviceRiskScore int
 
 const (
@@ -33,7 +29,7 @@ func ParseDeviceRiskScore(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_DEVICERISKSCORE
         default:
-            return 0, errors.New("Unknown DeviceRiskScore value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeDeviceRiskScore(values []DeviceRiskScore) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i DeviceRiskScore) isMultiValue() bool {
+    return false
 }

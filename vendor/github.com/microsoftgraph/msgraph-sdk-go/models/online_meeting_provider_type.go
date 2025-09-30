@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type OnlineMeetingProviderType int
 
 const (
@@ -27,7 +23,7 @@ func ParseOnlineMeetingProviderType(v string) (any, error) {
         case "teamsForBusiness":
             result = TEAMSFORBUSINESS_ONLINEMEETINGPROVIDERTYPE
         default:
-            return 0, errors.New("Unknown OnlineMeetingProviderType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeOnlineMeetingProviderType(values []OnlineMeetingProviderType) []st
         result[i] = v.String()
     }
     return result
+}
+func (i OnlineMeetingProviderType) isMultiValue() bool {
+    return false
 }
