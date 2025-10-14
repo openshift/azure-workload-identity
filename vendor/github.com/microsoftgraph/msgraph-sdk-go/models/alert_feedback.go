@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type AlertFeedback int
 
 const (
@@ -30,7 +26,7 @@ func ParseAlertFeedback(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_ALERTFEEDBACK
         default:
-            return 0, errors.New("Unknown AlertFeedback value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeAlertFeedback(values []AlertFeedback) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i AlertFeedback) isMultiValue() bool {
+    return false
 }

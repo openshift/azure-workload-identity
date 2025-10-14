@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type FeatureTargetType int
 
 const (
@@ -27,7 +23,7 @@ func ParseFeatureTargetType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_FEATURETARGETTYPE
         default:
-            return 0, errors.New("Unknown FeatureTargetType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeFeatureTargetType(values []FeatureTargetType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i FeatureTargetType) isMultiValue() bool {
+    return false
 }

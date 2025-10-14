@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Possible values for monitoring file activity.
 type DefenderMonitorFileActivity int
 
@@ -35,7 +32,7 @@ func ParseDefenderMonitorFileActivity(v string) (any, error) {
         case "monitorOutgoingFilesOnly":
             result = MONITOROUTGOINGFILESONLY_DEFENDERMONITORFILEACTIVITY
         default:
-            return 0, errors.New("Unknown DefenderMonitorFileActivity value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -45,4 +42,7 @@ func SerializeDefenderMonitorFileActivity(values []DefenderMonitorFileActivity) 
         result[i] = v.String()
     }
     return result
+}
+func (i DefenderMonitorFileActivity) isMultiValue() bool {
+    return false
 }

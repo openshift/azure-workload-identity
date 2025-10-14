@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ProvisioningResult int
 
 const (
@@ -30,7 +26,7 @@ func ParseProvisioningResult(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_PROVISIONINGRESULT
         default:
-            return 0, errors.New("Unknown ProvisioningResult value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeProvisioningResult(values []ProvisioningResult) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ProvisioningResult) isMultiValue() bool {
+    return false
 }

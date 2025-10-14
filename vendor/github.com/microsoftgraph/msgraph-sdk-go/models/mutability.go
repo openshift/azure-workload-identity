@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type Mutability int
 
 const (
@@ -27,7 +23,7 @@ func ParseMutability(v string) (any, error) {
         case "WriteOnly":
             result = WRITEONLY_MUTABILITY
         default:
-            return 0, errors.New("Unknown Mutability value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeMutability(values []Mutability) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i Mutability) isMultiValue() bool {
+    return false
 }

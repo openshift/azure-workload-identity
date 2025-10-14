@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type RecurrenceRangeType int
 
 const (
@@ -24,7 +20,7 @@ func ParseRecurrenceRangeType(v string) (any, error) {
         case "numbered":
             result = NUMBERED_RECURRENCERANGETYPE
         default:
-            return 0, errors.New("Unknown RecurrenceRangeType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeRecurrenceRangeType(values []RecurrenceRangeType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i RecurrenceRangeType) isMultiValue() bool {
+    return false
 }

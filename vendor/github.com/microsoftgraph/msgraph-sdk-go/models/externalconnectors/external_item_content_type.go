@@ -1,8 +1,4 @@
 package externalconnectors
-import (
-    "errors"
-)
-// 
 type ExternalItemContentType int
 
 const (
@@ -24,7 +20,7 @@ func ParseExternalItemContentType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_EXTERNALITEMCONTENTTYPE
         default:
-            return 0, errors.New("Unknown ExternalItemContentType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeExternalItemContentType(values []ExternalItemContentType) []string
         result[i] = v.String()
     }
     return result
+}
+func (i ExternalItemContentType) isMultiValue() bool {
+    return false
 }

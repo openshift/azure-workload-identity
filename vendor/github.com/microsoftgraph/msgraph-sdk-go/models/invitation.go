@@ -4,7 +4,6 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// Invitation 
 type Invitation struct {
     Entity
 }
@@ -16,10 +15,12 @@ func NewInvitation()(*Invitation) {
     return m
 }
 // CreateInvitationFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateInvitationFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewInvitation(), nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *Invitation) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.Entity.GetFieldDeserializers()
     res["invitedUser"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -59,6 +60,22 @@ func (m *Invitation) GetFieldDeserializers()(map[string]func(i878a80d2330e89d268
         }
         if val != nil {
             m.SetInvitedUserMessageInfo(val.(InvitedUserMessageInfoable))
+        }
+        return nil
+    }
+    res["invitedUserSponsors"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetCollectionOfObjectValues(CreateDirectoryObjectFromDiscriminatorValue)
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            res := make([]DirectoryObjectable, len(val))
+            for i, v := range val {
+                if v != nil {
+                    res[i] = v.(DirectoryObjectable)
+                }
+            }
+            m.SetInvitedUserSponsors(res)
         }
         return nil
     }
@@ -125,6 +142,7 @@ func (m *Invitation) GetFieldDeserializers()(map[string]func(i878a80d2330e89d268
     return res
 }
 // GetInvitedUser gets the invitedUser property value. The user created as part of the invitation creation. Read-Only
+// returns a Userable when successful
 func (m *Invitation) GetInvitedUser()(Userable) {
     val, err := m.GetBackingStore().Get("invitedUser")
     if err != nil {
@@ -136,6 +154,7 @@ func (m *Invitation) GetInvitedUser()(Userable) {
     return nil
 }
 // GetInvitedUserDisplayName gets the invitedUserDisplayName property value. The display name of the user being invited.
+// returns a *string when successful
 func (m *Invitation) GetInvitedUserDisplayName()(*string) {
     val, err := m.GetBackingStore().Get("invitedUserDisplayName")
     if err != nil {
@@ -146,7 +165,8 @@ func (m *Invitation) GetInvitedUserDisplayName()(*string) {
     }
     return nil
 }
-// GetInvitedUserEmailAddress gets the invitedUserEmailAddress property value. The email address of the user being invited. Required. The following special characters are not permitted in the email address:Tilde (~)Exclamation point (!)Number sign (#)Dollar sign ($)Percent (%)Circumflex (^)Ampersand (&)Asterisk (*)Parentheses (( ))Plus sign (+)Equal sign (=)Brackets ([ ])Braces ({ })Backslash (/)Slash mark (/)Pipe (/|)Semicolon (;)Colon (:)Quotation marks (')Angle brackets (< >)Question mark (?)Comma (,)However, the following exceptions apply:A period (.) or a hyphen (-) is permitted anywhere in the user name, except at the beginning or end of the name.An underscore (_) is permitted anywhere in the user name. This includes at the beginning or end of the name.
+// GetInvitedUserEmailAddress gets the invitedUserEmailAddress property value. The email address of the user being invited. Required. The following special characters aren't permitted in the email address:Tilde (~)Exclamation point (!)Number sign (#)Dollar sign ($)Percent (%)Circumflex (^)Ampersand (&)Asterisk (*)Parentheses (( ))Plus sign (+)Equal sign (=)Brackets ([ ])Braces ({ })Backslash (/)Slash mark (/)Pipe (/|)Semicolon (;)Colon (:)Quotation marks (')Angle brackets (< >)Question mark (?)Comma (,)However, the following exceptions apply:A period (.) or a hyphen (-) is permitted anywhere in the user name, except at the beginning or end of the name.An underscore (_) is permitted anywhere in the user name, including at the beginning or end of the name.
+// returns a *string when successful
 func (m *Invitation) GetInvitedUserEmailAddress()(*string) {
     val, err := m.GetBackingStore().Get("invitedUserEmailAddress")
     if err != nil {
@@ -157,7 +177,8 @@ func (m *Invitation) GetInvitedUserEmailAddress()(*string) {
     }
     return nil
 }
-// GetInvitedUserMessageInfo gets the invitedUserMessageInfo property value. Additional configuration for the message being sent to the invited user, including customizing message text, language and cc recipient list.
+// GetInvitedUserMessageInfo gets the invitedUserMessageInfo property value. Additional configuration for the message being sent to the invited user, including customizing message text, language, and cc recipient list.
+// returns a InvitedUserMessageInfoable when successful
 func (m *Invitation) GetInvitedUserMessageInfo()(InvitedUserMessageInfoable) {
     val, err := m.GetBackingStore().Get("invitedUserMessageInfo")
     if err != nil {
@@ -168,7 +189,20 @@ func (m *Invitation) GetInvitedUserMessageInfo()(InvitedUserMessageInfoable) {
     }
     return nil
 }
-// GetInvitedUserType gets the invitedUserType property value. The userType of the user being invited. By default, this is Guest. You can invite as Member if you are a company administrator.
+// GetInvitedUserSponsors gets the invitedUserSponsors property value. The users or groups who are sponsors of the invited user. Sponsors are users and groups that are responsible for guest users' privileges in the tenant and for keeping the guest users' information and access up to date.
+// returns a []DirectoryObjectable when successful
+func (m *Invitation) GetInvitedUserSponsors()([]DirectoryObjectable) {
+    val, err := m.GetBackingStore().Get("invitedUserSponsors")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.([]DirectoryObjectable)
+    }
+    return nil
+}
+// GetInvitedUserType gets the invitedUserType property value. The userType of the user being invited. By default, this is Guest. You can invite as Member if you're a company administrator.
+// returns a *string when successful
 func (m *Invitation) GetInvitedUserType()(*string) {
     val, err := m.GetBackingStore().Get("invitedUserType")
     if err != nil {
@@ -180,6 +214,7 @@ func (m *Invitation) GetInvitedUserType()(*string) {
     return nil
 }
 // GetInviteRedeemUrl gets the inviteRedeemUrl property value. The URL the user can use to redeem their invitation. Read-only.
+// returns a *string when successful
 func (m *Invitation) GetInviteRedeemUrl()(*string) {
     val, err := m.GetBackingStore().Get("inviteRedeemUrl")
     if err != nil {
@@ -191,6 +226,7 @@ func (m *Invitation) GetInviteRedeemUrl()(*string) {
     return nil
 }
 // GetInviteRedirectUrl gets the inviteRedirectUrl property value. The URL the user should be redirected to once the invitation is redeemed. Required.
+// returns a *string when successful
 func (m *Invitation) GetInviteRedirectUrl()(*string) {
     val, err := m.GetBackingStore().Get("inviteRedirectUrl")
     if err != nil {
@@ -202,6 +238,7 @@ func (m *Invitation) GetInviteRedirectUrl()(*string) {
     return nil
 }
 // GetResetRedemption gets the resetRedemption property value. Reset the user's redemption status and reinvite a user while retaining their user identifier, group memberships, and app assignments. This property allows you to enable a user to sign-in using a different email address from the one in the previous invitation. For more information about using this property, see Reset redemption status for a guest user.
+// returns a *bool when successful
 func (m *Invitation) GetResetRedemption()(*bool) {
     val, err := m.GetBackingStore().Get("resetRedemption")
     if err != nil {
@@ -213,6 +250,7 @@ func (m *Invitation) GetResetRedemption()(*bool) {
     return nil
 }
 // GetSendInvitationMessage gets the sendInvitationMessage property value. Indicates whether an email should be sent to the user being invited. The default is false.
+// returns a *bool when successful
 func (m *Invitation) GetSendInvitationMessage()(*bool) {
     val, err := m.GetBackingStore().Get("sendInvitationMessage")
     if err != nil {
@@ -224,6 +262,7 @@ func (m *Invitation) GetSendInvitationMessage()(*bool) {
     return nil
 }
 // GetStatus gets the status property value. The status of the invitation. Possible values are: PendingAcceptance, Completed, InProgress, and Error.
+// returns a *string when successful
 func (m *Invitation) GetStatus()(*string) {
     val, err := m.GetBackingStore().Get("status")
     if err != nil {
@@ -260,6 +299,18 @@ func (m *Invitation) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6c
     }
     {
         err = writer.WriteObjectValue("invitedUserMessageInfo", m.GetInvitedUserMessageInfo())
+        if err != nil {
+            return err
+        }
+    }
+    if m.GetInvitedUserSponsors() != nil {
+        cast := make([]i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, len(m.GetInvitedUserSponsors()))
+        for i, v := range m.GetInvitedUserSponsors() {
+            if v != nil {
+                cast[i] = v.(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable)
+            }
+        }
+        err = writer.WriteCollectionOfObjectValues("invitedUserSponsors", cast)
         if err != nil {
             return err
         }
@@ -316,21 +367,28 @@ func (m *Invitation) SetInvitedUserDisplayName(value *string)() {
         panic(err)
     }
 }
-// SetInvitedUserEmailAddress sets the invitedUserEmailAddress property value. The email address of the user being invited. Required. The following special characters are not permitted in the email address:Tilde (~)Exclamation point (!)Number sign (#)Dollar sign ($)Percent (%)Circumflex (^)Ampersand (&)Asterisk (*)Parentheses (( ))Plus sign (+)Equal sign (=)Brackets ([ ])Braces ({ })Backslash (/)Slash mark (/)Pipe (/|)Semicolon (;)Colon (:)Quotation marks (')Angle brackets (< >)Question mark (?)Comma (,)However, the following exceptions apply:A period (.) or a hyphen (-) is permitted anywhere in the user name, except at the beginning or end of the name.An underscore (_) is permitted anywhere in the user name. This includes at the beginning or end of the name.
+// SetInvitedUserEmailAddress sets the invitedUserEmailAddress property value. The email address of the user being invited. Required. The following special characters aren't permitted in the email address:Tilde (~)Exclamation point (!)Number sign (#)Dollar sign ($)Percent (%)Circumflex (^)Ampersand (&)Asterisk (*)Parentheses (( ))Plus sign (+)Equal sign (=)Brackets ([ ])Braces ({ })Backslash (/)Slash mark (/)Pipe (/|)Semicolon (;)Colon (:)Quotation marks (')Angle brackets (< >)Question mark (?)Comma (,)However, the following exceptions apply:A period (.) or a hyphen (-) is permitted anywhere in the user name, except at the beginning or end of the name.An underscore (_) is permitted anywhere in the user name, including at the beginning or end of the name.
 func (m *Invitation) SetInvitedUserEmailAddress(value *string)() {
     err := m.GetBackingStore().Set("invitedUserEmailAddress", value)
     if err != nil {
         panic(err)
     }
 }
-// SetInvitedUserMessageInfo sets the invitedUserMessageInfo property value. Additional configuration for the message being sent to the invited user, including customizing message text, language and cc recipient list.
+// SetInvitedUserMessageInfo sets the invitedUserMessageInfo property value. Additional configuration for the message being sent to the invited user, including customizing message text, language, and cc recipient list.
 func (m *Invitation) SetInvitedUserMessageInfo(value InvitedUserMessageInfoable)() {
     err := m.GetBackingStore().Set("invitedUserMessageInfo", value)
     if err != nil {
         panic(err)
     }
 }
-// SetInvitedUserType sets the invitedUserType property value. The userType of the user being invited. By default, this is Guest. You can invite as Member if you are a company administrator.
+// SetInvitedUserSponsors sets the invitedUserSponsors property value. The users or groups who are sponsors of the invited user. Sponsors are users and groups that are responsible for guest users' privileges in the tenant and for keeping the guest users' information and access up to date.
+func (m *Invitation) SetInvitedUserSponsors(value []DirectoryObjectable)() {
+    err := m.GetBackingStore().Set("invitedUserSponsors", value)
+    if err != nil {
+        panic(err)
+    }
+}
+// SetInvitedUserType sets the invitedUserType property value. The userType of the user being invited. By default, this is Guest. You can invite as Member if you're a company administrator.
 func (m *Invitation) SetInvitedUserType(value *string)() {
     err := m.GetBackingStore().Set("invitedUserType", value)
     if err != nil {
@@ -372,7 +430,6 @@ func (m *Invitation) SetStatus(value *string)() {
         panic(err)
     }
 }
-// Invitationable 
 type Invitationable interface {
     Entityable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable
@@ -380,6 +437,7 @@ type Invitationable interface {
     GetInvitedUserDisplayName()(*string)
     GetInvitedUserEmailAddress()(*string)
     GetInvitedUserMessageInfo()(InvitedUserMessageInfoable)
+    GetInvitedUserSponsors()([]DirectoryObjectable)
     GetInvitedUserType()(*string)
     GetInviteRedeemUrl()(*string)
     GetInviteRedirectUrl()(*string)
@@ -390,6 +448,7 @@ type Invitationable interface {
     SetInvitedUserDisplayName(value *string)()
     SetInvitedUserEmailAddress(value *string)()
     SetInvitedUserMessageInfo(value InvitedUserMessageInfoable)()
+    SetInvitedUserSponsors(value []DirectoryObjectable)()
     SetInvitedUserType(value *string)()
     SetInviteRedeemUrl(value *string)()
     SetInviteRedirectUrl(value *string)()

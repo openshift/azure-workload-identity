@@ -1,27 +1,38 @@
 package models
 import (
-    "errors"
+    "math"
+    "strings"
 )
-// 
 type OnlineMeetingContentSharingDisabledReason int
 
 const (
-    WATERMARKPROTECTION_ONLINEMEETINGCONTENTSHARINGDISABLEDREASON OnlineMeetingContentSharingDisabledReason = iota
-    UNKNOWNFUTUREVALUE_ONLINEMEETINGCONTENTSHARINGDISABLEDREASON
+    WATERMARKPROTECTION_ONLINEMEETINGCONTENTSHARINGDISABLEDREASON = 1
+    UNKNOWNFUTUREVALUE_ONLINEMEETINGCONTENTSHARINGDISABLEDREASON = 2
 )
 
 func (i OnlineMeetingContentSharingDisabledReason) String() string {
-    return []string{"watermarkProtection", "unknownFutureValue"}[i]
+    var values []string
+    options := []string{"watermarkProtection", "unknownFutureValue"}
+    for p := 0; p < 2; p++ {
+        mantis := OnlineMeetingContentSharingDisabledReason(int(math.Pow(2, float64(p))))
+        if i&mantis == mantis {
+            values = append(values, options[p])
+        }
+    }
+    return strings.Join(values, ",")
 }
 func ParseOnlineMeetingContentSharingDisabledReason(v string) (any, error) {
-    result := WATERMARKPROTECTION_ONLINEMEETINGCONTENTSHARINGDISABLEDREASON
-    switch v {
-        case "watermarkProtection":
-            result = WATERMARKPROTECTION_ONLINEMEETINGCONTENTSHARINGDISABLEDREASON
-        case "unknownFutureValue":
-            result = UNKNOWNFUTUREVALUE_ONLINEMEETINGCONTENTSHARINGDISABLEDREASON
-        default:
-            return 0, errors.New("Unknown OnlineMeetingContentSharingDisabledReason value: " + v)
+    var result OnlineMeetingContentSharingDisabledReason
+    values := strings.Split(v, ",")
+    for _, str := range values {
+        switch str {
+            case "watermarkProtection":
+                result |= WATERMARKPROTECTION_ONLINEMEETINGCONTENTSHARINGDISABLEDREASON
+            case "unknownFutureValue":
+                result |= UNKNOWNFUTUREVALUE_ONLINEMEETINGCONTENTSHARINGDISABLEDREASON
+            default:
+                return nil, nil
+        }
     }
     return &result, nil
 }
@@ -31,4 +42,7 @@ func SerializeOnlineMeetingContentSharingDisabledReason(values []OnlineMeetingCo
         result[i] = v.String()
     }
     return result
+}
+func (i OnlineMeetingContentSharingDisabledReason) isMultiValue() bool {
+    return true
 }

@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type AuthenticationMethodTargetType int
 
 const (
@@ -24,7 +20,7 @@ func ParseAuthenticationMethodTargetType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_AUTHENTICATIONMETHODTARGETTYPE
         default:
-            return 0, errors.New("Unknown AuthenticationMethodTargetType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeAuthenticationMethodTargetType(values []AuthenticationMethodTarget
         result[i] = v.String()
     }
     return result
+}
+func (i AuthenticationMethodTargetType) isMultiValue() bool {
+    return false
 }

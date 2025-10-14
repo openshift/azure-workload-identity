@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type OnenoteUserRole int
 
 const (
@@ -27,7 +23,7 @@ func ParseOnenoteUserRole(v string) (any, error) {
         case "Reader":
             result = READER_ONENOTEUSERROLE
         default:
-            return 0, errors.New("Unknown OnenoteUserRole value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeOnenoteUserRole(values []OnenoteUserRole) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i OnenoteUserRole) isMultiValue() bool {
+    return false
 }

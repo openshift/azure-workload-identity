@@ -4,7 +4,6 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// SecurityGroupEvidence 
 type SecurityGroupEvidence struct {
     AlertEvidence
 }
@@ -13,13 +12,17 @@ func NewSecurityGroupEvidence()(*SecurityGroupEvidence) {
     m := &SecurityGroupEvidence{
         AlertEvidence: *NewAlertEvidence(),
     }
+    odataTypeValue := "#microsoft.graph.security.securityGroupEvidence"
+    m.SetOdataType(&odataTypeValue)
     return m
 }
 // CreateSecurityGroupEvidenceFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateSecurityGroupEvidenceFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewSecurityGroupEvidence(), nil
 }
 // GetDisplayName gets the displayName property value. The name of the security group.
+// returns a *string when successful
 func (m *SecurityGroupEvidence) GetDisplayName()(*string) {
     val, err := m.GetBackingStore().Get("displayName")
     if err != nil {
@@ -31,6 +34,7 @@ func (m *SecurityGroupEvidence) GetDisplayName()(*string) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *SecurityGroupEvidence) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.AlertEvidence.GetFieldDeserializers()
     res["displayName"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -56,6 +60,7 @@ func (m *SecurityGroupEvidence) GetFieldDeserializers()(map[string]func(i878a80d
     return res
 }
 // GetSecurityGroupId gets the securityGroupId property value. Unique identifier of the security group.
+// returns a *string when successful
 func (m *SecurityGroupEvidence) GetSecurityGroupId()(*string) {
     val, err := m.GetBackingStore().Get("securityGroupId")
     if err != nil {
@@ -100,7 +105,6 @@ func (m *SecurityGroupEvidence) SetSecurityGroupId(value *string)() {
         panic(err)
     }
 }
-// SecurityGroupEvidenceable 
 type SecurityGroupEvidenceable interface {
     AlertEvidenceable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable

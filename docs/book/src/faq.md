@@ -14,12 +14,11 @@ Azure Workload Identity is v2 of the AAD Pod Identity. AAD Pod Identity v2 was a
 
 ## How to federate multiple identities with a Kubernetes service account?
 
-It is possible to have a many-to-one relationship between multiple identities and a Kubernetes service account, i.e. you can create multiple
-federated identity credentials that reference the same service account in your Kubernetes cluster.
+It's possible to have a many-to-one relationship between multiple identities and a Kubernetes service account. For example, you can create multiple federated identity credentials that reference the same service account in your Kubernetes cluster.
 
-`azure.workload.identity/client-id` annotation in your service account represents the default identity client ID used by the Azure Identity SDK during authentication. If you would like to use a different identity, you would need to specify the client ID when creating the Azure Credential object.
+The `azure.workload.identity/client-id` annotation in your service account represents the default identity's client ID used by an Azure Identity library during authentication. If you'd like to use a different identity, specify the client ID when creating the Azure Identity library's credential object.
 
-For example, if you are using the [`DefaultAzureCredential`](https://docs.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) from the Azure Identity Python SDK to authenticate your application, you can specify which identity to use by adding the `managed_identity_client_id` parameter to the `DefaultAzureCredential` constructor.
+For example, if you're using the Azure Identity for Python library's [`DefaultAzureCredential`](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) to authenticate your application, you can specify which identity to use by adding the [`workload_identity_client_id`](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python#keyword-only-parameters) parameter to the `DefaultAzureCredential` constructor.
 
 ## How to federate multiple Kubernetes service accounts with a single identity?
 
@@ -60,11 +59,11 @@ Required permissions to create/update/delete federated identity credential:
 
 ## How to migrate from `aad-pod-identity`?
 
-You can refer to [this link](https://learn.microsoft.com/en-us/azure/aks/workload-identity-migrate-from-pod-identity) for more information.
+You can refer to [this link](https://learn.microsoft.com/azure/aks/workload-identity-migrate-from-pod-identity) for more information.
 
 tl;dr:
 
-1. If you use DefaultAzureCredential in your workload, you can update the azure identity sdk version to the latest that supports workload identity (ref: [link](https://azure.github.io/azure-workload-identity/docs/topics/language-specific-examples/azure-identity-sdk.html)).
+1. If you use `DefaultAzureCredential` in your workload, you can update the Azure Identity client library version to the latest that supports Workload Identity (ref: [link](https://azure.github.io/azure-workload-identity/docs/topics/language-specific-examples/azure-identity-sdk.html)).
 2. If you still have workloads that get managed identity token from IMDS, you can annotate the pod to get a proxy sidecar injected, that'll do the token exchange with the new flow.
 
 ## Does Workload Identity work in disconnected environments?

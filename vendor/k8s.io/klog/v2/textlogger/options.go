@@ -21,6 +21,7 @@ import (
 	"io"
 	"os"
 	"strconv"
+	"time"
 
 	"k8s.io/klog/v2/internal/verbosity"
 )
@@ -30,28 +31,34 @@ import (
 // bind command line flags to the instance before passing it to NewTestContext.
 //
 // Must be constructed with NewConfig.
-//
-// # Experimental
-//
-// Notice: This type is EXPERIMENTAL and may be changed or removed in a
-// later release.
 type Config struct {
-	*verbosity.VState
-	co configOptions
+	vstate *verbosity.VState
+	co     configOptions
+}
+
+// Verbosity returns a value instance that can be used to query (via String) or
+// modify (via Set) the verbosity threshold. This is thread-safe and can be
+// done at runtime.
+func (c *Config) Verbosity() flag.Value {
+	return c.vstate.V()
+}
+
+// VModule returns a value instance that can be used to query (via String) or
+// modify (via Set) the vmodule settings. This is thread-safe and can be done
+// at runtime.
+func (c *Config) VModule() flag.Value {
+	return c.vstate.VModule()
 }
 
 // ConfigOption implements functional parameters for NewConfig.
-//
-// # Experimental
-//
-// Notice: This type is EXPERIMENTAL and may be changed or removed in a
-// later release.
 type ConfigOption func(co *configOptions)
 
 type configOptions struct {
 	verbosityFlagName string
 	vmoduleFlagName   string
 	verbosityDefault  int
+	fixedTime         *time.Time
+	unwind            func(int) (string, int)
 	output            io.Writer
 }
 
@@ -65,11 +72,6 @@ func VerbosityFlagName(name string) ConfigOption {
 
 // VModulFlagName overrides the default -vmodule for the per-module
 // verbosity levels.
-//
-// # Experimental
-//
-// Notice: This function is EXPERIMENTAL and may be changed or removed in a
-// later release.
 func VModuleFlagName(name string) ConfigOption {
 	return func(co *configOptions) {
 		co.vmoduleFlagName = name
@@ -79,11 +81,6 @@ func VModuleFlagName(name string) ConfigOption {
 // Verbosity overrides the default verbosity level of 0.
 // See https://github.com/kubernetes/community/blob/9406b4352fe2d5810cb21cc3cb059ce5886de157/contributors/devel/sig-instrumentation/logging.md#logging-conventions
 // for log level conventions in Kubernetes.
-//
-// # Experimental
-//
-// Notice: This function is EXPERIMENTAL and may be changed or removed in a
-// later release.
 func Verbosity(level int) ConfigOption {
 	return func(co *configOptions) {
 		co.verbosityDefault = level
@@ -91,31 +88,49 @@ func Verbosity(level int) ConfigOption {
 }
 
 // Output overrides stderr as the output stream.
-//
-// # Experimental
-//
-// Notice: This function is EXPERIMENTAL and may be changed or removed in a
-// later release.
 func Output(output io.Writer) ConfigOption {
 	return func(co *configOptions) {
 		co.output = output
 	}
 }
 
-// NewConfig returns a configuration with recommended defaults and optional
-// modifications. Command line flags are not bound to any FlagSet yet.
+// FixedTime overrides the actual time with a fixed time. Useful only for testing.
 //
 // # Experimental
 //
 // Notice: This function is EXPERIMENTAL and may be changed or removed in a
 // later release.
+func FixedTime(ts time.Time) ConfigOption {
+	return func(co *configOptions) {
+		co.fixedTime = &ts
+	}
+}
+
+// Backtrace overrides the default mechanism for determining the call site.
+// The callback is invoked with the number of function calls between itself
+// and the call site. It must return the file name and line number. An empty
+// file name indicates that the information is unknown.
+//
+// # Experimental
+//
+// Notice: This function is EXPERIMENTAL and may be changed or removed in a
+// later release.
+func Backtrace(unwind func(skip int) (filename string, line int)) ConfigOption {
+	return func(co *configOptions) {
+		co.unwind = unwind
+	}
+}
+
+// NewConfig returns a configuration with recommended defaults and optional
+// modifications. Command line flags are not bound to any FlagSet yet.
 func NewConfig(opts ...ConfigOption) *Config {
 	c := &Config{
-		VState: verbosity.New(),
+		vstate: verbosity.New(),
 		co: configOptions{
 			verbosityFlagName: "v",
 			vmoduleFlagName:   "vmodule",
 			verbosityDefault:  0,
+			unwind:            runtimeBacktrace,
 			output:            os.Stderr,
 		},
 	}
@@ -123,17 +138,17 @@ func NewConfig(opts ...ConfigOption) *Config {
 		opt(&c.co)
 	}
 
-	c.V().Set(strconv.FormatInt(int64(c.co.verbosityDefault), 10))
+	// Cannot fail for this input.
+	_ = c.Verbosity().Set(strconv.FormatInt(int64(c.co.verbosityDefault), 10))
 	return c
 }
 
 // AddFlags registers the command line flags that control the configuration.
 //
-// # Experimental
-//
-// Notice: This function is EXPERIMENTAL and may be changed or removed in a
-// later release.
+// The default flag names are the same as in klog, so unless those defaults
+// are changed, either klog.InitFlags or Config.AddFlags can be used for the
+// same flag set, but not both.
 func (c *Config) AddFlags(fs *flag.FlagSet) {
-	fs.Var(c.V(), c.co.verbosityFlagName, "number for the log level verbosity of the testing logger")
+	fs.Var(c.Verbosity(), c.co.verbosityFlagName, "number for the log level verbosity of the testing logger")
 	fs.Var(c.VModule(), c.co.vmoduleFlagName, "comma-separated list of pattern=N log level settings for files matching the patterns")
 }

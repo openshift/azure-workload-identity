@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type LogonType int
 
 const (
@@ -36,7 +32,7 @@ func ParseLogonType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_LOGONTYPE
         default:
-            return 0, errors.New("Unknown LogonType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -46,4 +42,7 @@ func SerializeLogonType(values []LogonType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i LogonType) isMultiValue() bool {
+    return false
 }

@@ -119,6 +119,7 @@ func (t *Client) Credential(ctx context.Context, authParams authority.AuthParams
 			return accesstokens.TokenResponse{}, err
 		}
 		return accesstokens.TokenResponse{
+			TokenType:   authParams.AuthnScheme.AccessTokenType(),
 			AccessToken: tr.AccessToken,
 			ExpiresOn: internalTime.DurationTime{
 				T: now.Add(time.Duration(tr.ExpiresInSeconds) * time.Second),
@@ -330,7 +331,7 @@ func (t *Client) DeviceCode(ctx context.Context, authParams authority.AuthParams
 func (t *Client) resolveEndpoint(ctx context.Context, authParams *authority.AuthParams, userPrincipalName string) error {
 	endpoints, err := t.Resolver.ResolveEndpoints(ctx, authParams.AuthorityInfo, userPrincipalName)
 	if err != nil {
-		return fmt.Errorf("unable to resolve an endpoint: %s", err)
+		return fmt.Errorf("unable to resolve an endpoint: %w", err)
 	}
 	authParams.Endpoints = endpoints
 	return nil

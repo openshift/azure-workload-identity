@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type Fido2RestrictionEnforcementType int
 
 const (
@@ -24,7 +20,7 @@ func ParseFido2RestrictionEnforcementType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_FIDO2RESTRICTIONENFORCEMENTTYPE
         default:
-            return 0, errors.New("Unknown Fido2RestrictionEnforcementType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeFido2RestrictionEnforcementType(values []Fido2RestrictionEnforceme
         result[i] = v.String()
     }
     return result
+}
+func (i Fido2RestrictionEnforcementType) isMultiValue() bool {
+    return false
 }

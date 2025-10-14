@@ -1,8 +1,4 @@
 package security
-import (
-    "errors"
-)
-// 
 type EventPropagationStatus int
 
 const (
@@ -30,7 +26,7 @@ func ParseEventPropagationStatus(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_EVENTPROPAGATIONSTATUS
         default:
-            return 0, errors.New("Unknown EventPropagationStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeEventPropagationStatus(values []EventPropagationStatus) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i EventPropagationStatus) isMultiValue() bool {
+    return false
 }

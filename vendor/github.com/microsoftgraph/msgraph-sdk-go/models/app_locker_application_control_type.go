@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Possible values of AppLocker Application Control Types
 type AppLockerApplicationControlType int
 
@@ -35,7 +32,7 @@ func ParseAppLockerApplicationControlType(v string) (any, error) {
         case "auditComponentsStoreAppsAndSmartlocker":
             result = AUDITCOMPONENTSSTOREAPPSANDSMARTLOCKER_APPLOCKERAPPLICATIONCONTROLTYPE
         default:
-            return 0, errors.New("Unknown AppLockerApplicationControlType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -45,4 +42,7 @@ func SerializeAppLockerApplicationControlType(values []AppLockerApplicationContr
         result[i] = v.String()
     }
     return result
+}
+func (i AppLockerApplicationControlType) isMultiValue() bool {
+    return false
 }

@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Possible values of the compliance app list.
 type AppListType int
 
@@ -27,7 +24,7 @@ func ParseAppListType(v string) (any, error) {
         case "appsNotInListCompliant":
             result = APPSNOTINLISTCOMPLIANT_APPLISTTYPE
         default:
-            return 0, errors.New("Unknown AppListType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +34,7 @@ func SerializeAppListType(values []AppListType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i AppListType) isMultiValue() bool {
+    return false
 }

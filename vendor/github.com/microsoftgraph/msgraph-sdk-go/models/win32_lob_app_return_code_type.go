@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Indicates the type of return code.
 type Win32LobAppReturnCodeType int
 
@@ -35,7 +32,7 @@ func ParseWin32LobAppReturnCodeType(v string) (any, error) {
         case "retry":
             result = RETRY_WIN32LOBAPPRETURNCODETYPE
         default:
-            return 0, errors.New("Unknown Win32LobAppReturnCodeType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -45,4 +42,7 @@ func SerializeWin32LobAppReturnCodeType(values []Win32LobAppReturnCodeType) []st
         result[i] = v.String()
     }
     return result
+}
+func (i Win32LobAppReturnCodeType) isMultiValue() bool {
+    return false
 }

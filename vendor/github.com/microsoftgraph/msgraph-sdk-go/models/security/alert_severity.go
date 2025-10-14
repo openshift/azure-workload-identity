@@ -1,8 +1,4 @@
 package security
-import (
-    "errors"
-)
-// 
 type AlertSeverity int
 
 const (
@@ -33,7 +29,7 @@ func ParseAlertSeverity(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_ALERTSEVERITY
         default:
-            return 0, errors.New("Unknown AlertSeverity value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeAlertSeverity(values []AlertSeverity) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i AlertSeverity) isMultiValue() bool {
+    return false
 }

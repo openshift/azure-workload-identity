@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type AttributeFlowType int
 
 const (
@@ -30,7 +26,7 @@ func ParseAttributeFlowType(v string) (any, error) {
         case "AttributeAddOnly":
             result = ATTRIBUTEADDONLY_ATTRIBUTEFLOWTYPE
         default:
-            return 0, errors.New("Unknown AttributeFlowType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeAttributeFlowType(values []AttributeFlowType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i AttributeFlowType) isMultiValue() bool {
+    return false
 }

@@ -5,7 +5,6 @@ import (
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e "github.com/microsoft/kiota-abstractions-go/store"
 )
 
-// IdentityProtectionRoot 
 type IdentityProtectionRoot struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
@@ -19,10 +18,12 @@ func NewIdentityProtectionRoot()(*IdentityProtectionRoot) {
     return m
 }
 // CreateIdentityProtectionRootFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateIdentityProtectionRootFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewIdentityProtectionRoot(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *IdentityProtectionRoot) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -34,11 +35,13 @@ func (m *IdentityProtectionRoot) GetAdditionalData()(map[string]any) {
     }
     return val.(map[string]any)
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *IdentityProtectionRoot) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *IdentityProtectionRoot) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["@odata.type"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -118,6 +121,7 @@ func (m *IdentityProtectionRoot) GetFieldDeserializers()(map[string]func(i878a80
     return res
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *IdentityProtectionRoot) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -128,7 +132,8 @@ func (m *IdentityProtectionRoot) GetOdataType()(*string) {
     }
     return nil
 }
-// GetRiskDetections gets the riskDetections property value. Risk detection in Azure AD Identity Protection and the associated information about the detection.
+// GetRiskDetections gets the riskDetections property value. Risk detection in Microsoft Entra ID Protection and the associated information about the detection.
+// returns a []RiskDetectionable when successful
 func (m *IdentityProtectionRoot) GetRiskDetections()([]RiskDetectionable) {
     val, err := m.GetBackingStore().Get("riskDetections")
     if err != nil {
@@ -139,7 +144,8 @@ func (m *IdentityProtectionRoot) GetRiskDetections()([]RiskDetectionable) {
     }
     return nil
 }
-// GetRiskyServicePrincipals gets the riskyServicePrincipals property value. Azure AD service principals that are at risk.
+// GetRiskyServicePrincipals gets the riskyServicePrincipals property value. Microsoft Entra service principals that are at risk.
+// returns a []RiskyServicePrincipalable when successful
 func (m *IdentityProtectionRoot) GetRiskyServicePrincipals()([]RiskyServicePrincipalable) {
     val, err := m.GetBackingStore().Get("riskyServicePrincipals")
     if err != nil {
@@ -150,7 +156,8 @@ func (m *IdentityProtectionRoot) GetRiskyServicePrincipals()([]RiskyServicePrinc
     }
     return nil
 }
-// GetRiskyUsers gets the riskyUsers property value. Users that are flagged as at-risk by Azure AD Identity Protection.
+// GetRiskyUsers gets the riskyUsers property value. Users that are flagged as at-risk by Microsoft Entra ID Protection.
+// returns a []RiskyUserable when successful
 func (m *IdentityProtectionRoot) GetRiskyUsers()([]RiskyUserable) {
     val, err := m.GetBackingStore().Get("riskyUsers")
     if err != nil {
@@ -161,7 +168,8 @@ func (m *IdentityProtectionRoot) GetRiskyUsers()([]RiskyUserable) {
     }
     return nil
 }
-// GetServicePrincipalRiskDetections gets the servicePrincipalRiskDetections property value. Represents information about detected at-risk service principals in an Azure AD tenant.
+// GetServicePrincipalRiskDetections gets the servicePrincipalRiskDetections property value. Represents information about detected at-risk service principals in a Microsoft Entra tenant.
+// returns a []ServicePrincipalRiskDetectionable when successful
 func (m *IdentityProtectionRoot) GetServicePrincipalRiskDetections()([]ServicePrincipalRiskDetectionable) {
     val, err := m.GetBackingStore().Get("servicePrincipalRiskDetections")
     if err != nil {
@@ -236,14 +244,14 @@ func (m *IdentityProtectionRoot) Serialize(writer i878a80d2330e89d26896388a3f487
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *IdentityProtectionRoot) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *IdentityProtectionRoot) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
@@ -254,35 +262,34 @@ func (m *IdentityProtectionRoot) SetOdataType(value *string)() {
         panic(err)
     }
 }
-// SetRiskDetections sets the riskDetections property value. Risk detection in Azure AD Identity Protection and the associated information about the detection.
+// SetRiskDetections sets the riskDetections property value. Risk detection in Microsoft Entra ID Protection and the associated information about the detection.
 func (m *IdentityProtectionRoot) SetRiskDetections(value []RiskDetectionable)() {
     err := m.GetBackingStore().Set("riskDetections", value)
     if err != nil {
         panic(err)
     }
 }
-// SetRiskyServicePrincipals sets the riskyServicePrincipals property value. Azure AD service principals that are at risk.
+// SetRiskyServicePrincipals sets the riskyServicePrincipals property value. Microsoft Entra service principals that are at risk.
 func (m *IdentityProtectionRoot) SetRiskyServicePrincipals(value []RiskyServicePrincipalable)() {
     err := m.GetBackingStore().Set("riskyServicePrincipals", value)
     if err != nil {
         panic(err)
     }
 }
-// SetRiskyUsers sets the riskyUsers property value. Users that are flagged as at-risk by Azure AD Identity Protection.
+// SetRiskyUsers sets the riskyUsers property value. Users that are flagged as at-risk by Microsoft Entra ID Protection.
 func (m *IdentityProtectionRoot) SetRiskyUsers(value []RiskyUserable)() {
     err := m.GetBackingStore().Set("riskyUsers", value)
     if err != nil {
         panic(err)
     }
 }
-// SetServicePrincipalRiskDetections sets the servicePrincipalRiskDetections property value. Represents information about detected at-risk service principals in an Azure AD tenant.
+// SetServicePrincipalRiskDetections sets the servicePrincipalRiskDetections property value. Represents information about detected at-risk service principals in a Microsoft Entra tenant.
 func (m *IdentityProtectionRoot) SetServicePrincipalRiskDetections(value []ServicePrincipalRiskDetectionable)() {
     err := m.GetBackingStore().Set("servicePrincipalRiskDetections", value)
     if err != nil {
         panic(err)
     }
 }
-// IdentityProtectionRootable 
 type IdentityProtectionRootable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel

@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type PayloadDeliveryPlatform int
 
 const (
@@ -30,7 +26,7 @@ func ParsePayloadDeliveryPlatform(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_PAYLOADDELIVERYPLATFORM
         default:
-            return 0, errors.New("Unknown PayloadDeliveryPlatform value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializePayloadDeliveryPlatform(values []PayloadDeliveryPlatform) []string
         result[i] = v.String()
     }
     return result
+}
+func (i PayloadDeliveryPlatform) isMultiValue() bool {
+    return false
 }

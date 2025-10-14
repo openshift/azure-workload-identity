@@ -4,7 +4,6 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// Teamwork 
 type Teamwork struct {
     Entity
 }
@@ -16,10 +15,24 @@ func NewTeamwork()(*Teamwork) {
     return m
 }
 // CreateTeamworkFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateTeamworkFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewTeamwork(), nil
 }
+// GetDeletedChats gets the deletedChats property value. A collection of deleted chats.
+// returns a []DeletedChatable when successful
+func (m *Teamwork) GetDeletedChats()([]DeletedChatable) {
+    val, err := m.GetBackingStore().Get("deletedChats")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.([]DeletedChatable)
+    }
+    return nil
+}
 // GetDeletedTeams gets the deletedTeams property value. The deleted team.
+// returns a []DeletedTeamable when successful
 func (m *Teamwork) GetDeletedTeams()([]DeletedTeamable) {
     val, err := m.GetBackingStore().Get("deletedTeams")
     if err != nil {
@@ -31,8 +44,25 @@ func (m *Teamwork) GetDeletedTeams()([]DeletedTeamable) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *Teamwork) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.Entity.GetFieldDeserializers()
+    res["deletedChats"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetCollectionOfObjectValues(CreateDeletedChatFromDiscriminatorValue)
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            res := make([]DeletedChatable, len(val))
+            for i, v := range val {
+                if v != nil {
+                    res[i] = v.(DeletedChatable)
+                }
+            }
+            m.SetDeletedChats(res)
+        }
+        return nil
+    }
     res["deletedTeams"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
         val, err := n.GetCollectionOfObjectValues(CreateDeletedTeamFromDiscriminatorValue)
         if err != nil {
@@ -46,6 +76,36 @@ func (m *Teamwork) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896
                 }
             }
             m.SetDeletedTeams(res)
+        }
+        return nil
+    }
+    res["isTeamsEnabled"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetBoolValue()
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            m.SetIsTeamsEnabled(val)
+        }
+        return nil
+    }
+    res["region"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetStringValue()
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            m.SetRegion(val)
+        }
+        return nil
+    }
+    res["teamsAppSettings"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetObjectValue(CreateTeamsAppSettingsFromDiscriminatorValue)
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            m.SetTeamsAppSettings(val.(TeamsAppSettingsable))
         }
         return nil
     }
@@ -67,7 +127,44 @@ func (m *Teamwork) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896
     }
     return res
 }
+// GetIsTeamsEnabled gets the isTeamsEnabled property value. Indicates whether Microsoft Teams is enabled for the organization.
+// returns a *bool when successful
+func (m *Teamwork) GetIsTeamsEnabled()(*bool) {
+    val, err := m.GetBackingStore().Get("isTeamsEnabled")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.(*bool)
+    }
+    return nil
+}
+// GetRegion gets the region property value. Represents the region of the organization. > The region property contains the organization's or the user's region. The property contains the user's region (if available) for users who have a valid multigeo license. For users without multigeo licenses, the region property contains the organization's region.
+// returns a *string when successful
+func (m *Teamwork) GetRegion()(*string) {
+    val, err := m.GetBackingStore().Get("region")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.(*string)
+    }
+    return nil
+}
+// GetTeamsAppSettings gets the teamsAppSettings property value. Represents tenant-wide settings for all Teams apps in the tenant.
+// returns a TeamsAppSettingsable when successful
+func (m *Teamwork) GetTeamsAppSettings()(TeamsAppSettingsable) {
+    val, err := m.GetBackingStore().Get("teamsAppSettings")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.(TeamsAppSettingsable)
+    }
+    return nil
+}
 // GetWorkforceIntegrations gets the workforceIntegrations property value. The workforceIntegrations property
+// returns a []WorkforceIntegrationable when successful
 func (m *Teamwork) GetWorkforceIntegrations()([]WorkforceIntegrationable) {
     val, err := m.GetBackingStore().Get("workforceIntegrations")
     if err != nil {
@@ -84,6 +181,18 @@ func (m *Teamwork) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6c01
     if err != nil {
         return err
     }
+    if m.GetDeletedChats() != nil {
+        cast := make([]i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, len(m.GetDeletedChats()))
+        for i, v := range m.GetDeletedChats() {
+            if v != nil {
+                cast[i] = v.(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable)
+            }
+        }
+        err = writer.WriteCollectionOfObjectValues("deletedChats", cast)
+        if err != nil {
+            return err
+        }
+    }
     if m.GetDeletedTeams() != nil {
         cast := make([]i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, len(m.GetDeletedTeams()))
         for i, v := range m.GetDeletedTeams() {
@@ -92,6 +201,24 @@ func (m *Teamwork) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6c01
             }
         }
         err = writer.WriteCollectionOfObjectValues("deletedTeams", cast)
+        if err != nil {
+            return err
+        }
+    }
+    {
+        err = writer.WriteBoolValue("isTeamsEnabled", m.GetIsTeamsEnabled())
+        if err != nil {
+            return err
+        }
+    }
+    {
+        err = writer.WriteStringValue("region", m.GetRegion())
+        if err != nil {
+            return err
+        }
+    }
+    {
+        err = writer.WriteObjectValue("teamsAppSettings", m.GetTeamsAppSettings())
         if err != nil {
             return err
         }
@@ -110,9 +237,37 @@ func (m *Teamwork) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6c01
     }
     return nil
 }
+// SetDeletedChats sets the deletedChats property value. A collection of deleted chats.
+func (m *Teamwork) SetDeletedChats(value []DeletedChatable)() {
+    err := m.GetBackingStore().Set("deletedChats", value)
+    if err != nil {
+        panic(err)
+    }
+}
 // SetDeletedTeams sets the deletedTeams property value. The deleted team.
 func (m *Teamwork) SetDeletedTeams(value []DeletedTeamable)() {
     err := m.GetBackingStore().Set("deletedTeams", value)
+    if err != nil {
+        panic(err)
+    }
+}
+// SetIsTeamsEnabled sets the isTeamsEnabled property value. Indicates whether Microsoft Teams is enabled for the organization.
+func (m *Teamwork) SetIsTeamsEnabled(value *bool)() {
+    err := m.GetBackingStore().Set("isTeamsEnabled", value)
+    if err != nil {
+        panic(err)
+    }
+}
+// SetRegion sets the region property value. Represents the region of the organization. > The region property contains the organization's or the user's region. The property contains the user's region (if available) for users who have a valid multigeo license. For users without multigeo licenses, the region property contains the organization's region.
+func (m *Teamwork) SetRegion(value *string)() {
+    err := m.GetBackingStore().Set("region", value)
+    if err != nil {
+        panic(err)
+    }
+}
+// SetTeamsAppSettings sets the teamsAppSettings property value. Represents tenant-wide settings for all Teams apps in the tenant.
+func (m *Teamwork) SetTeamsAppSettings(value TeamsAppSettingsable)() {
+    err := m.GetBackingStore().Set("teamsAppSettings", value)
     if err != nil {
         panic(err)
     }
@@ -124,12 +279,19 @@ func (m *Teamwork) SetWorkforceIntegrations(value []WorkforceIntegrationable)() 
         panic(err)
     }
 }
-// Teamworkable 
 type Teamworkable interface {
     Entityable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable
+    GetDeletedChats()([]DeletedChatable)
     GetDeletedTeams()([]DeletedTeamable)
+    GetIsTeamsEnabled()(*bool)
+    GetRegion()(*string)
+    GetTeamsAppSettings()(TeamsAppSettingsable)
     GetWorkforceIntegrations()([]WorkforceIntegrationable)
+    SetDeletedChats(value []DeletedChatable)()
     SetDeletedTeams(value []DeletedTeamable)()
+    SetIsTeamsEnabled(value *bool)()
+    SetRegion(value *string)()
+    SetTeamsAppSettings(value TeamsAppSettingsable)()
     SetWorkforceIntegrations(value []WorkforceIntegrationable)()
 }

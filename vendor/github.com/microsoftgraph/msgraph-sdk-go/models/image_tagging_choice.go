@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ImageTaggingChoice int
 
 const (
@@ -27,7 +23,7 @@ func ParseImageTaggingChoice(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_IMAGETAGGINGCHOICE
         default:
-            return 0, errors.New("Unknown ImageTaggingChoice value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeImageTaggingChoice(values []ImageTaggingChoice) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ImageTaggingChoice) isMultiValue() bool {
+    return false
 }

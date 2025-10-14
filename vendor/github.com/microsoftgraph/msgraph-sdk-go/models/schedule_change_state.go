@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ScheduleChangeState int
 
 const (
@@ -27,7 +23,7 @@ func ParseScheduleChangeState(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_SCHEDULECHANGESTATE
         default:
-            return 0, errors.New("Unknown ScheduleChangeState value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeScheduleChangeState(values []ScheduleChangeState) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ScheduleChangeState) isMultiValue() bool {
+    return false
 }

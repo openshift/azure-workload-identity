@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type IdentityUserFlowAttributeDataType int
 
 const (
@@ -33,7 +29,7 @@ func ParseIdentityUserFlowAttributeDataType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_IDENTITYUSERFLOWATTRIBUTEDATATYPE
         default:
-            return 0, errors.New("Unknown IdentityUserFlowAttributeDataType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeIdentityUserFlowAttributeDataType(values []IdentityUserFlowAttribu
         result[i] = v.String()
     }
     return result
+}
+func (i IdentityUserFlowAttributeDataType) isMultiValue() bool {
+    return false
 }

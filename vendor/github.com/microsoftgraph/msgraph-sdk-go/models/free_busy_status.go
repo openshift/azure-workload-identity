@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type FreeBusyStatus int
 
 const (
@@ -33,7 +29,7 @@ func ParseFreeBusyStatus(v string) (any, error) {
         case "workingElsewhere":
             result = WORKINGELSEWHERE_FREEBUSYSTATUS
         default:
-            return 0, errors.New("Unknown FreeBusyStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeFreeBusyStatus(values []FreeBusyStatus) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i FreeBusyStatus) isMultiValue() bool {
+    return false
 }

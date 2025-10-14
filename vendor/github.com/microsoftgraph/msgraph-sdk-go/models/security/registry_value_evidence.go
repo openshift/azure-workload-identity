@@ -4,7 +4,6 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// RegistryValueEvidence 
 type RegistryValueEvidence struct {
     AlertEvidence
 }
@@ -13,13 +12,17 @@ func NewRegistryValueEvidence()(*RegistryValueEvidence) {
     m := &RegistryValueEvidence{
         AlertEvidence: *NewAlertEvidence(),
     }
+    odataTypeValue := "#microsoft.graph.security.registryValueEvidence"
+    m.SetOdataType(&odataTypeValue)
     return m
 }
 // CreateRegistryValueEvidenceFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateRegistryValueEvidenceFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewRegistryValueEvidence(), nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *RegistryValueEvidence) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.AlertEvidence.GetFieldDeserializers()
     res["mdeDeviceId"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -84,7 +87,8 @@ func (m *RegistryValueEvidence) GetFieldDeserializers()(map[string]func(i878a80d
     }
     return res
 }
-// GetMdeDeviceId gets the mdeDeviceId property value. The mdeDeviceId property
+// GetMdeDeviceId gets the mdeDeviceId property value. A unique identifier assigned to a device by Microsoft Defender for Endpoint.
+// returns a *string when successful
 func (m *RegistryValueEvidence) GetMdeDeviceId()(*string) {
     val, err := m.GetBackingStore().Get("mdeDeviceId")
     if err != nil {
@@ -96,6 +100,7 @@ func (m *RegistryValueEvidence) GetMdeDeviceId()(*string) {
     return nil
 }
 // GetRegistryHive gets the registryHive property value. Registry hive of the key that the recorded action was applied to.
+// returns a *string when successful
 func (m *RegistryValueEvidence) GetRegistryHive()(*string) {
     val, err := m.GetBackingStore().Get("registryHive")
     if err != nil {
@@ -107,6 +112,7 @@ func (m *RegistryValueEvidence) GetRegistryHive()(*string) {
     return nil
 }
 // GetRegistryKey gets the registryKey property value. Registry key that the recorded action was applied to.
+// returns a *string when successful
 func (m *RegistryValueEvidence) GetRegistryKey()(*string) {
     val, err := m.GetBackingStore().Get("registryKey")
     if err != nil {
@@ -118,6 +124,7 @@ func (m *RegistryValueEvidence) GetRegistryKey()(*string) {
     return nil
 }
 // GetRegistryValue gets the registryValue property value. Data of the registry value that the recorded action was applied to.
+// returns a *string when successful
 func (m *RegistryValueEvidence) GetRegistryValue()(*string) {
     val, err := m.GetBackingStore().Get("registryValue")
     if err != nil {
@@ -129,6 +136,7 @@ func (m *RegistryValueEvidence) GetRegistryValue()(*string) {
     return nil
 }
 // GetRegistryValueName gets the registryValueName property value. Name of the registry value that the recorded action was applied to.
+// returns a *string when successful
 func (m *RegistryValueEvidence) GetRegistryValueName()(*string) {
     val, err := m.GetBackingStore().Get("registryValueName")
     if err != nil {
@@ -140,6 +148,7 @@ func (m *RegistryValueEvidence) GetRegistryValueName()(*string) {
     return nil
 }
 // GetRegistryValueType gets the registryValueType property value. Data type, such as binary or string, of the registry value that the recorded action was applied to.
+// returns a *string when successful
 func (m *RegistryValueEvidence) GetRegistryValueType()(*string) {
     val, err := m.GetBackingStore().Get("registryValueType")
     if err != nil {
@@ -194,7 +203,7 @@ func (m *RegistryValueEvidence) Serialize(writer i878a80d2330e89d26896388a3f487e
     }
     return nil
 }
-// SetMdeDeviceId sets the mdeDeviceId property value. The mdeDeviceId property
+// SetMdeDeviceId sets the mdeDeviceId property value. A unique identifier assigned to a device by Microsoft Defender for Endpoint.
 func (m *RegistryValueEvidence) SetMdeDeviceId(value *string)() {
     err := m.GetBackingStore().Set("mdeDeviceId", value)
     if err != nil {
@@ -236,7 +245,6 @@ func (m *RegistryValueEvidence) SetRegistryValueType(value *string)() {
         panic(err)
     }
 }
-// RegistryValueEvidenceable 
 type RegistryValueEvidenceable interface {
     AlertEvidenceable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable

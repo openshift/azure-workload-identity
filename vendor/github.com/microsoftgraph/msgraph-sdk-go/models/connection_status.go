@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ConnectionStatus int
 
 const (
@@ -33,7 +29,7 @@ func ParseConnectionStatus(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_CONNECTIONSTATUS
         default:
-            return 0, errors.New("Unknown ConnectionStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeConnectionStatus(values []ConnectionStatus) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ConnectionStatus) isMultiValue() bool {
+    return false
 }

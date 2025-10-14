@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ContactRelationship int
 
 const (
@@ -39,7 +35,7 @@ func ParseContactRelationship(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_CONTACTRELATIONSHIP
         default:
-            return 0, errors.New("Unknown ContactRelationship value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -49,4 +45,7 @@ func SerializeContactRelationship(values []ContactRelationship) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ContactRelationship) isMultiValue() bool {
+    return false
 }

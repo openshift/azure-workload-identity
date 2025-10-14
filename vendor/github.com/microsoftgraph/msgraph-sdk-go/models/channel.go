@@ -5,11 +5,10 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// Channel 
 type Channel struct {
     Entity
 }
-// NewChannel instantiates a new channel and sets the default values.
+// NewChannel instantiates a new Channel and sets the default values.
 func NewChannel()(*Channel) {
     m := &Channel{
         Entity: *NewEntity(),
@@ -17,10 +16,12 @@ func NewChannel()(*Channel) {
     return m
 }
 // CreateChannelFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateChannelFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewChannel(), nil
 }
 // GetCreatedDateTime gets the createdDateTime property value. Read only. Timestamp at which the channel was created.
+// returns a *Time when successful
 func (m *Channel) GetCreatedDateTime()(*i336074805fc853987abe6f7fe3ad97a6a6f3077a16391fec744f671a015fbd7e.Time) {
     val, err := m.GetBackingStore().Get("createdDateTime")
     if err != nil {
@@ -32,6 +33,7 @@ func (m *Channel) GetCreatedDateTime()(*i336074805fc853987abe6f7fe3ad97a6a6f3077
     return nil
 }
 // GetDescription gets the description property value. Optional textual description for the channel.
+// returns a *string when successful
 func (m *Channel) GetDescription()(*string) {
     val, err := m.GetBackingStore().Get("description")
     if err != nil {
@@ -43,6 +45,7 @@ func (m *Channel) GetDescription()(*string) {
     return nil
 }
 // GetDisplayName gets the displayName property value. Channel name as it will appear to the user in Microsoft Teams. The maximum length is 50 characters.
+// returns a *string when successful
 func (m *Channel) GetDisplayName()(*string) {
     val, err := m.GetBackingStore().Get("displayName")
     if err != nil {
@@ -54,6 +57,7 @@ func (m *Channel) GetDisplayName()(*string) {
     return nil
 }
 // GetEmail gets the email property value. The email address for sending messages to the channel. Read-only.
+// returns a *string when successful
 func (m *Channel) GetEmail()(*string) {
     val, err := m.GetBackingStore().Get("email")
     if err != nil {
@@ -65,6 +69,7 @@ func (m *Channel) GetEmail()(*string) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *Channel) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.Entity.GetFieldDeserializers()
     res["createdDateTime"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -185,6 +190,16 @@ func (m *Channel) GetFieldDeserializers()(map[string]func(i878a80d2330e89d268963
         }
         return nil
     }
+    res["summary"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetObjectValue(CreateChannelSummaryFromDiscriminatorValue)
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            m.SetSummary(val.(ChannelSummaryable))
+        }
+        return nil
+    }
     res["tabs"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
         val, err := n.GetCollectionOfObjectValues(CreateTeamsTabFromDiscriminatorValue)
         if err != nil {
@@ -224,6 +239,7 @@ func (m *Channel) GetFieldDeserializers()(map[string]func(i878a80d2330e89d268963
     return res
 }
 // GetFilesFolder gets the filesFolder property value. Metadata for the location where the channel's files are stored.
+// returns a DriveItemable when successful
 func (m *Channel) GetFilesFolder()(DriveItemable) {
     val, err := m.GetBackingStore().Get("filesFolder")
     if err != nil {
@@ -235,6 +251,7 @@ func (m *Channel) GetFilesFolder()(DriveItemable) {
     return nil
 }
 // GetIsFavoriteByDefault gets the isFavoriteByDefault property value. Indicates whether the channel should automatically be marked 'favorite' for all members of the team. Can only be set programmatically with Create team. Default: false.
+// returns a *bool when successful
 func (m *Channel) GetIsFavoriteByDefault()(*bool) {
     val, err := m.GetBackingStore().Get("isFavoriteByDefault")
     if err != nil {
@@ -246,6 +263,7 @@ func (m *Channel) GetIsFavoriteByDefault()(*bool) {
     return nil
 }
 // GetMembers gets the members property value. A collection of membership records associated with the channel.
+// returns a []ConversationMemberable when successful
 func (m *Channel) GetMembers()([]ConversationMemberable) {
     val, err := m.GetBackingStore().Get("members")
     if err != nil {
@@ -257,6 +275,7 @@ func (m *Channel) GetMembers()([]ConversationMemberable) {
     return nil
 }
 // GetMembershipType gets the membershipType property value. The type of the channel. Can be set during creation and can't be changed. The possible values are: standard, private, unknownFutureValue, shared. The default value is standard. Note that you must use the Prefer: include-unknown-enum-members request header to get the following value in this evolvable enum: shared.
+// returns a *ChannelMembershipType when successful
 func (m *Channel) GetMembershipType()(*ChannelMembershipType) {
     val, err := m.GetBackingStore().Get("membershipType")
     if err != nil {
@@ -268,6 +287,7 @@ func (m *Channel) GetMembershipType()(*ChannelMembershipType) {
     return nil
 }
 // GetMessages gets the messages property value. A collection of all the messages in the channel. A navigation property. Nullable.
+// returns a []ChatMessageable when successful
 func (m *Channel) GetMessages()([]ChatMessageable) {
     val, err := m.GetBackingStore().Get("messages")
     if err != nil {
@@ -279,6 +299,7 @@ func (m *Channel) GetMessages()([]ChatMessageable) {
     return nil
 }
 // GetSharedWithTeams gets the sharedWithTeams property value. A collection of teams with which a channel is shared.
+// returns a []SharedWithChannelTeamInfoable when successful
 func (m *Channel) GetSharedWithTeams()([]SharedWithChannelTeamInfoable) {
     val, err := m.GetBackingStore().Get("sharedWithTeams")
     if err != nil {
@@ -289,7 +310,20 @@ func (m *Channel) GetSharedWithTeams()([]SharedWithChannelTeamInfoable) {
     }
     return nil
 }
+// GetSummary gets the summary property value. Contains summary information about the channel, including number of owners, members, guests, and an indicator for members from other tenants. The summary property will only be returned if it is specified in the $select clause of the Get channel method.
+// returns a ChannelSummaryable when successful
+func (m *Channel) GetSummary()(ChannelSummaryable) {
+    val, err := m.GetBackingStore().Get("summary")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.(ChannelSummaryable)
+    }
+    return nil
+}
 // GetTabs gets the tabs property value. A collection of all the tabs in the channel. A navigation property.
+// returns a []TeamsTabable when successful
 func (m *Channel) GetTabs()([]TeamsTabable) {
     val, err := m.GetBackingStore().Get("tabs")
     if err != nil {
@@ -300,7 +334,8 @@ func (m *Channel) GetTabs()([]TeamsTabable) {
     }
     return nil
 }
-// GetTenantId gets the tenantId property value. The ID of the Azure Active Directory tenant.
+// GetTenantId gets the tenantId property value. The ID of the Microsoft Entra tenant.
+// returns a *string when successful
 func (m *Channel) GetTenantId()(*string) {
     val, err := m.GetBackingStore().Get("tenantId")
     if err != nil {
@@ -312,6 +347,7 @@ func (m *Channel) GetTenantId()(*string) {
     return nil
 }
 // GetWebUrl gets the webUrl property value. A hyperlink that will go to the channel in Microsoft Teams. This is the URL that you get when you right-click a channel in Microsoft Teams and select Get link to channel. This URL should be treated as an opaque blob, and not parsed. Read-only.
+// returns a *string when successful
 func (m *Channel) GetWebUrl()(*string) {
     val, err := m.GetBackingStore().Get("webUrl")
     if err != nil {
@@ -403,6 +439,12 @@ func (m *Channel) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6c010
             }
         }
         err = writer.WriteCollectionOfObjectValues("sharedWithTeams", cast)
+        if err != nil {
+            return err
+        }
+    }
+    {
+        err = writer.WriteObjectValue("summary", m.GetSummary())
         if err != nil {
             return err
         }
@@ -503,6 +545,13 @@ func (m *Channel) SetSharedWithTeams(value []SharedWithChannelTeamInfoable)() {
         panic(err)
     }
 }
+// SetSummary sets the summary property value. Contains summary information about the channel, including number of owners, members, guests, and an indicator for members from other tenants. The summary property will only be returned if it is specified in the $select clause of the Get channel method.
+func (m *Channel) SetSummary(value ChannelSummaryable)() {
+    err := m.GetBackingStore().Set("summary", value)
+    if err != nil {
+        panic(err)
+    }
+}
 // SetTabs sets the tabs property value. A collection of all the tabs in the channel. A navigation property.
 func (m *Channel) SetTabs(value []TeamsTabable)() {
     err := m.GetBackingStore().Set("tabs", value)
@@ -510,7 +559,7 @@ func (m *Channel) SetTabs(value []TeamsTabable)() {
         panic(err)
     }
 }
-// SetTenantId sets the tenantId property value. The ID of the Azure Active Directory tenant.
+// SetTenantId sets the tenantId property value. The ID of the Microsoft Entra tenant.
 func (m *Channel) SetTenantId(value *string)() {
     err := m.GetBackingStore().Set("tenantId", value)
     if err != nil {
@@ -524,7 +573,6 @@ func (m *Channel) SetWebUrl(value *string)() {
         panic(err)
     }
 }
-// Channelable 
 type Channelable interface {
     Entityable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable
@@ -538,6 +586,7 @@ type Channelable interface {
     GetMembershipType()(*ChannelMembershipType)
     GetMessages()([]ChatMessageable)
     GetSharedWithTeams()([]SharedWithChannelTeamInfoable)
+    GetSummary()(ChannelSummaryable)
     GetTabs()([]TeamsTabable)
     GetTenantId()(*string)
     GetWebUrl()(*string)
@@ -551,6 +600,7 @@ type Channelable interface {
     SetMembershipType(value *ChannelMembershipType)()
     SetMessages(value []ChatMessageable)()
     SetSharedWithTeams(value []SharedWithChannelTeamInfoable)()
+    SetSummary(value ChannelSummaryable)()
     SetTabs(value []TeamsTabable)()
     SetTenantId(value *string)()
     SetWebUrl(value *string)()

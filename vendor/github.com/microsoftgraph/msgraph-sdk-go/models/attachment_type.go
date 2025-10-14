@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type AttachmentType int
 
 const (
@@ -24,7 +20,7 @@ func ParseAttachmentType(v string) (any, error) {
         case "reference":
             result = REFERENCE_ATTACHMENTTYPE
         default:
-            return 0, errors.New("Unknown AttachmentType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeAttachmentType(values []AttachmentType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i AttachmentType) isMultiValue() bool {
+    return false
 }

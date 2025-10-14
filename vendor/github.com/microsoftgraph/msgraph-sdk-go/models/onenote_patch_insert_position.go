@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type OnenotePatchInsertPosition int
 
 const (
@@ -21,7 +17,7 @@ func ParseOnenotePatchInsertPosition(v string) (any, error) {
         case "Before":
             result = BEFORE_ONENOTEPATCHINSERTPOSITION
         default:
-            return 0, errors.New("Unknown OnenotePatchInsertPosition value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -31,4 +27,7 @@ func SerializeOnenotePatchInsertPosition(values []OnenotePatchInsertPosition) []
         result[i] = v.String()
     }
     return result
+}
+func (i OnenotePatchInsertPosition) isMultiValue() bool {
+    return false
 }

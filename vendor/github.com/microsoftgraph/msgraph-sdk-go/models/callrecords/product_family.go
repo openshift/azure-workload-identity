@@ -1,8 +1,4 @@
 package callrecords
-import (
-    "errors"
-)
-// 
 type ProductFamily int
 
 const (
@@ -33,7 +29,7 @@ func ParseProductFamily(v string) (any, error) {
         case "azureCommunicationServices":
             result = AZURECOMMUNICATIONSERVICES_PRODUCTFAMILY
         default:
-            return 0, errors.New("Unknown ProductFamily value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeProductFamily(values []ProductFamily) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ProductFamily) isMultiValue() bool {
+    return false
 }

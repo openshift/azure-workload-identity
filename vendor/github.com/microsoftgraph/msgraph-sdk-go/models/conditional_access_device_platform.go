@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ConditionalAccessDevicePlatform int
 
 const (
@@ -39,7 +35,7 @@ func ParseConditionalAccessDevicePlatform(v string) (any, error) {
         case "linux":
             result = LINUX_CONDITIONALACCESSDEVICEPLATFORM
         default:
-            return 0, errors.New("Unknown ConditionalAccessDevicePlatform value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -49,4 +45,7 @@ func SerializeConditionalAccessDevicePlatform(values []ConditionalAccessDevicePl
         result[i] = v.String()
     }
     return result
+}
+func (i ConditionalAccessDevicePlatform) isMultiValue() bool {
+    return false
 }

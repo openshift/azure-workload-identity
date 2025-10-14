@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ThreatExpectedAssessment int
 
 const (
@@ -21,7 +17,7 @@ func ParseThreatExpectedAssessment(v string) (any, error) {
         case "unblock":
             result = UNBLOCK_THREATEXPECTEDASSESSMENT
         default:
-            return 0, errors.New("Unknown ThreatExpectedAssessment value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -31,4 +27,7 @@ func SerializeThreatExpectedAssessment(values []ThreatExpectedAssessment) []stri
         result[i] = v.String()
     }
     return result
+}
+func (i ThreatExpectedAssessment) isMultiValue() bool {
+    return false
 }

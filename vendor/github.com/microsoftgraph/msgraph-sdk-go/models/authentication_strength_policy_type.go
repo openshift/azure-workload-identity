@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type AuthenticationStrengthPolicyType int
 
 const (
@@ -24,7 +20,7 @@ func ParseAuthenticationStrengthPolicyType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_AUTHENTICATIONSTRENGTHPOLICYTYPE
         default:
-            return 0, errors.New("Unknown AuthenticationStrengthPolicyType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeAuthenticationStrengthPolicyType(values []AuthenticationStrengthPo
         result[i] = v.String()
     }
     return result
+}
+func (i AuthenticationStrengthPolicyType) isMultiValue() bool {
+    return false
 }

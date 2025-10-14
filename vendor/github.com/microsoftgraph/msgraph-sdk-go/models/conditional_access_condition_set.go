@@ -5,7 +5,6 @@ import (
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e "github.com/microsoft/kiota-abstractions-go/store"
 )
 
-// ConditionalAccessConditionSet 
 type ConditionalAccessConditionSet struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
@@ -19,10 +18,12 @@ func NewConditionalAccessConditionSet()(*ConditionalAccessConditionSet) {
     return m
 }
 // CreateConditionalAccessConditionSetFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateConditionalAccessConditionSetFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewConditionalAccessConditionSet(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *ConditionalAccessConditionSet) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -35,6 +36,7 @@ func (m *ConditionalAccessConditionSet) GetAdditionalData()(map[string]any) {
     return val.(map[string]any)
 }
 // GetApplications gets the applications property value. Applications and user actions included in and excluded from the policy. Required.
+// returns a ConditionalAccessApplicationsable when successful
 func (m *ConditionalAccessConditionSet) GetApplications()(ConditionalAccessApplicationsable) {
     val, err := m.GetBackingStore().Get("applications")
     if err != nil {
@@ -45,11 +47,13 @@ func (m *ConditionalAccessConditionSet) GetApplications()(ConditionalAccessAppli
     }
     return nil
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *ConditionalAccessConditionSet) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
 // GetClientApplications gets the clientApplications property value. Client applications (service principals and workload identities) included in and excluded from the policy. Either users or clientApplications is required.
+// returns a ConditionalAccessClientApplicationsable when successful
 func (m *ConditionalAccessConditionSet) GetClientApplications()(ConditionalAccessClientApplicationsable) {
     val, err := m.GetBackingStore().Get("clientApplications")
     if err != nil {
@@ -60,7 +64,8 @@ func (m *ConditionalAccessConditionSet) GetClientApplications()(ConditionalAcces
     }
     return nil
 }
-// GetClientAppTypes gets the clientAppTypes property value. Client application types included in the policy. Possible values are: all, browser, mobileAppsAndDesktopClients, exchangeActiveSync, easSupported, other. Required.
+// GetClientAppTypes gets the clientAppTypes property value. Client application types included in the policy. Possible values are: all, browser, mobileAppsAndDesktopClients, exchangeActiveSync, easSupported, other. Required.  The easUnsupported enumeration member will be deprecated in favor of exchangeActiveSync which includes EAS supported and unsupported platforms.
+// returns a []ConditionalAccessClientApp when successful
 func (m *ConditionalAccessConditionSet) GetClientAppTypes()([]ConditionalAccessClientApp) {
     val, err := m.GetBackingStore().Get("clientAppTypes")
     if err != nil {
@@ -72,6 +77,7 @@ func (m *ConditionalAccessConditionSet) GetClientAppTypes()([]ConditionalAccessC
     return nil
 }
 // GetDevices gets the devices property value. Devices in the policy.
+// returns a ConditionalAccessDevicesable when successful
 func (m *ConditionalAccessConditionSet) GetDevices()(ConditionalAccessDevicesable) {
     val, err := m.GetBackingStore().Get("devices")
     if err != nil {
@@ -83,6 +89,7 @@ func (m *ConditionalAccessConditionSet) GetDevices()(ConditionalAccessDevicesabl
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *ConditionalAccessConditionSet) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["applications"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -222,6 +229,7 @@ func (m *ConditionalAccessConditionSet) GetFieldDeserializers()(map[string]func(
     return res
 }
 // GetLocations gets the locations property value. Locations included in and excluded from the policy.
+// returns a ConditionalAccessLocationsable when successful
 func (m *ConditionalAccessConditionSet) GetLocations()(ConditionalAccessLocationsable) {
     val, err := m.GetBackingStore().Get("locations")
     if err != nil {
@@ -233,6 +241,7 @@ func (m *ConditionalAccessConditionSet) GetLocations()(ConditionalAccessLocation
     return nil
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *ConditionalAccessConditionSet) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -244,6 +253,7 @@ func (m *ConditionalAccessConditionSet) GetOdataType()(*string) {
     return nil
 }
 // GetPlatforms gets the platforms property value. Platforms included in and excluded from the policy.
+// returns a ConditionalAccessPlatformsable when successful
 func (m *ConditionalAccessConditionSet) GetPlatforms()(ConditionalAccessPlatformsable) {
     val, err := m.GetBackingStore().Get("platforms")
     if err != nil {
@@ -255,6 +265,7 @@ func (m *ConditionalAccessConditionSet) GetPlatforms()(ConditionalAccessPlatform
     return nil
 }
 // GetServicePrincipalRiskLevels gets the servicePrincipalRiskLevels property value. Service principal risk levels included in the policy. Possible values are: low, medium, high, none, unknownFutureValue.
+// returns a []RiskLevel when successful
 func (m *ConditionalAccessConditionSet) GetServicePrincipalRiskLevels()([]RiskLevel) {
     val, err := m.GetBackingStore().Get("servicePrincipalRiskLevels")
     if err != nil {
@@ -266,6 +277,7 @@ func (m *ConditionalAccessConditionSet) GetServicePrincipalRiskLevels()([]RiskLe
     return nil
 }
 // GetSignInRiskLevels gets the signInRiskLevels property value. Sign-in risk levels included in the policy. Possible values are: low, medium, high, hidden, none, unknownFutureValue. Required.
+// returns a []RiskLevel when successful
 func (m *ConditionalAccessConditionSet) GetSignInRiskLevels()([]RiskLevel) {
     val, err := m.GetBackingStore().Get("signInRiskLevels")
     if err != nil {
@@ -277,6 +289,7 @@ func (m *ConditionalAccessConditionSet) GetSignInRiskLevels()([]RiskLevel) {
     return nil
 }
 // GetUserRiskLevels gets the userRiskLevels property value. User risk levels included in the policy. Possible values are: low, medium, high, hidden, none, unknownFutureValue. Required.
+// returns a []RiskLevel when successful
 func (m *ConditionalAccessConditionSet) GetUserRiskLevels()([]RiskLevel) {
     val, err := m.GetBackingStore().Get("userRiskLevels")
     if err != nil {
@@ -288,6 +301,7 @@ func (m *ConditionalAccessConditionSet) GetUserRiskLevels()([]RiskLevel) {
     return nil
 }
 // GetUsers gets the users property value. Users, groups, and roles included in and excluded from the policy. Either users or clientApplications is required.
+// returns a ConditionalAccessUsersable when successful
 func (m *ConditionalAccessConditionSet) GetUsers()(ConditionalAccessUsersable) {
     val, err := m.GetBackingStore().Get("users")
     if err != nil {
@@ -374,7 +388,7 @@ func (m *ConditionalAccessConditionSet) Serialize(writer i878a80d2330e89d2689638
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *ConditionalAccessConditionSet) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
@@ -388,7 +402,7 @@ func (m *ConditionalAccessConditionSet) SetApplications(value ConditionalAccessA
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *ConditionalAccessConditionSet) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
@@ -399,7 +413,7 @@ func (m *ConditionalAccessConditionSet) SetClientApplications(value ConditionalA
         panic(err)
     }
 }
-// SetClientAppTypes sets the clientAppTypes property value. Client application types included in the policy. Possible values are: all, browser, mobileAppsAndDesktopClients, exchangeActiveSync, easSupported, other. Required.
+// SetClientAppTypes sets the clientAppTypes property value. Client application types included in the policy. Possible values are: all, browser, mobileAppsAndDesktopClients, exchangeActiveSync, easSupported, other. Required.  The easUnsupported enumeration member will be deprecated in favor of exchangeActiveSync which includes EAS supported and unsupported platforms.
 func (m *ConditionalAccessConditionSet) SetClientAppTypes(value []ConditionalAccessClientApp)() {
     err := m.GetBackingStore().Set("clientAppTypes", value)
     if err != nil {
@@ -462,7 +476,6 @@ func (m *ConditionalAccessConditionSet) SetUsers(value ConditionalAccessUsersabl
         panic(err)
     }
 }
-// ConditionalAccessConditionSetable 
 type ConditionalAccessConditionSetable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel

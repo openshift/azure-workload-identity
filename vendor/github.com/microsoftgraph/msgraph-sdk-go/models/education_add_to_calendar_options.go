@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type EducationAddToCalendarOptions int
 
 const (
@@ -30,7 +26,7 @@ func ParseEducationAddToCalendarOptions(v string) (any, error) {
         case "studentsOnly":
             result = STUDENTSONLY_EDUCATIONADDTOCALENDAROPTIONS
         default:
-            return 0, errors.New("Unknown EducationAddToCalendarOptions value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeEducationAddToCalendarOptions(values []EducationAddToCalendarOptio
         result[i] = v.String()
     }
     return result
+}
+func (i EducationAddToCalendarOptions) isMultiValue() bool {
+    return false
 }

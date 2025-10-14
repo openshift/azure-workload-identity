@@ -1,8 +1,4 @@
 package callrecords
-import (
-    "errors"
-)
-// 
 type Modality int
 
 const (
@@ -33,7 +29,7 @@ func ParseModality(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_MODALITY
         default:
-            return 0, errors.New("Unknown Modality value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeModality(values []Modality) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i Modality) isMultiValue() bool {
+    return false
 }

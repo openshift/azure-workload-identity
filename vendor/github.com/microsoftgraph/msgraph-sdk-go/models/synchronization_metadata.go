@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type SynchronizationMetadata int
 
 const (
@@ -42,7 +38,7 @@ func ParseSynchronizationMetadata(v string) (any, error) {
         case "ConfigurationFields":
             result = CONFIGURATIONFIELDS_SYNCHRONIZATIONMETADATA
         default:
-            return 0, errors.New("Unknown SynchronizationMetadata value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -52,4 +48,7 @@ func SerializeSynchronizationMetadata(values []SynchronizationMetadata) []string
         result[i] = v.String()
     }
     return result
+}
+func (i SynchronizationMetadata) isMultiValue() bool {
+    return false
 }

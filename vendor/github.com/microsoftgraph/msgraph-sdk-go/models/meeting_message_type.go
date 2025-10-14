@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type MeetingMessageType int
 
 const (
@@ -33,7 +29,7 @@ func ParseMeetingMessageType(v string) (any, error) {
         case "meetingDeclined":
             result = MEETINGDECLINED_MEETINGMESSAGETYPE
         default:
-            return 0, errors.New("Unknown MeetingMessageType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeMeetingMessageType(values []MeetingMessageType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i MeetingMessageType) isMultiValue() bool {
+    return false
 }

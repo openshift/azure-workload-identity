@@ -52,13 +52,32 @@ func (w *JsonSerializationWriter) writeRawValue(value ...string) {
 	}
 }
 func (w *JsonSerializationWriter) writeStringValue(value string) {
-	value = strings.ReplaceAll(value, `\`, `\\`)
-	value = strings.ReplaceAll(value, `"`, `\"`)
-	value = strings.ReplaceAll(value, "\n", `\n`)
-	value = strings.ReplaceAll(value, "\r", `\r`)
-	value = strings.ReplaceAll(value, "\t", `\t`)
+	builder := &strings.Builder{}
+	// Allocate at least enough space for the string and quotes. However, it's
+	// possible that slightly overallocating may be a better strategy because then
+	// it would at least be able to handle a few character escape sequences
+	// without another allocation.
+	builder.Grow(len(value) + 2)
 
-	w.writeRawValue("\"", value, "\"")
+	// Turning off HTML escaping may not be strictly necessary but it matches with
+	// the current behavior. Testing with Exchange mail shows that it will
+	// accept and properly interpret data sent with and without HTML escaping
+	// enabled when creating emails with body content type HTML and HTML tags in
+	// the body content.
+	enc := json.NewEncoder(builder)
+	enc.SetEscapeHTML(false)
+	enc.SetIndent("", "")
+	enc.Encode(value)
+
+	// Note that builder.String() returns a slice referencing the internal memory
+	// of builder. This means it's unsafe to continue holding that reference once
+	// this function exits (for example some conditions where a pool was used to
+	// reduce strings.Builder allocations). We can use it here directly since
+	// writeRawValue calls WriteString on a different buffer which should cause a
+	// copy of the contents. If that's changed though this will need updated.
+	s := builder.String()
+	// Need to trim off the trailing newline the encoder adds.
+	w.writeRawValue(s[:len(s)-1])
 }
 func (w *JsonSerializationWriter) writePropertyName(key string) {
 	w.writeRawValue("\"", key, "\":")
@@ -260,11 +279,80 @@ func (w *JsonSerializationWriter) WriteByteArrayValue(key string, value []byte) 
 func (w *JsonSerializationWriter) WriteObjectValue(key string, item absser.Parsable, additionalValuesToMerge ...absser.Parsable) error {
 	additionalValuesLen := len(additionalValuesToMerge)
 	if item != nil || additionalValuesLen > 0 {
+		untypedNode, isUntypedNode := item.(absser.UntypedNodeable)
+		if isUntypedNode {
+			switch value := untypedNode.(type) {
+			case *absser.UntypedBoolean:
+				w.WriteBoolValue(key, value.GetValue())
+				return nil
+			case *absser.UntypedFloat:
+				w.WriteFloat32Value(key, value.GetValue())
+				return nil
+			case *absser.UntypedDouble:
+				w.WriteFloat64Value(key, value.GetValue())
+				return nil
+			case *absser.UntypedInteger:
+				w.WriteInt32Value(key, value.GetValue())
+				return nil
+			case *absser.UntypedLong:
+				w.WriteInt64Value(key, value.GetValue())
+				return nil
+			case *absser.UntypedNull:
+				w.WriteNullValue(key)
+				return nil
+			case *absser.UntypedString:
+				w.WriteStringValue(key, value.GetValue())
+				return nil
+			case *absser.UntypedObject:
+				if key != "" {
+					w.writePropertyName(key)
+				}
+				properties := value.GetValue()
+				if properties != nil {
+					w.writeObjectStart()
+					for objectKey, val := range properties {
+						err := w.WriteObjectValue(objectKey, val)
+						if err != nil {
+							return err
+						}
+					}
+					w.writeObjectEnd()
+					if key != "" {
+						w.writePropertySeparator()
+					}
+				}
+				return nil
+			case *absser.UntypedArray:
+				if key != "" {
+					w.writePropertyName(key)
+				}
+				values := value.GetValue()
+				if values != nil {
+					w.writeArrayStart()
+					for _, val := range values {
+						err := w.WriteObjectValue("", val)
+						if err != nil {
+							return err
+						}
+						w.writePropertySeparator()
+					}
+					w.writeArrayEnd()
+				}
+				if key != "" {
+					w.writePropertySeparator()
+				}
+				return nil
+			}
+		}
+
 		if key != "" {
 			w.writePropertyName(key)
 		}
 		abstractions.InvokeParsableAction(w.GetOnBeforeSerialization(), item)
-		w.writeObjectStart()
+		_, isComposedTypeWrapper := item.(absser.ComposedTypeWrapper)
+		if !isComposedTypeWrapper {
+			w.writeObjectStart()
+		}
 		if item != nil {
 			err := abstractions.InvokeParsableWriter(w.GetOnStartObjectSerialization(), item, w)
 			if err != nil {
@@ -291,7 +379,9 @@ func (w *JsonSerializationWriter) WriteObjectValue(key string, item absser.Parsa
 			abstractions.InvokeParsableAction(w.GetOnAfterObjectSerialization(), additionalValue)
 		}
 
-		w.writeObjectEnd()
+		if !isComposedTypeWrapper {
+			w.writeObjectEnd()
+		}
 		if key != "" {
 			w.writePropertySeparator()
 		}
@@ -307,9 +397,16 @@ func (w *JsonSerializationWriter) WriteCollectionOfObjectValues(key string, coll
 		}
 		w.writeArrayStart()
 		for _, item := range collection {
-			err := w.WriteObjectValue("", item)
-			if err != nil {
-				return err
+			if item != nil {
+				err := w.WriteObjectValue("", item)
+				if err != nil {
+					return err
+				}
+			} else {
+				err := w.WriteNullValue("")
+				if err != nil {
+					return err
+				}
 			}
 			w.writePropertySeparator()
 		}
@@ -791,6 +888,8 @@ func (w *JsonSerializationWriter) WriteAdditionalData(value map[string]interface
 				err = w.WriteDateOnlyValue(key, value)
 			case absser.DateOnly:
 				err = w.WriteDateOnlyValue(key, &value)
+			case absser.UntypedNodeable:
+				err = w.WriteObjectValue(key, value)
 			default:
 				err = w.WriteAnyValue(key, &value)
 			}

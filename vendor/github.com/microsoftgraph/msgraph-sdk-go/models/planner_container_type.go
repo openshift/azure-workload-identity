@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type PlannerContainerType int
 
 const (
@@ -24,7 +20,7 @@ func ParsePlannerContainerType(v string) (any, error) {
         case "roster":
             result = ROSTER_PLANNERCONTAINERTYPE
         default:
-            return 0, errors.New("Unknown PlannerContainerType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializePlannerContainerType(values []PlannerContainerType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i PlannerContainerType) isMultiValue() bool {
+    return false
 }

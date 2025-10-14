@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type SimulationAutomationStatus int
 
 const (
@@ -33,7 +29,7 @@ func ParseSimulationAutomationStatus(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_SIMULATIONAUTOMATIONSTATUS
         default:
-            return 0, errors.New("Unknown SimulationAutomationStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeSimulationAutomationStatus(values []SimulationAutomationStatus) []
         result[i] = v.String()
     }
     return result
+}
+func (i SimulationAutomationStatus) isMultiValue() bool {
+    return false
 }

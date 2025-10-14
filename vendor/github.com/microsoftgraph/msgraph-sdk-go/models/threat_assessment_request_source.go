@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ThreatAssessmentRequestSource int
 
 const (
@@ -24,7 +20,7 @@ func ParseThreatAssessmentRequestSource(v string) (any, error) {
         case "administrator":
             result = ADMINISTRATOR_THREATASSESSMENTREQUESTSOURCE
         default:
-            return 0, errors.New("Unknown ThreatAssessmentRequestSource value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeThreatAssessmentRequestSource(values []ThreatAssessmentRequestSour
         result[i] = v.String()
     }
     return result
+}
+func (i ThreatAssessmentRequestSource) isMultiValue() bool {
+    return false
 }

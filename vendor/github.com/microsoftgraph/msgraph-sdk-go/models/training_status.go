@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type TrainingStatus int
 
 const (
@@ -33,7 +29,7 @@ func ParseTrainingStatus(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_TRAININGSTATUS
         default:
-            return 0, errors.New("Unknown TrainingStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeTrainingStatus(values []TrainingStatus) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i TrainingStatus) isMultiValue() bool {
+    return false
 }

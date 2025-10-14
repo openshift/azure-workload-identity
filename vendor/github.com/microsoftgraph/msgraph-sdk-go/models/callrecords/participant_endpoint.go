@@ -5,7 +5,6 @@ import (
     iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242 "github.com/microsoftgraph/msgraph-sdk-go/models"
 )
 
-// ParticipantEndpoint 
 type ParticipantEndpoint struct {
     Endpoint
 }
@@ -19,10 +18,24 @@ func NewParticipantEndpoint()(*ParticipantEndpoint) {
     return m
 }
 // CreateParticipantEndpointFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateParticipantEndpointFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewParticipantEndpoint(), nil
 }
+// GetAssociatedIdentity gets the associatedIdentity property value. Identity associated with the endpoint.
+// returns a Identityable when successful
+func (m *ParticipantEndpoint) GetAssociatedIdentity()(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Identityable) {
+    val, err := m.GetBackingStore().Get("associatedIdentity")
+    if err != nil {
+        panic(err)
+    }
+    if val != nil {
+        return val.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Identityable)
+    }
+    return nil
+}
 // GetCpuCoresCount gets the cpuCoresCount property value. CPU number of cores used by the media endpoint.
+// returns a *int32 when successful
 func (m *ParticipantEndpoint) GetCpuCoresCount()(*int32) {
     val, err := m.GetBackingStore().Get("cpuCoresCount")
     if err != nil {
@@ -34,6 +47,7 @@ func (m *ParticipantEndpoint) GetCpuCoresCount()(*int32) {
     return nil
 }
 // GetCpuName gets the cpuName property value. CPU name used by the media endpoint.
+// returns a *string when successful
 func (m *ParticipantEndpoint) GetCpuName()(*string) {
     val, err := m.GetBackingStore().Get("cpuName")
     if err != nil {
@@ -45,6 +59,7 @@ func (m *ParticipantEndpoint) GetCpuName()(*string) {
     return nil
 }
 // GetCpuProcessorSpeedInMhz gets the cpuProcessorSpeedInMhz property value. CPU processor speed used by the media endpoint.
+// returns a *int32 when successful
 func (m *ParticipantEndpoint) GetCpuProcessorSpeedInMhz()(*int32) {
     val, err := m.GetBackingStore().Get("cpuProcessorSpeedInMhz")
     if err != nil {
@@ -56,6 +71,7 @@ func (m *ParticipantEndpoint) GetCpuProcessorSpeedInMhz()(*int32) {
     return nil
 }
 // GetFeedback gets the feedback property value. The feedback provided by the user of this endpoint about the quality of the session.
+// returns a UserFeedbackable when successful
 func (m *ParticipantEndpoint) GetFeedback()(UserFeedbackable) {
     val, err := m.GetBackingStore().Get("feedback")
     if err != nil {
@@ -67,8 +83,19 @@ func (m *ParticipantEndpoint) GetFeedback()(UserFeedbackable) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *ParticipantEndpoint) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.Endpoint.GetFieldDeserializers()
+    res["associatedIdentity"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
+        val, err := n.GetObjectValue(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.CreateIdentityFromDiscriminatorValue)
+        if err != nil {
+            return err
+        }
+        if val != nil {
+            m.SetAssociatedIdentity(val.(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Identityable))
+        }
+        return nil
+    }
     res["cpuCoresCount"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
         val, err := n.GetInt32Value()
         if err != nil {
@@ -131,7 +158,8 @@ func (m *ParticipantEndpoint) GetFieldDeserializers()(map[string]func(i878a80d23
     }
     return res
 }
-// GetIdentity gets the identity property value. Identity associated with the endpoint.
+// GetIdentity gets the identity property value. Identity associated with the endpoint. The identity property is deprecated and will stop returning data on June 30, 2026. Going forward, use the associatedIdentity property.
+// returns a IdentitySetable when successful
 func (m *ParticipantEndpoint) GetIdentity()(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.IdentitySetable) {
     val, err := m.GetBackingStore().Get("identity")
     if err != nil {
@@ -143,6 +171,7 @@ func (m *ParticipantEndpoint) GetIdentity()(iadcd81124412c61e647227ecfc4449d8bba
     return nil
 }
 // GetName gets the name property value. Name of the device used by the media endpoint.
+// returns a *string when successful
 func (m *ParticipantEndpoint) GetName()(*string) {
     val, err := m.GetBackingStore().Get("name")
     if err != nil {
@@ -158,6 +187,12 @@ func (m *ParticipantEndpoint) Serialize(writer i878a80d2330e89d26896388a3f487eef
     err := m.Endpoint.Serialize(writer)
     if err != nil {
         return err
+    }
+    {
+        err = writer.WriteObjectValue("associatedIdentity", m.GetAssociatedIdentity())
+        if err != nil {
+            return err
+        }
     }
     {
         err = writer.WriteInt32Value("cpuCoresCount", m.GetCpuCoresCount())
@@ -197,6 +232,13 @@ func (m *ParticipantEndpoint) Serialize(writer i878a80d2330e89d26896388a3f487eef
     }
     return nil
 }
+// SetAssociatedIdentity sets the associatedIdentity property value. Identity associated with the endpoint.
+func (m *ParticipantEndpoint) SetAssociatedIdentity(value iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Identityable)() {
+    err := m.GetBackingStore().Set("associatedIdentity", value)
+    if err != nil {
+        panic(err)
+    }
+}
 // SetCpuCoresCount sets the cpuCoresCount property value. CPU number of cores used by the media endpoint.
 func (m *ParticipantEndpoint) SetCpuCoresCount(value *int32)() {
     err := m.GetBackingStore().Set("cpuCoresCount", value)
@@ -225,7 +267,7 @@ func (m *ParticipantEndpoint) SetFeedback(value UserFeedbackable)() {
         panic(err)
     }
 }
-// SetIdentity sets the identity property value. Identity associated with the endpoint.
+// SetIdentity sets the identity property value. Identity associated with the endpoint. The identity property is deprecated and will stop returning data on June 30, 2026. Going forward, use the associatedIdentity property.
 func (m *ParticipantEndpoint) SetIdentity(value iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.IdentitySetable)() {
     err := m.GetBackingStore().Set("identity", value)
     if err != nil {
@@ -239,16 +281,17 @@ func (m *ParticipantEndpoint) SetName(value *string)() {
         panic(err)
     }
 }
-// ParticipantEndpointable 
 type ParticipantEndpointable interface {
     Endpointable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable
+    GetAssociatedIdentity()(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Identityable)
     GetCpuCoresCount()(*int32)
     GetCpuName()(*string)
     GetCpuProcessorSpeedInMhz()(*int32)
     GetFeedback()(UserFeedbackable)
     GetIdentity()(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.IdentitySetable)
     GetName()(*string)
+    SetAssociatedIdentity(value iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.Identityable)()
     SetCpuCoresCount(value *int32)()
     SetCpuName(value *string)()
     SetCpuProcessorSpeedInMhz(value *int32)()

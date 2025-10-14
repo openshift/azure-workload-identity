@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type CloudAppSecuritySessionControlType int
 
 const (
@@ -27,7 +23,7 @@ func ParseCloudAppSecuritySessionControlType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_CLOUDAPPSECURITYSESSIONCONTROLTYPE
         default:
-            return 0, errors.New("Unknown CloudAppSecuritySessionControlType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeCloudAppSecuritySessionControlType(values []CloudAppSecuritySessio
         result[i] = v.String()
     }
     return result
+}
+func (i CloudAppSecuritySessionControlType) isMultiValue() bool {
+    return false
 }

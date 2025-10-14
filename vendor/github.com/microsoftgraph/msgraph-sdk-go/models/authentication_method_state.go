@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type AuthenticationMethodState int
 
 const (
@@ -21,7 +17,7 @@ func ParseAuthenticationMethodState(v string) (any, error) {
         case "disabled":
             result = DISABLED_AUTHENTICATIONMETHODSTATE
         default:
-            return 0, errors.New("Unknown AuthenticationMethodState value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -31,4 +27,7 @@ func SerializeAuthenticationMethodState(values []AuthenticationMethodState) []st
         result[i] = v.String()
     }
     return result
+}
+func (i AuthenticationMethodState) isMultiValue() bool {
+    return false
 }

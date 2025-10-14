@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // App configuration key types.
 type MdmAppConfigKeyType int
 
@@ -30,7 +27,7 @@ func ParseMdmAppConfigKeyType(v string) (any, error) {
         case "tokenType":
             result = TOKENTYPE_MDMAPPCONFIGKEYTYPE
         default:
-            return 0, errors.New("Unknown MdmAppConfigKeyType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +37,7 @@ func SerializeMdmAppConfigKeyType(values []MdmAppConfigKeyType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i MdmAppConfigKeyType) isMultiValue() bool {
+    return false
 }

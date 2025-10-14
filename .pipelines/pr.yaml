@@ -18,17 +18,14 @@ pr:
 pool: staging-pool-amd64-mariner-2
 
 jobs:
-  - job: scan_images
-    timeoutInMinutes: 30
-    workspace:
-      clean: all
-    steps:
-      - template: templates/scan-images.yaml
   - job: lint
     timeoutInMinutes: 30
     workspace:
       clean: all
     steps:
+      - task: GoTool@0
+        inputs:
+          version: "1.24.6"
       - script: make lint
         displayName: golangci-lint
       - script: make helm-lint
@@ -52,6 +49,9 @@ jobs:
     workspace:
       clean: all
     steps:
+      - task: GoTool@0
+        inputs:
+          version: "1.24.6"
       - script: make test
         displayName: Unit test
   - job: shellcheck
@@ -65,7 +65,6 @@ jobs:
     timeoutInMinutes: 60
     dependsOn:
     - lint
-    - scan_images
     - shellcheck
     workspace:
       clean: all
@@ -80,35 +79,71 @@ jobs:
       - group: e2e-environment-variables
     strategy:
       matrix:
-        aks_windows_dockershim:
+        aks_windows:
           REGISTRY: upstream.azurecr.io/azure-workload-identity
           WINDOWS_CLUSTER: "true"
-          GINKGO_SKIP: \[AKSSoakOnly\]
-        aks_windows_containerd:
-          REGISTRY: upstream.azurecr.io/azure-workload-identity
-          WINDOWS_CLUSTER: "true"
-          WINDOWS_CONTAINERD: "true"
           GINKGO_SKIP: \[AKSSoakOnly\]
         aks_linux:
           REGISTRY: upstream.azurecr.io/azure-workload-identity
           GINKGO_SKIP: \[AKSSoakOnly\]
-        kind_v1_24_12:
-          KIND_NODE_VERSION: v1.24.12
+    steps:
+      - task: GoTool@0
+        inputs:
+          version: "1.24.6"
+      - script: echo "##vso[task.setvariable variable=CLUSTER_NAME]azwi-e2e-$(openssl rand -hex 2)"
+        displayName: Set CLUSTER_NAME
+        condition: ne(variables.LOCAL_ONLY, 'true')
+      - script: make test-e2e
+        displayName: Webhook E2E test suite
+        env:
+          APPLICATION_CLIENT_ID: $(APPLICATION_CLIENT_ID)
+          AZURE_TENANT_ID: $(AZURE_TENANT_ID)
+          KEYVAULT_URL: $(KEYVAULT_URL)
+          KEYVAULT_SECRET_NAME: $(KEYVAULT_SECRET_NAME)
+          SERVICE_ACCOUNT_ISSUER: $(SERVICE_ACCOUNT_ISSUER)
+          SERVICE_ACCOUNT_KEYVAULT_NAME: $(SERVICE_ACCOUNT_KEYVAULT_NAME)
+      - script: az group delete --name "${CLUSTER_NAME}" --yes --no-wait || true
+        displayName: Cleanup
+        condition: ne(variables.LOCAL_ONLY, 'true')
+      - template: templates/publish-logs.yaml
+  - job:
+    timeoutInMinutes: 60
+    pool:
+      name: staging-pool-amd64-mariner-2
+      demands:
+      - ImageOverride -equals azcu-agent-amd64-mariner-2-cgv2-img
+    dependsOn:
+    - lint
+    - shellcheck
+    workspace:
+      clean: all
+    variables:
+      # contains the following environment variables:
+      # - APPLICATION_CLIENT_ID
+      # - AZURE_TENANT_ID
+      # - KEYVAULT_URL
+      # - KEYVAULT_SECRET_NAME
+      # - SERVICE_ACCOUNT_ISSUER
+      # - SERVICE_ACCOUNT_KEYVAULT_NAME
+      - group: e2e-environment-variables
+    strategy:
+      matrix:
+        kind_v1_30_10:
+          KIND_NODE_VERSION: v1.30.10
           LOCAL_ONLY: "true"
           TEST_HELM_CHART: "true"
-        kind_v1_25_8:
-          KIND_NODE_VERSION: v1.25.8
+        kind_v1_31_6:
+          KIND_NODE_VERSION: v1.31.6
           LOCAL_ONLY: "true"
           TEST_HELM_CHART: "true"
-        kind_v1_26_3:
-          KIND_NODE_VERSION: v1.26.3
-          LOCAL_ONLY: "true"
-          TEST_HELM_CHART: "true"
-        kind_v1_27_1:
-          KIND_NODE_VERSION: v1.27.1
+        kind_v1_32_3:
+          KIND_NODE_VERSION: v1.32.3
           LOCAL_ONLY: "true"
           TEST_HELM_CHART: "true"
     steps:
+      - task: GoTool@0
+        inputs:
+          version: "1.24.6"
       - script: echo "##vso[task.setvariable variable=CLUSTER_NAME]azwi-e2e-$(openssl rand -hex 2)"
         displayName: Set CLUSTER_NAME
         condition: ne(variables.LOCAL_ONLY, 'true')

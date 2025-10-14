@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type BookingReminderRecipients int
 
 const (
@@ -27,7 +23,7 @@ func ParseBookingReminderRecipients(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_BOOKINGREMINDERRECIPIENTS
         default:
-            return 0, errors.New("Unknown BookingReminderRecipients value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeBookingReminderRecipients(values []BookingReminderRecipients) []st
         result[i] = v.String()
     }
     return result
+}
+func (i BookingReminderRecipients) isMultiValue() bool {
+    return false
 }

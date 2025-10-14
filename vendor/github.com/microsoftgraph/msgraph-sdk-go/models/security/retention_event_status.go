@@ -6,12 +6,11 @@ import (
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e "github.com/microsoft/kiota-abstractions-go/store"
 )
 
-// RetentionEventStatus 
 type RetentionEventStatus struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
 }
-// NewRetentionEventStatus instantiates a new retentionEventStatus and sets the default values.
+// NewRetentionEventStatus instantiates a new RetentionEventStatus and sets the default values.
 func NewRetentionEventStatus()(*RetentionEventStatus) {
     m := &RetentionEventStatus{
     }
@@ -20,10 +19,12 @@ func NewRetentionEventStatus()(*RetentionEventStatus) {
     return m
 }
 // CreateRetentionEventStatusFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateRetentionEventStatusFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewRetentionEventStatus(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *RetentionEventStatus) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -35,11 +36,13 @@ func (m *RetentionEventStatus) GetAdditionalData()(map[string]any) {
     }
     return val.(map[string]any)
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *RetentionEventStatus) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
-// GetError gets the error property value. The error if the status is not successful.
+// GetError gets the error property value. The error if the status isn't successful.
+// returns a PublicErrorable when successful
 func (m *RetentionEventStatus) GetError()(iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PublicErrorable) {
     val, err := m.GetBackingStore().Get("error")
     if err != nil {
@@ -51,6 +54,7 @@ func (m *RetentionEventStatus) GetError()(iadcd81124412c61e647227ecfc4449d8bba17
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *RetentionEventStatus) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["error"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -86,6 +90,7 @@ func (m *RetentionEventStatus) GetFieldDeserializers()(map[string]func(i878a80d2
     return res
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *RetentionEventStatus) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -97,6 +102,7 @@ func (m *RetentionEventStatus) GetOdataType()(*string) {
     return nil
 }
 // GetStatus gets the status property value. The status of the distribution. The possible values are: pending, error, success, notAvaliable.
+// returns a *EventStatusType when successful
 func (m *RetentionEventStatus) GetStatus()(*EventStatusType) {
     val, err := m.GetBackingStore().Get("status")
     if err != nil {
@@ -136,18 +142,18 @@ func (m *RetentionEventStatus) Serialize(writer i878a80d2330e89d26896388a3f487ee
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *RetentionEventStatus) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *RetentionEventStatus) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
-// SetError sets the error property value. The error if the status is not successful.
+// SetError sets the error property value. The error if the status isn't successful.
 func (m *RetentionEventStatus) SetError(value iadcd81124412c61e647227ecfc4449d8bba17de0380ddda76f641a29edf2b242.PublicErrorable)() {
     err := m.GetBackingStore().Set("error", value)
     if err != nil {
@@ -168,7 +174,6 @@ func (m *RetentionEventStatus) SetStatus(value *EventStatusType)() {
         panic(err)
     }
 }
-// RetentionEventStatusable 
 type RetentionEventStatusable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel

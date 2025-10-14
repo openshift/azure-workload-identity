@@ -57,7 +57,7 @@ EOF
 
 create_kind_cluster() {
   # create a kind cluster
-  cat <<EOF | ${KIND} create cluster --name "${KIND_CLUSTER_NAME}" --image "kindest/node:${KIND_NODE_VERSION:-v1.22.4}" --config=-
+  cat <<EOF | ${KIND} create cluster --name "${KIND_CLUSTER_NAME}" --image "mcr.microsoft.com/mirror/kindest/node:${KIND_NODE_VERSION:-v1.32.3}" --config=-
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
@@ -94,7 +94,7 @@ EOF
 }
 
 download_service_account_keys() {
-  if [[ -z "${SERVICE_ACCOUNT_KEYVAULT_NAME:-}" ]]; then
+  if [[ -z "${SERVICE_ACCOUNT_KEYVAULT_NAME:-}" ]] || [[ "${SKIP_PREFLIGHT:-}" == "true" ]]; then
     return
   fi
   az keyvault secret show --vault-name "${SERVICE_ACCOUNT_KEYVAULT_NAME}" --name sa-pub | jq -r .value | base64 -d > "${SERVICE_ACCOUNT_KEY_FILE}"

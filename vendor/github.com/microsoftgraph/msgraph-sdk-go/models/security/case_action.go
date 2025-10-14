@@ -1,8 +1,4 @@
 package security
-import (
-    "errors"
-)
-// 
 type CaseAction int
 
 const (
@@ -42,7 +38,7 @@ func ParseCaseAction(v string) (any, error) {
         case "purgeData":
             result = PURGEDATA_CASEACTION
         default:
-            return 0, errors.New("Unknown CaseAction value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -52,4 +48,7 @@ func SerializeCaseAction(values []CaseAction) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i CaseAction) isMultiValue() bool {
+    return false
 }

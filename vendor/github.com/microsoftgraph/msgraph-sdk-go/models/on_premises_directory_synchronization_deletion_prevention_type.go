@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type OnPremisesDirectorySynchronizationDeletionPreventionType int
 
 const (
@@ -27,7 +23,7 @@ func ParseOnPremisesDirectorySynchronizationDeletionPreventionType(v string) (an
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_ONPREMISESDIRECTORYSYNCHRONIZATIONDELETIONPREVENTIONTYPE
         default:
-            return 0, errors.New("Unknown OnPremisesDirectorySynchronizationDeletionPreventionType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeOnPremisesDirectorySynchronizationDeletionPreventionType(values []
         result[i] = v.String()
     }
     return result
+}
+func (i OnPremisesDirectorySynchronizationDeletionPreventionType) isMultiValue() bool {
+    return false
 }

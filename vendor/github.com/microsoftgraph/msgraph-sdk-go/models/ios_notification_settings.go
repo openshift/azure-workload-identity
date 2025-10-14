@@ -10,7 +10,7 @@ type IosNotificationSettings struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
 }
-// NewIosNotificationSettings instantiates a new iosNotificationSettings and sets the default values.
+// NewIosNotificationSettings instantiates a new IosNotificationSettings and sets the default values.
 func NewIosNotificationSettings()(*IosNotificationSettings) {
     m := &IosNotificationSettings{
     }
@@ -19,10 +19,12 @@ func NewIosNotificationSettings()(*IosNotificationSettings) {
     return m
 }
 // CreateIosNotificationSettingsFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateIosNotificationSettingsFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewIosNotificationSettings(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *IosNotificationSettings) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -35,6 +37,7 @@ func (m *IosNotificationSettings) GetAdditionalData()(map[string]any) {
     return val.(map[string]any)
 }
 // GetAlertType gets the alertType property value. Notification Settings Alert Type.
+// returns a *IosNotificationAlertType when successful
 func (m *IosNotificationSettings) GetAlertType()(*IosNotificationAlertType) {
     val, err := m.GetBackingStore().Get("alertType")
     if err != nil {
@@ -46,6 +49,7 @@ func (m *IosNotificationSettings) GetAlertType()(*IosNotificationAlertType) {
     return nil
 }
 // GetAppName gets the appName property value. Application name to be associated with the bundleID.
+// returns a *string when successful
 func (m *IosNotificationSettings) GetAppName()(*string) {
     val, err := m.GetBackingStore().Get("appName")
     if err != nil {
@@ -56,11 +60,13 @@ func (m *IosNotificationSettings) GetAppName()(*string) {
     }
     return nil
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *IosNotificationSettings) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
 // GetBadgesEnabled gets the badgesEnabled property value. Indicates whether badges are allowed for this app.
+// returns a *bool when successful
 func (m *IosNotificationSettings) GetBadgesEnabled()(*bool) {
     val, err := m.GetBackingStore().Get("badgesEnabled")
     if err != nil {
@@ -72,6 +78,7 @@ func (m *IosNotificationSettings) GetBadgesEnabled()(*bool) {
     return nil
 }
 // GetBundleID gets the bundleID property value. Bundle id of app to which to apply these notification settings.
+// returns a *string when successful
 func (m *IosNotificationSettings) GetBundleID()(*string) {
     val, err := m.GetBackingStore().Get("bundleID")
     if err != nil {
@@ -83,6 +90,7 @@ func (m *IosNotificationSettings) GetBundleID()(*string) {
     return nil
 }
 // GetEnabled gets the enabled property value. Indicates whether notifications are allowed for this app.
+// returns a *bool when successful
 func (m *IosNotificationSettings) GetEnabled()(*bool) {
     val, err := m.GetBackingStore().Get("enabled")
     if err != nil {
@@ -94,6 +102,7 @@ func (m *IosNotificationSettings) GetEnabled()(*bool) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *IosNotificationSettings) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["alertType"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -199,6 +208,7 @@ func (m *IosNotificationSettings) GetFieldDeserializers()(map[string]func(i878a8
     return res
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *IosNotificationSettings) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -210,6 +220,7 @@ func (m *IosNotificationSettings) GetOdataType()(*string) {
     return nil
 }
 // GetPublisher gets the publisher property value. Publisher to be associated with the bundleID.
+// returns a *string when successful
 func (m *IosNotificationSettings) GetPublisher()(*string) {
     val, err := m.GetBackingStore().Get("publisher")
     if err != nil {
@@ -221,6 +232,7 @@ func (m *IosNotificationSettings) GetPublisher()(*string) {
     return nil
 }
 // GetShowInNotificationCenter gets the showInNotificationCenter property value. Indicates whether notifications can be shown in notification center.
+// returns a *bool when successful
 func (m *IosNotificationSettings) GetShowInNotificationCenter()(*bool) {
     val, err := m.GetBackingStore().Get("showInNotificationCenter")
     if err != nil {
@@ -232,6 +244,7 @@ func (m *IosNotificationSettings) GetShowInNotificationCenter()(*bool) {
     return nil
 }
 // GetShowOnLockScreen gets the showOnLockScreen property value. Indicates whether notifications can be shown on the lock screen.
+// returns a *bool when successful
 func (m *IosNotificationSettings) GetShowOnLockScreen()(*bool) {
     val, err := m.GetBackingStore().Get("showOnLockScreen")
     if err != nil {
@@ -243,6 +256,7 @@ func (m *IosNotificationSettings) GetShowOnLockScreen()(*bool) {
     return nil
 }
 // GetSoundsEnabled gets the soundsEnabled property value. Indicates whether sounds are allowed for this app.
+// returns a *bool when successful
 func (m *IosNotificationSettings) GetSoundsEnabled()(*bool) {
     val, err := m.GetBackingStore().Get("soundsEnabled")
     if err != nil {
@@ -324,7 +338,7 @@ func (m *IosNotificationSettings) Serialize(writer i878a80d2330e89d26896388a3f48
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *IosNotificationSettings) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
@@ -345,7 +359,7 @@ func (m *IosNotificationSettings) SetAppName(value *string)() {
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *IosNotificationSettings) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
@@ -405,7 +419,6 @@ func (m *IosNotificationSettings) SetSoundsEnabled(value *bool)() {
         panic(err)
     }
 }
-// IosNotificationSettingsable 
 type IosNotificationSettingsable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel

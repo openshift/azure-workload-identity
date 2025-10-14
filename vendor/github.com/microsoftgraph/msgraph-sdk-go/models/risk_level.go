@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type RiskLevel int
 
 const (
@@ -33,7 +29,7 @@ func ParseRiskLevel(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_RISKLEVEL
         default:
-            return 0, errors.New("Unknown RiskLevel value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeRiskLevel(values []RiskLevel) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i RiskLevel) isMultiValue() bool {
+    return false
 }

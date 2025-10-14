@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type WeekIndex int
 
 const (
@@ -30,7 +26,7 @@ func ParseWeekIndex(v string) (any, error) {
         case "last":
             result = LAST_WEEKINDEX
         default:
-            return 0, errors.New("Unknown WeekIndex value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeWeekIndex(values []WeekIndex) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i WeekIndex) isMultiValue() bool {
+    return false
 }

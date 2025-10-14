@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type EducationUserRole int
 
 const (
@@ -27,7 +23,7 @@ func ParseEducationUserRole(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_EDUCATIONUSERROLE
         default:
-            return 0, errors.New("Unknown EducationUserRole value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeEducationUserRole(values []EducationUserRole) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i EducationUserRole) isMultiValue() bool {
+    return false
 }

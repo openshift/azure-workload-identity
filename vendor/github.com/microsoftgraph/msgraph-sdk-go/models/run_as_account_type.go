@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Indicates the type of execution context the app runs in.
 type RunAsAccountType int
 
@@ -23,7 +20,7 @@ func ParseRunAsAccountType(v string) (any, error) {
         case "user":
             result = USER_RUNASACCOUNTTYPE
         default:
-            return 0, errors.New("Unknown RunAsAccountType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -33,4 +30,7 @@ func SerializeRunAsAccountType(values []RunAsAccountType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i RunAsAccountType) isMultiValue() bool {
+    return false
 }

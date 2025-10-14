@@ -1,8 +1,4 @@
 package externalconnectors
-import (
-    "errors"
-)
-// 
 type AccessType int
 
 const (
@@ -24,7 +20,7 @@ func ParseAccessType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_ACCESSTYPE
         default:
-            return 0, errors.New("Unknown AccessType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeAccessType(values []AccessType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i AccessType) isMultiValue() bool {
+    return false
 }

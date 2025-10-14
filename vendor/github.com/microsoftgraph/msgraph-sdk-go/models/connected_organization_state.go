@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ConnectedOrganizationState int
 
 const (
@@ -24,7 +20,7 @@ func ParseConnectedOrganizationState(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_CONNECTEDORGANIZATIONSTATE
         default:
-            return 0, errors.New("Unknown ConnectedOrganizationState value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeConnectedOrganizationState(values []ConnectedOrganizationState) []
         result[i] = v.String()
     }
     return result
+}
+func (i ConnectedOrganizationState) isMultiValue() bool {
+    return false
 }

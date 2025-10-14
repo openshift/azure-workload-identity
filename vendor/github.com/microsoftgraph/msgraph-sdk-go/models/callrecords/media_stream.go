@@ -6,7 +6,6 @@ import (
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e "github.com/microsoft/kiota-abstractions-go/store"
 )
 
-// MediaStream 
 type MediaStream struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
@@ -20,10 +19,12 @@ func NewMediaStream()(*MediaStream) {
     return m
 }
 // CreateMediaStreamFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateMediaStreamFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewMediaStream(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *MediaStream) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -36,6 +37,7 @@ func (m *MediaStream) GetAdditionalData()(map[string]any) {
     return val.(map[string]any)
 }
 // GetAudioCodec gets the audioCodec property value. Codec name used to encode audio for transmission on the network. Possible values are: unknown, invalid, cn, pcma, pcmu, amrWide, g722, g7221, g7221c, g729, multiChannelAudio, muchv2, opus, satin, satinFullband, rtAudio8, rtAudio16, silk, silkNarrow, silkWide, siren, xmsRta, unknownFutureValue.
+// returns a *AudioCodec when successful
 func (m *MediaStream) GetAudioCodec()(*AudioCodec) {
     val, err := m.GetBackingStore().Get("audioCodec")
     if err != nil {
@@ -47,6 +49,7 @@ func (m *MediaStream) GetAudioCodec()(*AudioCodec) {
     return nil
 }
 // GetAverageAudioDegradation gets the averageAudioDegradation property value. Average Network Mean Opinion Score degradation for stream. Represents how much the network loss and jitter has impacted the quality of received audio.
+// returns a *float32 when successful
 func (m *MediaStream) GetAverageAudioDegradation()(*float32) {
     val, err := m.GetBackingStore().Get("averageAudioDegradation")
     if err != nil {
@@ -57,7 +60,8 @@ func (m *MediaStream) GetAverageAudioDegradation()(*float32) {
     }
     return nil
 }
-// GetAverageAudioNetworkJitter gets the averageAudioNetworkJitter property value. Average jitter for the stream computed as specified in [RFC 3550][], denoted in [ISO 8601][] format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// GetAverageAudioNetworkJitter gets the averageAudioNetworkJitter property value. Average jitter for the stream computed as specified in RFC 3550, denoted in ISO 8601 format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// returns a *ISODuration when successful
 func (m *MediaStream) GetAverageAudioNetworkJitter()(*i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration) {
     val, err := m.GetBackingStore().Get("averageAudioNetworkJitter")
     if err != nil {
@@ -69,6 +73,7 @@ func (m *MediaStream) GetAverageAudioNetworkJitter()(*i878a80d2330e89d26896388a3
     return nil
 }
 // GetAverageBandwidthEstimate gets the averageBandwidthEstimate property value. Average estimated bandwidth available between two endpoints in bits per second.
+// returns a *int64 when successful
 func (m *MediaStream) GetAverageBandwidthEstimate()(*int64) {
     val, err := m.GetBackingStore().Get("averageBandwidthEstimate")
     if err != nil {
@@ -80,6 +85,7 @@ func (m *MediaStream) GetAverageBandwidthEstimate()(*int64) {
     return nil
 }
 // GetAverageFreezeDuration gets the averageFreezeDuration property value. Average duration of the received freezing time in the video stream.
+// returns a *ISODuration when successful
 func (m *MediaStream) GetAverageFreezeDuration()(*i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration) {
     val, err := m.GetBackingStore().Get("averageFreezeDuration")
     if err != nil {
@@ -90,7 +96,8 @@ func (m *MediaStream) GetAverageFreezeDuration()(*i878a80d2330e89d26896388a3f487
     }
     return nil
 }
-// GetAverageJitter gets the averageJitter property value. Average jitter for the stream computed as specified in [RFC 3550][], denoted in [ISO 8601][] format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// GetAverageJitter gets the averageJitter property value. Average jitter for the stream computed as specified in RFC 3550, denoted in ISO 8601 format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// returns a *ISODuration when successful
 func (m *MediaStream) GetAverageJitter()(*i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration) {
     val, err := m.GetBackingStore().Get("averageJitter")
     if err != nil {
@@ -102,6 +109,7 @@ func (m *MediaStream) GetAverageJitter()(*i878a80d2330e89d26896388a3f487eef27b0a
     return nil
 }
 // GetAveragePacketLossRate gets the averagePacketLossRate property value. Average packet loss rate for stream.
+// returns a *float32 when successful
 func (m *MediaStream) GetAveragePacketLossRate()(*float32) {
     val, err := m.GetBackingStore().Get("averagePacketLossRate")
     if err != nil {
@@ -113,6 +121,7 @@ func (m *MediaStream) GetAveragePacketLossRate()(*float32) {
     return nil
 }
 // GetAverageRatioOfConcealedSamples gets the averageRatioOfConcealedSamples property value. Ratio of the number of audio frames with samples generated by packet loss concealment to the total number of audio frames.
+// returns a *float32 when successful
 func (m *MediaStream) GetAverageRatioOfConcealedSamples()(*float32) {
     val, err := m.GetBackingStore().Get("averageRatioOfConcealedSamples")
     if err != nil {
@@ -124,6 +133,7 @@ func (m *MediaStream) GetAverageRatioOfConcealedSamples()(*float32) {
     return nil
 }
 // GetAverageReceivedFrameRate gets the averageReceivedFrameRate property value. Average frames per second received for all video streams computed over the duration of the session.
+// returns a *float32 when successful
 func (m *MediaStream) GetAverageReceivedFrameRate()(*float32) {
     val, err := m.GetBackingStore().Get("averageReceivedFrameRate")
     if err != nil {
@@ -134,7 +144,8 @@ func (m *MediaStream) GetAverageReceivedFrameRate()(*float32) {
     }
     return nil
 }
-// GetAverageRoundTripTime gets the averageRoundTripTime property value. Average network propagation round-trip time computed as specified in [RFC 3550][], denoted in [ISO 8601][] format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// GetAverageRoundTripTime gets the averageRoundTripTime property value. Average network propagation round-trip time computed as specified in RFC 3550, denoted in ISO 8601 format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// returns a *ISODuration when successful
 func (m *MediaStream) GetAverageRoundTripTime()(*i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration) {
     val, err := m.GetBackingStore().Get("averageRoundTripTime")
     if err != nil {
@@ -146,6 +157,7 @@ func (m *MediaStream) GetAverageRoundTripTime()(*i878a80d2330e89d26896388a3f487e
     return nil
 }
 // GetAverageVideoFrameLossPercentage gets the averageVideoFrameLossPercentage property value. Average percentage of video frames lost as displayed to the user.
+// returns a *float32 when successful
 func (m *MediaStream) GetAverageVideoFrameLossPercentage()(*float32) {
     val, err := m.GetBackingStore().Get("averageVideoFrameLossPercentage")
     if err != nil {
@@ -157,6 +169,7 @@ func (m *MediaStream) GetAverageVideoFrameLossPercentage()(*float32) {
     return nil
 }
 // GetAverageVideoFrameRate gets the averageVideoFrameRate property value. Average frames per second received for a video stream, computed over the duration of the session.
+// returns a *float32 when successful
 func (m *MediaStream) GetAverageVideoFrameRate()(*float32) {
     val, err := m.GetBackingStore().Get("averageVideoFrameRate")
     if err != nil {
@@ -167,7 +180,8 @@ func (m *MediaStream) GetAverageVideoFrameRate()(*float32) {
     }
     return nil
 }
-// GetAverageVideoPacketLossRate gets the averageVideoPacketLossRate property value. Average fraction of packets lost, as specified in [RFC 3550][], computed over the duration of the session.
+// GetAverageVideoPacketLossRate gets the averageVideoPacketLossRate property value. Average fraction of packets lost, as specified in RFC 3550, computed over the duration of the session.
+// returns a *float32 when successful
 func (m *MediaStream) GetAverageVideoPacketLossRate()(*float32) {
     val, err := m.GetBackingStore().Get("averageVideoPacketLossRate")
     if err != nil {
@@ -178,11 +192,13 @@ func (m *MediaStream) GetAverageVideoPacketLossRate()(*float32) {
     }
     return nil
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *MediaStream) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
-// GetEndDateTime gets the endDateTime property value. UTC time when the stream ended. The DateTimeOffset type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z
+// GetEndDateTime gets the endDateTime property value. UTC time when the stream ended. The DateTimeOffset type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. This field is only available for streams that use the SIP protocol.
+// returns a *Time when successful
 func (m *MediaStream) GetEndDateTime()(*i336074805fc853987abe6f7fe3ad97a6a6f3077a16391fec744f671a015fbd7e.Time) {
     val, err := m.GetBackingStore().Get("endDateTime")
     if err != nil {
@@ -194,6 +210,7 @@ func (m *MediaStream) GetEndDateTime()(*i336074805fc853987abe6f7fe3ad97a6a6f3077
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *MediaStream) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["audioCodec"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -509,6 +526,7 @@ func (m *MediaStream) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26
     return res
 }
 // GetIsAudioForwardErrorCorrectionUsed gets the isAudioForwardErrorCorrectionUsed property value. Indicates whether the forward error correction (FEC) was used at some point during the session. The default value is null.
+// returns a *bool when successful
 func (m *MediaStream) GetIsAudioForwardErrorCorrectionUsed()(*bool) {
     val, err := m.GetBackingStore().Get("isAudioForwardErrorCorrectionUsed")
     if err != nil {
@@ -520,6 +538,7 @@ func (m *MediaStream) GetIsAudioForwardErrorCorrectionUsed()(*bool) {
     return nil
 }
 // GetLowFrameRateRatio gets the lowFrameRateRatio property value. Fraction of the call where frame rate is less than 7.5 frames per second.
+// returns a *float32 when successful
 func (m *MediaStream) GetLowFrameRateRatio()(*float32) {
     val, err := m.GetBackingStore().Get("lowFrameRateRatio")
     if err != nil {
@@ -531,6 +550,7 @@ func (m *MediaStream) GetLowFrameRateRatio()(*float32) {
     return nil
 }
 // GetLowVideoProcessingCapabilityRatio gets the lowVideoProcessingCapabilityRatio property value. Fraction of the call that the client is running less than 70% expected video processing capability.
+// returns a *float32 when successful
 func (m *MediaStream) GetLowVideoProcessingCapabilityRatio()(*float32) {
     val, err := m.GetBackingStore().Get("lowVideoProcessingCapabilityRatio")
     if err != nil {
@@ -541,7 +561,8 @@ func (m *MediaStream) GetLowVideoProcessingCapabilityRatio()(*float32) {
     }
     return nil
 }
-// GetMaxAudioNetworkJitter gets the maxAudioNetworkJitter property value. Maximum of audio network jitter computed over each of the 20 second windows during the session, denoted in [ISO 8601][] format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// GetMaxAudioNetworkJitter gets the maxAudioNetworkJitter property value. Maximum of audio network jitter computed over each of the 20 second windows during the session, denoted in ISO 8601 format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// returns a *ISODuration when successful
 func (m *MediaStream) GetMaxAudioNetworkJitter()(*i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration) {
     val, err := m.GetBackingStore().Get("maxAudioNetworkJitter")
     if err != nil {
@@ -552,7 +573,8 @@ func (m *MediaStream) GetMaxAudioNetworkJitter()(*i878a80d2330e89d26896388a3f487
     }
     return nil
 }
-// GetMaxJitter gets the maxJitter property value. Maximum jitter for the stream computed as specified in RFC 3550, denoted in [ISO 8601][] format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// GetMaxJitter gets the maxJitter property value. Maximum jitter for the stream computed as specified in RFC 3550, denoted in ISO 8601 format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// returns a *ISODuration when successful
 func (m *MediaStream) GetMaxJitter()(*i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration) {
     val, err := m.GetBackingStore().Get("maxJitter")
     if err != nil {
@@ -564,6 +586,7 @@ func (m *MediaStream) GetMaxJitter()(*i878a80d2330e89d26896388a3f487eef27b0a0e6c
     return nil
 }
 // GetMaxPacketLossRate gets the maxPacketLossRate property value. Maximum packet loss rate for the stream.
+// returns a *float32 when successful
 func (m *MediaStream) GetMaxPacketLossRate()(*float32) {
     val, err := m.GetBackingStore().Get("maxPacketLossRate")
     if err != nil {
@@ -575,6 +598,7 @@ func (m *MediaStream) GetMaxPacketLossRate()(*float32) {
     return nil
 }
 // GetMaxRatioOfConcealedSamples gets the maxRatioOfConcealedSamples property value. Maximum ratio of packets concealed by the healer.
+// returns a *float32 when successful
 func (m *MediaStream) GetMaxRatioOfConcealedSamples()(*float32) {
     val, err := m.GetBackingStore().Get("maxRatioOfConcealedSamples")
     if err != nil {
@@ -585,7 +609,8 @@ func (m *MediaStream) GetMaxRatioOfConcealedSamples()(*float32) {
     }
     return nil
 }
-// GetMaxRoundTripTime gets the maxRoundTripTime property value. Maximum network propagation round-trip time computed as specified in [RFC 3550][], denoted in [ISO 8601][] format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// GetMaxRoundTripTime gets the maxRoundTripTime property value. Maximum network propagation round-trip time computed as specified in RFC 3550, denoted in ISO 8601 format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// returns a *ISODuration when successful
 func (m *MediaStream) GetMaxRoundTripTime()(*i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration) {
     val, err := m.GetBackingStore().Get("maxRoundTripTime")
     if err != nil {
@@ -597,6 +622,7 @@ func (m *MediaStream) GetMaxRoundTripTime()(*i878a80d2330e89d26896388a3f487eef27
     return nil
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *MediaStream) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -608,6 +634,7 @@ func (m *MediaStream) GetOdataType()(*string) {
     return nil
 }
 // GetPacketUtilization gets the packetUtilization property value. Packet count for the stream.
+// returns a *int64 when successful
 func (m *MediaStream) GetPacketUtilization()(*int64) {
     val, err := m.GetBackingStore().Get("packetUtilization")
     if err != nil {
@@ -619,6 +646,7 @@ func (m *MediaStream) GetPacketUtilization()(*int64) {
     return nil
 }
 // GetPostForwardErrorCorrectionPacketLossRate gets the postForwardErrorCorrectionPacketLossRate property value. Packet loss rate after FEC has been applied aggregated across all video streams and codecs.
+// returns a *float32 when successful
 func (m *MediaStream) GetPostForwardErrorCorrectionPacketLossRate()(*float32) {
     val, err := m.GetBackingStore().Get("postForwardErrorCorrectionPacketLossRate")
     if err != nil {
@@ -630,6 +658,7 @@ func (m *MediaStream) GetPostForwardErrorCorrectionPacketLossRate()(*float32) {
     return nil
 }
 // GetRmsFreezeDuration gets the rmsFreezeDuration property value. Average duration of the received freezing time in the video stream represented in root mean square.
+// returns a *ISODuration when successful
 func (m *MediaStream) GetRmsFreezeDuration()(*i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration) {
     val, err := m.GetBackingStore().Get("rmsFreezeDuration")
     if err != nil {
@@ -640,7 +669,8 @@ func (m *MediaStream) GetRmsFreezeDuration()(*i878a80d2330e89d26896388a3f487eef2
     }
     return nil
 }
-// GetStartDateTime gets the startDateTime property value. UTC time when the stream started. The DateTimeOffset type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z
+// GetStartDateTime gets the startDateTime property value. UTC time when the stream started. The DateTimeOffset type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. This field is only available for streams that use the SIP protocol.
+// returns a *Time when successful
 func (m *MediaStream) GetStartDateTime()(*i336074805fc853987abe6f7fe3ad97a6a6f3077a16391fec744f671a015fbd7e.Time) {
     val, err := m.GetBackingStore().Get("startDateTime")
     if err != nil {
@@ -652,6 +682,7 @@ func (m *MediaStream) GetStartDateTime()(*i336074805fc853987abe6f7fe3ad97a6a6f30
     return nil
 }
 // GetStreamDirection gets the streamDirection property value. The streamDirection property
+// returns a *MediaStreamDirection when successful
 func (m *MediaStream) GetStreamDirection()(*MediaStreamDirection) {
     val, err := m.GetBackingStore().Get("streamDirection")
     if err != nil {
@@ -663,6 +694,7 @@ func (m *MediaStream) GetStreamDirection()(*MediaStreamDirection) {
     return nil
 }
 // GetStreamId gets the streamId property value. Unique identifier for the stream.
+// returns a *string when successful
 func (m *MediaStream) GetStreamId()(*string) {
     val, err := m.GetBackingStore().Get("streamId")
     if err != nil {
@@ -674,6 +706,7 @@ func (m *MediaStream) GetStreamId()(*string) {
     return nil
 }
 // GetVideoCodec gets the videoCodec property value. Codec name used to encode video for transmission on the network. Possible values are: unknown, invalid, av1, h263, h264, h264s, h264uc, h265, rtvc1, rtVideo, xrtvc1, unknownFutureValue.
+// returns a *VideoCodec when successful
 func (m *MediaStream) GetVideoCodec()(*VideoCodec) {
     val, err := m.GetBackingStore().Get("videoCodec")
     if err != nil {
@@ -685,6 +718,7 @@ func (m *MediaStream) GetVideoCodec()(*VideoCodec) {
     return nil
 }
 // GetWasMediaBypassed gets the wasMediaBypassed property value. True if the media stream bypassed the Mediation Server and went straight between client and PSTN Gateway/PBX, false otherwise.
+// returns a *bool when successful
 func (m *MediaStream) GetWasMediaBypassed()(*bool) {
     val, err := m.GetBackingStore().Get("wasMediaBypassed")
     if err != nil {
@@ -894,7 +928,7 @@ func (m *MediaStream) Serialize(writer i878a80d2330e89d26896388a3f487eef27b0a0e6
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *MediaStream) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
@@ -915,7 +949,7 @@ func (m *MediaStream) SetAverageAudioDegradation(value *float32)() {
         panic(err)
     }
 }
-// SetAverageAudioNetworkJitter sets the averageAudioNetworkJitter property value. Average jitter for the stream computed as specified in [RFC 3550][], denoted in [ISO 8601][] format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// SetAverageAudioNetworkJitter sets the averageAudioNetworkJitter property value. Average jitter for the stream computed as specified in RFC 3550, denoted in ISO 8601 format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
 func (m *MediaStream) SetAverageAudioNetworkJitter(value *i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration)() {
     err := m.GetBackingStore().Set("averageAudioNetworkJitter", value)
     if err != nil {
@@ -936,7 +970,7 @@ func (m *MediaStream) SetAverageFreezeDuration(value *i878a80d2330e89d26896388a3
         panic(err)
     }
 }
-// SetAverageJitter sets the averageJitter property value. Average jitter for the stream computed as specified in [RFC 3550][], denoted in [ISO 8601][] format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// SetAverageJitter sets the averageJitter property value. Average jitter for the stream computed as specified in RFC 3550, denoted in ISO 8601 format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
 func (m *MediaStream) SetAverageJitter(value *i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration)() {
     err := m.GetBackingStore().Set("averageJitter", value)
     if err != nil {
@@ -964,7 +998,7 @@ func (m *MediaStream) SetAverageReceivedFrameRate(value *float32)() {
         panic(err)
     }
 }
-// SetAverageRoundTripTime sets the averageRoundTripTime property value. Average network propagation round-trip time computed as specified in [RFC 3550][], denoted in [ISO 8601][] format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// SetAverageRoundTripTime sets the averageRoundTripTime property value. Average network propagation round-trip time computed as specified in RFC 3550, denoted in ISO 8601 format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
 func (m *MediaStream) SetAverageRoundTripTime(value *i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration)() {
     err := m.GetBackingStore().Set("averageRoundTripTime", value)
     if err != nil {
@@ -985,18 +1019,18 @@ func (m *MediaStream) SetAverageVideoFrameRate(value *float32)() {
         panic(err)
     }
 }
-// SetAverageVideoPacketLossRate sets the averageVideoPacketLossRate property value. Average fraction of packets lost, as specified in [RFC 3550][], computed over the duration of the session.
+// SetAverageVideoPacketLossRate sets the averageVideoPacketLossRate property value. Average fraction of packets lost, as specified in RFC 3550, computed over the duration of the session.
 func (m *MediaStream) SetAverageVideoPacketLossRate(value *float32)() {
     err := m.GetBackingStore().Set("averageVideoPacketLossRate", value)
     if err != nil {
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *MediaStream) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
-// SetEndDateTime sets the endDateTime property value. UTC time when the stream ended. The DateTimeOffset type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z
+// SetEndDateTime sets the endDateTime property value. UTC time when the stream ended. The DateTimeOffset type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. This field is only available for streams that use the SIP protocol.
 func (m *MediaStream) SetEndDateTime(value *i336074805fc853987abe6f7fe3ad97a6a6f3077a16391fec744f671a015fbd7e.Time)() {
     err := m.GetBackingStore().Set("endDateTime", value)
     if err != nil {
@@ -1024,14 +1058,14 @@ func (m *MediaStream) SetLowVideoProcessingCapabilityRatio(value *float32)() {
         panic(err)
     }
 }
-// SetMaxAudioNetworkJitter sets the maxAudioNetworkJitter property value. Maximum of audio network jitter computed over each of the 20 second windows during the session, denoted in [ISO 8601][] format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// SetMaxAudioNetworkJitter sets the maxAudioNetworkJitter property value. Maximum of audio network jitter computed over each of the 20 second windows during the session, denoted in ISO 8601 format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
 func (m *MediaStream) SetMaxAudioNetworkJitter(value *i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration)() {
     err := m.GetBackingStore().Set("maxAudioNetworkJitter", value)
     if err != nil {
         panic(err)
     }
 }
-// SetMaxJitter sets the maxJitter property value. Maximum jitter for the stream computed as specified in RFC 3550, denoted in [ISO 8601][] format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// SetMaxJitter sets the maxJitter property value. Maximum jitter for the stream computed as specified in RFC 3550, denoted in ISO 8601 format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
 func (m *MediaStream) SetMaxJitter(value *i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration)() {
     err := m.GetBackingStore().Set("maxJitter", value)
     if err != nil {
@@ -1052,7 +1086,7 @@ func (m *MediaStream) SetMaxRatioOfConcealedSamples(value *float32)() {
         panic(err)
     }
 }
-// SetMaxRoundTripTime sets the maxRoundTripTime property value. Maximum network propagation round-trip time computed as specified in [RFC 3550][], denoted in [ISO 8601][] format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
+// SetMaxRoundTripTime sets the maxRoundTripTime property value. Maximum network propagation round-trip time computed as specified in RFC 3550, denoted in ISO 8601 format. For example, 1 second is denoted as 'PT1S', where 'P' is the duration designator, 'T' is the time designator, and 'S' is the second designator.
 func (m *MediaStream) SetMaxRoundTripTime(value *i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ISODuration)() {
     err := m.GetBackingStore().Set("maxRoundTripTime", value)
     if err != nil {
@@ -1087,7 +1121,7 @@ func (m *MediaStream) SetRmsFreezeDuration(value *i878a80d2330e89d26896388a3f487
         panic(err)
     }
 }
-// SetStartDateTime sets the startDateTime property value. UTC time when the stream started. The DateTimeOffset type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z
+// SetStartDateTime sets the startDateTime property value. UTC time when the stream started. The DateTimeOffset type represents date and time information using ISO 8601 format and is always in UTC time. For example, midnight UTC on Jan 1, 2014 is 2014-01-01T00:00:00Z. This field is only available for streams that use the SIP protocol.
 func (m *MediaStream) SetStartDateTime(value *i336074805fc853987abe6f7fe3ad97a6a6f3077a16391fec744f671a015fbd7e.Time)() {
     err := m.GetBackingStore().Set("startDateTime", value)
     if err != nil {
@@ -1122,7 +1156,6 @@ func (m *MediaStream) SetWasMediaBypassed(value *bool)() {
         panic(err)
     }
 }
-// MediaStreamable 
 type MediaStreamable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel

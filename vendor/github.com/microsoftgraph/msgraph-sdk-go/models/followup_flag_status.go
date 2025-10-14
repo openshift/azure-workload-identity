@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type FollowupFlagStatus int
 
 const (
@@ -24,7 +20,7 @@ func ParseFollowupFlagStatus(v string) (any, error) {
         case "flagged":
             result = FLAGGED_FOLLOWUPFLAGSTATUS
         default:
-            return 0, errors.New("Unknown FollowupFlagStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeFollowupFlagStatus(values []FollowupFlagStatus) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i FollowupFlagStatus) isMultiValue() bool {
+    return false
 }

@@ -4,7 +4,7 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// AndroidWorkProfileCustomConfiguration 
+// AndroidWorkProfileCustomConfiguration android Work Profile custom configuration
 type AndroidWorkProfileCustomConfiguration struct {
     DeviceConfiguration
 }
@@ -18,10 +18,12 @@ func NewAndroidWorkProfileCustomConfiguration()(*AndroidWorkProfileCustomConfigu
     return m
 }
 // CreateAndroidWorkProfileCustomConfigurationFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateAndroidWorkProfileCustomConfigurationFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewAndroidWorkProfileCustomConfiguration(), nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *AndroidWorkProfileCustomConfiguration) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.DeviceConfiguration.GetFieldDeserializers()
     res["omaSettings"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -43,6 +45,7 @@ func (m *AndroidWorkProfileCustomConfiguration) GetFieldDeserializers()(map[stri
     return res
 }
 // GetOmaSettings gets the omaSettings property value. OMA settings. This collection can contain a maximum of 500 elements.
+// returns a []OmaSettingable when successful
 func (m *AndroidWorkProfileCustomConfiguration) GetOmaSettings()([]OmaSettingable) {
     val, err := m.GetBackingStore().Get("omaSettings")
     if err != nil {
@@ -80,7 +83,6 @@ func (m *AndroidWorkProfileCustomConfiguration) SetOmaSettings(value []OmaSettin
         panic(err)
     }
 }
-// AndroidWorkProfileCustomConfigurationable 
 type AndroidWorkProfileCustomConfigurationable interface {
     DeviceConfigurationable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable

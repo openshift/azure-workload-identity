@@ -5,12 +5,11 @@ import (
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e "github.com/microsoft/kiota-abstractions-go/store"
 )
 
-// AccessPackageAssignmentApprovalSettings 
 type AccessPackageAssignmentApprovalSettings struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
 }
-// NewAccessPackageAssignmentApprovalSettings instantiates a new accessPackageAssignmentApprovalSettings and sets the default values.
+// NewAccessPackageAssignmentApprovalSettings instantiates a new AccessPackageAssignmentApprovalSettings and sets the default values.
 func NewAccessPackageAssignmentApprovalSettings()(*AccessPackageAssignmentApprovalSettings) {
     m := &AccessPackageAssignmentApprovalSettings{
     }
@@ -19,10 +18,12 @@ func NewAccessPackageAssignmentApprovalSettings()(*AccessPackageAssignmentApprov
     return m
 }
 // CreateAccessPackageAssignmentApprovalSettingsFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateAccessPackageAssignmentApprovalSettingsFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewAccessPackageAssignmentApprovalSettings(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *AccessPackageAssignmentApprovalSettings) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -34,11 +35,13 @@ func (m *AccessPackageAssignmentApprovalSettings) GetAdditionalData()(map[string
     }
     return val.(map[string]any)
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *AccessPackageAssignmentApprovalSettings) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *AccessPackageAssignmentApprovalSettings) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["isApprovalRequiredForAdd"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -89,7 +92,8 @@ func (m *AccessPackageAssignmentApprovalSettings) GetFieldDeserializers()(map[st
     }
     return res
 }
-// GetIsApprovalRequiredForAdd gets the isApprovalRequiredForAdd property value. If false, then approval is not required for new requests in this policy.
+// GetIsApprovalRequiredForAdd gets the isApprovalRequiredForAdd property value. If false, then approval isn't required for new requests in this policy.
+// returns a *bool when successful
 func (m *AccessPackageAssignmentApprovalSettings) GetIsApprovalRequiredForAdd()(*bool) {
     val, err := m.GetBackingStore().Get("isApprovalRequiredForAdd")
     if err != nil {
@@ -100,7 +104,8 @@ func (m *AccessPackageAssignmentApprovalSettings) GetIsApprovalRequiredForAdd()(
     }
     return nil
 }
-// GetIsApprovalRequiredForUpdate gets the isApprovalRequiredForUpdate property value. If false, then approval is not required for updates to requests in this policy.
+// GetIsApprovalRequiredForUpdate gets the isApprovalRequiredForUpdate property value. If false, then approval isn't required for updates to requests in this policy.
+// returns a *bool when successful
 func (m *AccessPackageAssignmentApprovalSettings) GetIsApprovalRequiredForUpdate()(*bool) {
     val, err := m.GetBackingStore().Get("isApprovalRequiredForUpdate")
     if err != nil {
@@ -112,6 +117,7 @@ func (m *AccessPackageAssignmentApprovalSettings) GetIsApprovalRequiredForUpdate
     return nil
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *AccessPackageAssignmentApprovalSettings) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -123,6 +129,7 @@ func (m *AccessPackageAssignmentApprovalSettings) GetOdataType()(*string) {
     return nil
 }
 // GetStages gets the stages property value. If approval is required, the one, two or three elements of this collection define each of the stages of approval. An empty array is present if no approval is required.
+// returns a []AccessPackageApprovalStageable when successful
 func (m *AccessPackageAssignmentApprovalSettings) GetStages()([]AccessPackageApprovalStageable) {
     val, err := m.GetBackingStore().Get("stages")
     if err != nil {
@@ -173,25 +180,25 @@ func (m *AccessPackageAssignmentApprovalSettings) Serialize(writer i878a80d2330e
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *AccessPackageAssignmentApprovalSettings) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *AccessPackageAssignmentApprovalSettings) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
-// SetIsApprovalRequiredForAdd sets the isApprovalRequiredForAdd property value. If false, then approval is not required for new requests in this policy.
+// SetIsApprovalRequiredForAdd sets the isApprovalRequiredForAdd property value. If false, then approval isn't required for new requests in this policy.
 func (m *AccessPackageAssignmentApprovalSettings) SetIsApprovalRequiredForAdd(value *bool)() {
     err := m.GetBackingStore().Set("isApprovalRequiredForAdd", value)
     if err != nil {
         panic(err)
     }
 }
-// SetIsApprovalRequiredForUpdate sets the isApprovalRequiredForUpdate property value. If false, then approval is not required for updates to requests in this policy.
+// SetIsApprovalRequiredForUpdate sets the isApprovalRequiredForUpdate property value. If false, then approval isn't required for updates to requests in this policy.
 func (m *AccessPackageAssignmentApprovalSettings) SetIsApprovalRequiredForUpdate(value *bool)() {
     err := m.GetBackingStore().Set("isApprovalRequiredForUpdate", value)
     if err != nil {
@@ -212,7 +219,6 @@ func (m *AccessPackageAssignmentApprovalSettings) SetStages(value []AccessPackag
         panic(err)
     }
 }
-// AccessPackageAssignmentApprovalSettingsable 
 type AccessPackageAssignmentApprovalSettingsable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel

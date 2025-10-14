@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type BookingType int
 
 const (
@@ -24,7 +20,7 @@ func ParseBookingType(v string) (any, error) {
         case "reserved":
             result = RESERVED_BOOKINGTYPE
         default:
-            return 0, errors.New("Unknown BookingType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeBookingType(values []BookingType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i BookingType) isMultiValue() bool {
+    return false
 }

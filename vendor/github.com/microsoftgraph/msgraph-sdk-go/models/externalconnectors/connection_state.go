@@ -1,8 +1,4 @@
 package externalconnectors
-import (
-    "errors"
-)
-// 
 type ConnectionState int
 
 const (
@@ -30,7 +26,7 @@ func ParseConnectionState(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_CONNECTIONSTATE
         default:
-            return 0, errors.New("Unknown ConnectionState value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeConnectionState(values []ConnectionState) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ConnectionState) isMultiValue() bool {
+    return false
 }

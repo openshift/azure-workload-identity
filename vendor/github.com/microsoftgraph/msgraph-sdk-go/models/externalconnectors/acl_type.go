@@ -1,8 +1,4 @@
 package externalconnectors
-import (
-    "errors"
-)
-// 
 type AclType int
 
 const (
@@ -33,7 +29,7 @@ func ParseAclType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_ACLTYPE
         default:
-            return 0, errors.New("Unknown AclType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeAclType(values []AclType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i AclType) isMultiValue() bool {
+    return false
 }

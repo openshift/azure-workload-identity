@@ -21,12 +21,12 @@ import (
 var _ = ginkgo.Describe("Proxy [LinuxOnly] [AKSSoakOnly]", func() {
 	f := framework.NewDefaultFramework("proxy")
 
-	ginkgo.It("should get a valid AAD token after injecting proxy init container and sidecar", func() {
+	ginkgo.It("should get a valid AAD token after injecting proxy init container and sidecar", func(ctx context.Context) {
 		clientID, ok := os.LookupEnv("APPLICATION_CLIENT_ID")
 		gomega.Expect(ok).To(gomega.BeTrue(), "APPLICATION_CLIENT_ID must be set")
 		// trust is only set up for 'proxy-test-sa' service account in the default namespace for now
 		const namespace = "default"
-		serviceAccount := createServiceAccount(f.ClientSet, namespace, "proxy-test-sa", map[string]string{useWorkloadIdentityLabel: "true"}, map[string]string{clientIDAnnotation: clientID})
+		serviceAccount := createServiceAccount(f.ClientSet, namespace, "proxy-test-sa", map[string]string{clientIDAnnotation: clientID})
 		defer f.ClientSet.CoreV1().ServiceAccounts(namespace).Delete(context.TODO(), serviceAccount, metav1.DeleteOptions{})
 
 		proxyAnnotations := map[string]string{
@@ -40,7 +40,7 @@ var _ = ginkgo.Describe("Proxy [LinuxOnly] [AKSSoakOnly]", func() {
 			serviceAccount,
 			"mcr.microsoft.com/azure-cli",
 			nil,
-			[]string{"/bin/sh", "-c", fmt.Sprintf("az login -i -u %s --allow-no-subscriptions --debug; sleep 3600", clientID)},
+			[]string{"/bin/sh", "-c", fmt.Sprintf("az login -i --client-id %s --allow-no-subscriptions --debug; sleep 3600", clientID)},
 			nil,
 			proxyAnnotations,
 			map[string]string{useWorkloadIdentityLabel: "true"},
@@ -54,15 +54,17 @@ var _ = ginkgo.Describe("Proxy [LinuxOnly] [AKSSoakOnly]", func() {
 		// output proxy and proxy init logs for debugging
 		defer func() {
 			for _, container := range []string{"azwi-proxy-init", "azwi-proxy"} {
-				stdout, _ := e2epod.GetPodLogs(f.ClientSet, namespace, pod.Name, container)
+				stdout, _ := e2epod.GetPodLogs(ctx, f.ClientSet, namespace, pod.Name, container)
 				framework.Logf("%s logs: %s", container, stdout)
 			}
 		}()
 
+		validateProxySideCarInMutatedPod(pod)
+
 		for _, container := range []string{busybox1, busybox2} {
 			framework.Logf("validating that %s in %s has acquired a valid AAD token via the proxy", container, pod.Name)
 			gomega.Eventually(func() bool {
-				stdout, err := e2epod.GetPodLogs(f.ClientSet, namespace, pod.Name, container)
+				stdout, err := e2epod.GetPodLogs(ctx, f.ClientSet, namespace, pod.Name, container)
 				if err != nil {
 					framework.Logf("failed to get logs from container %s in %s/%s: %v. Retrying...", container, namespace, pod.Name, err)
 					return false
@@ -74,12 +76,12 @@ var _ = ginkgo.Describe("Proxy [LinuxOnly] [AKSSoakOnly]", func() {
 	})
 
 	// This test is to validate the proxy sidecar fallback behavior to AZURE_CLIENT_ID when the client_id parameter is not part of the request.
-	ginkgo.It("should get a valid AAD token after injecting proxy init container and sidecar with no client_id in request", func() {
+	ginkgo.It("should get a valid AAD token after injecting proxy init container and sidecar with no client_id in request", func(ctx context.Context) {
 		clientID, ok := os.LookupEnv("APPLICATION_CLIENT_ID")
 		gomega.Expect(ok).To(gomega.BeTrue(), "APPLICATION_CLIENT_ID must be set")
 		// trust is only set up for 'proxy-test-sa' service account in the default namespace for now
 		const namespace = "default"
-		serviceAccount := createServiceAccount(f.ClientSet, namespace, "proxy-test-sa", map[string]string{useWorkloadIdentityLabel: "true"}, map[string]string{clientIDAnnotation: clientID})
+		serviceAccount := createServiceAccount(f.ClientSet, namespace, "proxy-test-sa", map[string]string{clientIDAnnotation: clientID})
 		defer f.ClientSet.CoreV1().ServiceAccounts(namespace).Delete(context.TODO(), serviceAccount, metav1.DeleteOptions{})
 
 		proxyAnnotations := map[string]string{
@@ -108,15 +110,17 @@ var _ = ginkgo.Describe("Proxy [LinuxOnly] [AKSSoakOnly]", func() {
 		// output proxy and proxy init logs for debugging
 		defer func() {
 			for _, container := range []string{"azwi-proxy-init", "azwi-proxy"} {
-				stdout, _ := e2epod.GetPodLogs(f.ClientSet, namespace, pod.Name, container)
+				stdout, _ := e2epod.GetPodLogs(ctx, f.ClientSet, namespace, pod.Name, container)
 				framework.Logf("%s logs: %s", container, stdout)
 			}
 		}()
 
+		validateProxySideCarInMutatedPod(pod)
+
 		for _, container := range []string{busybox1, busybox2} {
 			framework.Logf("validating that %s in %s has acquired a valid AAD token via the proxy using AZURE_CLIENT_ID", container, pod.Name)
 			gomega.Eventually(func() bool {
-				stdout, err := e2epod.GetPodLogs(f.ClientSet, namespace, pod.Name, container)
+				stdout, err := e2epod.GetPodLogs(ctx, f.ClientSet, namespace, pod.Name, container)
 				if err != nil {
 					framework.Logf("failed to get logs from container %s in %s/%s: %v. Retrying...", container, namespace, pod.Name, err)
 					return false

@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type BookingStaffRole int
 
 const (
@@ -36,7 +32,7 @@ func ParseBookingStaffRole(v string) (any, error) {
         case "teamMember":
             result = TEAMMEMBER_BOOKINGSTAFFROLE
         default:
-            return 0, errors.New("Unknown BookingStaffRole value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -46,4 +42,7 @@ func SerializeBookingStaffRole(values []BookingStaffRole) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i BookingStaffRole) isMultiValue() bool {
+    return false
 }

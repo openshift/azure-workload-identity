@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type LongRunningOperationStatus int
 
 const (
@@ -30,7 +26,7 @@ func ParseLongRunningOperationStatus(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_LONGRUNNINGOPERATIONSTATUS
         default:
-            return 0, errors.New("Unknown LongRunningOperationStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -40,4 +36,7 @@ func SerializeLongRunningOperationStatus(values []LongRunningOperationStatus) []
         result[i] = v.String()
     }
     return result
+}
+func (i LongRunningOperationStatus) isMultiValue() bool {
+    return false
 }

@@ -12,13 +12,19 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/pkg/errors"
-	corev1 "k8s.io/api/core/v1"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/types"
-	"k8s.io/utils/pointer"
 	"monis.app/mlog"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
+
+	corev1 "k8s.io/api/core/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+	"k8s.io/apimachinery/pkg/util/sets"
+	utilversion "k8s.io/apimachinery/pkg/util/version"
+	"k8s.io/client-go/discovery"
+	"k8s.io/client-go/rest"
+	"k8s.io/utils/ptr"
 
 	"github.com/Azure/azure-workload-identity/pkg/config"
 )
@@ -46,13 +52,16 @@ type podMutator struct {
 	// This should be used sparingly and only when the client does not fit the use case.
 	reader             client.Reader
 	config             *config.Config
-	decoder            *admission.Decoder
+	decoder            admission.Decoder
 	audience           string
 	azureAuthorityHost string
+	proxyImage         string
+	proxyInitImage     string
+	useNativeSidecar   bool
 }
 
 // NewPodMutator returns a pod mutation handler
-func NewPodMutator(client client.Client, reader client.Reader, audience string) (admission.Handler, error) {
+func NewPodMutator(client client.Client, reader client.Reader, audience string, scheme *runtime.Scheme, restConfig *rest.Config) (admission.Handler, error) {
 	c, err := config.ParseConfig()
 	if err != nil {
 		return nil, err
@@ -60,11 +69,32 @@ func NewPodMutator(client client.Client, reader client.Reader, audience string) 
 	if audience == "" {
 		audience = DefaultAudience
 	}
+
+	discoveryClient, err := discovery.NewDiscoveryClientForConfig(restConfig)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to create discovery client")
+	}
+	// "SidecarContainers" went beta in 1.29. With the 3 version skew policy,
+	// between API server and kubelet, 1.32 is the earliest version this can be
+	// safely used.
+	useNativeSidecar, err := serverVersionGTE(discoveryClient, utilversion.MajorMinor(1, 32))
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to check kubernetes version")
+	}
+
 	// this is used to configure the AZURE_AUTHORITY_HOST env var that's
 	// used by the azure sdk
 	azureAuthorityHost, err := getAzureAuthorityHost(c)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get AAD endpoint")
+	}
+	proxyImage := c.ProxyImage
+	if len(proxyImage) == 0 {
+		proxyImage = fmt.Sprintf("%s/%s:%s", ProxyImageRegistry, ProxySidecarImageName, ProxyImageVersion)
+	}
+	proxyInitImage := c.ProxyInitImage
+	if len(proxyInitImage) == 0 {
+		proxyInitImage = fmt.Sprintf("%s/%s:%s", ProxyImageRegistry, ProxyInitImageName, ProxyImageVersion)
 	}
 
 	if err := registerMetrics(); err != nil {
@@ -75,8 +105,12 @@ func NewPodMutator(client client.Client, reader client.Reader, audience string) 
 		client:             client,
 		reader:             reader,
 		config:             c,
+		decoder:            admission.NewDecoder(scheme),
 		audience:           audience,
 		azureAuthorityHost: azureAuthorityHost,
+		proxyImage:         proxyImage,
+		proxyInitImage:     proxyInitImage,
+		useNativeSidecar:   useNativeSidecar,
 	}, nil
 }
 
@@ -125,6 +159,14 @@ func (m *podMutator) Handle(ctx context.Context, req admission.Request) (respons
 	}
 
 	if shouldInjectProxySidecar(pod) {
+		// if the pod has hostNetwork set to true, we cannot inject the proxy sidecar
+		// as it'll end up modifying the network stack of the host and affecting other pods
+		if pod.Spec.HostNetwork {
+			err := errors.New("hostNetwork is set to true, cannot inject proxy sidecar")
+			logger.Error("failed to inject proxy sidecar", err)
+			return admission.Errored(http.StatusBadRequest, err)
+		}
+
 		proxyPort, err := getProxyPort(pod)
 		if err != nil {
 			logger.Error("failed to get proxy port", err)
@@ -132,7 +174,11 @@ func (m *podMutator) Handle(ctx context.Context, req admission.Request) (respons
 		}
 
 		pod.Spec.InitContainers = m.injectProxyInitContainer(pod.Spec.InitContainers, proxyPort)
-		pod.Spec.Containers = m.injectProxySidecarContainer(pod.Spec.Containers, proxyPort)
+		if m.useNativeSidecar {
+			pod.Spec.InitContainers = m.injectProxySidecarContainer(pod.Spec.InitContainers, proxyPort, ptr.To(corev1.ContainerRestartPolicyAlways))
+		} else {
+			pod.Spec.Containers = m.injectProxySidecarContainer(pod.Spec.Containers, proxyPort, nil)
+		}
 	}
 
 	// get service account token expiration
@@ -151,10 +197,7 @@ func (m *podMutator) Handle(ctx context.Context, req admission.Request) (respons
 	pod.Spec.Containers = m.mutateContainers(pod.Spec.Containers, clientID, tenantID, skipContainers)
 
 	// add the projected service account token volume to the pod if not exists
-	if err = addProjectedServiceAccountTokenVolume(pod, serviceAccountTokenExpiration, m.audience); err != nil {
-		logger.Error("failed to add projected service account volume", err)
-		return admission.Errored(http.StatusBadRequest, err)
-	}
+	addProjectedServiceAccountTokenVolume(pod, serviceAccountTokenExpiration, m.audience)
 
 	marshaledPod, err := json.Marshal(pod)
 	if err != nil {
@@ -164,21 +207,12 @@ func (m *podMutator) Handle(ctx context.Context, req admission.Request) (respons
 	return admission.PatchResponseFromRaw(req.Object.Raw, marshaledPod)
 }
 
-// PodMutator implements admission.DecoderInjector
-// A decoder will be automatically injected
-
-// InjectDecoder injects the decoder
-func (m *podMutator) InjectDecoder(d *admission.Decoder) error {
-	m.decoder = d
-	return nil
-}
-
 // mutateContainers mutates the containers by injecting the projected
 // service account token volume and environment variables
-func (m *podMutator) mutateContainers(containers []corev1.Container, clientID string, tenantID string, skipContainers map[string]struct{}) []corev1.Container {
+func (m *podMutator) mutateContainers(containers []corev1.Container, clientID, tenantID string, skipContainers sets.Set[string]) []corev1.Container {
 	for i := range containers {
 		// container is in the skip list
-		if _, ok := skipContainers[containers[i].Name]; ok {
+		if skipContainers.Has(containers[i].Name) {
 			continue
 		}
 		// add environment variables to container if not exists
@@ -190,25 +224,23 @@ func (m *podMutator) mutateContainers(containers []corev1.Container, clientID st
 }
 
 func (m *podMutator) injectProxyInitContainer(containers []corev1.Container, proxyPort int32) []corev1.Container {
-	imageRepository := strings.Join([]string{ProxyImageRegistry, ProxyInitImageName}, "/")
 	for _, container := range containers {
-		if strings.HasPrefix(container.Image, imageRepository) || container.Name == ProxyInitContainerName {
+		if container.Name == ProxyInitContainerName {
 			return containers
 		}
 	}
-
 	containers = append(containers, corev1.Container{
 		Name:            ProxyInitContainerName,
-		Image:           strings.Join([]string{imageRepository, ProxyImageVersion}, ":"),
+		Image:           m.proxyInitImage,
 		ImagePullPolicy: corev1.PullIfNotPresent,
 		SecurityContext: &corev1.SecurityContext{
 			Capabilities: &corev1.Capabilities{
 				Add:  []corev1.Capability{"NET_ADMIN"},
 				Drop: []corev1.Capability{"ALL"},
 			},
-			Privileged:   pointer.Bool(true),
-			RunAsNonRoot: pointer.Bool(false),
-			RunAsUser:    pointer.Int64(0),
+			Privileged:   ptr.To(true),
+			RunAsNonRoot: ptr.To(false),
+			RunAsUser:    ptr.To[int64](0),
 		},
 		Env: []corev1.EnvVar{{
 			Name:  ProxyPortEnvVar,
@@ -219,18 +251,16 @@ func (m *podMutator) injectProxyInitContainer(containers []corev1.Container, pro
 	return containers
 }
 
-func (m *podMutator) injectProxySidecarContainer(containers []corev1.Container, proxyPort int32) []corev1.Container {
-	imageRepository := strings.Join([]string{ProxyImageRegistry, ProxySidecarImageName}, "/")
+func (m *podMutator) injectProxySidecarContainer(containers []corev1.Container, proxyPort int32, restartPolicy *corev1.ContainerRestartPolicy) []corev1.Container {
 	for _, container := range containers {
-		if strings.HasPrefix(container.Image, imageRepository) || container.Name == ProxySidecarContainerName {
+		if container.Name == ProxySidecarContainerName {
 			return containers
 		}
 	}
-
 	logLevel := currentLogLevel() // run the proxy at the same log level as the webhook
-	containers = append(containers, corev1.Container{
+	containers = append([]corev1.Container{{
 		Name:            ProxySidecarContainerName,
-		Image:           strings.Join([]string{imageRepository, ProxyImageVersion}, ":"),
+		Image:           m.proxyImage,
 		ImagePullPolicy: corev1.PullIfNotPresent,
 		Args: []string{
 			fmt.Sprintf("--proxy-port=%d", proxyPort),
@@ -252,15 +282,16 @@ func (m *podMutator) injectProxySidecarContainer(containers []corev1.Container, 
 			},
 		},
 		SecurityContext: &corev1.SecurityContext{
-			AllowPrivilegeEscalation: pointer.Bool(false),
+			AllowPrivilegeEscalation: ptr.To(false),
 			Capabilities: &corev1.Capabilities{
 				Drop: []corev1.Capability{"ALL"},
 			},
-			Privileged:             pointer.Bool(false),
-			ReadOnlyRootFilesystem: pointer.Bool(true),
-			RunAsNonRoot:           pointer.Bool(true),
+			Privileged:             ptr.To(false),
+			ReadOnlyRootFilesystem: ptr.To(true),
+			RunAsNonRoot:           ptr.To(true),
 		},
-	})
+		RestartPolicy: restartPolicy,
+	}}, containers...)
 
 	return containers
 }
@@ -274,17 +305,17 @@ func shouldInjectProxySidecar(pod *corev1.Pod) bool {
 }
 
 // getSkipContainers gets the list of containers to skip based on the annotation
-func getSkipContainers(pod *corev1.Pod) map[string]struct{} {
+func getSkipContainers(pod *corev1.Pod) sets.Set[string] {
 	skipContainers := pod.Annotations[SkipContainersAnnotation]
 	if len(skipContainers) == 0 {
 		return nil
 	}
 	skipContainersList := strings.Split(skipContainers, ";")
-	m := make(map[string]struct{})
+	sc := sets.New[string]()
 	for _, skipContainer := range skipContainersList {
-		m[strings.TrimSpace(skipContainer)] = struct{}{}
+		sc.Insert(strings.TrimSpace(skipContainer))
 	}
-	return m
+	return sc
 }
 
 // getServiceAccountTokenExpiration returns the expiration seconds for the project service account token volume
@@ -328,7 +359,7 @@ func getProxyPort(pod *corev1.Pod) (int32, error) {
 		return 0, errors.Wrap(err, "failed to parse proxy sidecar port")
 	}
 
-	return int32(parsed), nil
+	return int32(parsed), nil //nolint:gosec // disable G115
 }
 
 func validServiceAccountTokenExpiry(tokenExpiry int64) bool {
@@ -356,21 +387,19 @@ func addEnvironmentVariables(container corev1.Container, clientID, tenantID, azu
 	for _, env := range container.Env {
 		m[env.Name] = env.Value
 	}
-	// add the clientID env var
-	if _, ok := m[AzureClientIDEnvVar]; !ok {
-		container.Env = append(container.Env, corev1.EnvVar{Name: AzureClientIDEnvVar, Value: clientID})
+
+	desiredEnvs := []corev1.EnvVar{
+		{Name: AzureClientIDEnvVar, Value: clientID},
+		{Name: AzureTenantIDEnvVar, Value: tenantID},
+		{Name: AzureFederatedTokenFileEnvVar, Value: filepath.Join(TokenFileMountPath, TokenFilePathName)},
+		{Name: AzureAuthorityHostEnvVar, Value: azureAuthorityHost},
 	}
-	// add the tenantID env var
-	if _, ok := m[AzureTenantIDEnvVar]; !ok {
-		container.Env = append(container.Env, corev1.EnvVar{Name: AzureTenantIDEnvVar, Value: tenantID})
-	}
-	// add the token file env var
-	if _, ok := m[AzureFederatedTokenFileEnvVar]; !ok {
-		container.Env = append(container.Env, corev1.EnvVar{Name: AzureFederatedTokenFileEnvVar, Value: filepath.Join(TokenFileMountPath, TokenFilePathName)})
-	}
-	// add the azure authority host env var
-	if _, ok := m[AzureAuthorityHostEnvVar]; !ok {
-		container.Env = append(container.Env, corev1.EnvVar{Name: AzureAuthorityHostEnvVar, Value: azureAuthorityHost})
+
+	// append the ones that are not already present (only if desired env contains a non-empty value)
+	for _, env := range desiredEnvs {
+		if _, ok := m[env.Name]; !ok && env.Value != "" {
+			container.Env = append(container.Env, env)
+		}
 	}
 
 	return container
@@ -393,7 +422,7 @@ func addProjectedTokenVolumeMount(container corev1.Container) corev1.Container {
 	return container
 }
 
-func addProjectedServiceAccountTokenVolume(pod *corev1.Pod, serviceAccountTokenExpiration int64, audience string) error {
+func addProjectedServiceAccountTokenVolume(pod *corev1.Pod, serviceAccountTokenExpiration int64, audience string) {
 	// add the projected service account token volume to the pod if not exists
 	for _, volume := range pod.Spec.Volumes {
 		if volume.Projected == nil {
@@ -404,7 +433,7 @@ func addProjectedServiceAccountTokenVolume(pod *corev1.Pod, serviceAccountTokenE
 				continue
 			}
 			if pvs.ServiceAccountToken.Path == TokenFilePathName {
-				return nil
+				return
 			}
 		}
 	}
@@ -428,9 +457,8 @@ func addProjectedServiceAccountTokenVolume(pod *corev1.Pod, serviceAccountTokenE
 					},
 				},
 			},
-		})
-
-	return nil
+		},
+	)
 }
 
 // getAzureAuthorityHost returns the active directory endpoint to use for requesting
@@ -460,4 +488,18 @@ func currentLogLevel() string {
 		}
 	}
 	return "" // this is unreachable
+}
+
+// serverVersionGTE returns true if v is greater than or equal to the server version.
+func serverVersionGTE(discoveryClient discovery.ServerVersionInterface, v *utilversion.Version) (bool, error) {
+	// check if the kubernetes version is supported
+	serverVersion, err := discoveryClient.ServerVersion()
+	if err != nil {
+		return false, err
+	}
+	sv, err := utilversion.ParseSemantic(serverVersion.GitVersion)
+	if err != nil {
+		return false, err
+	}
+	return sv.AtLeast(v), nil
 }

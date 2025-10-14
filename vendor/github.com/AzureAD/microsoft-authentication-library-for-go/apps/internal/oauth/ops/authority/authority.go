@@ -29,6 +29,7 @@ const (
 	defaultAPIVersion                 = "2021-10-01"
 	imdsEndpoint                      = "http://169.254.169.254/metadata/instance/compute/location?format=text&api-version=" + defaultAPIVersion
 	autoDetectRegion                  = "TryAutoDetect"
+	AccessTokenTypeBearer             = "Bearer"
 )
 
 // These are various hosts that host AAD Instance discovery endpoints.
@@ -46,13 +47,12 @@ type jsonCaller interface {
 }
 
 var aadTrustedHostList = map[string]bool{
-	"login.windows.net":            true, // Microsoft Azure Worldwide - Used in validation scenarios where host is not this list
-	"login.chinacloudapi.cn":       true, // Microsoft Azure China
-	"login.microsoftonline.de":     true, // Microsoft Azure Blackforest
-	"login-us.microsoftonline.com": true, // Microsoft Azure US Government - Legacy
-	"login.microsoftonline.us":     true, // Microsoft Azure US Government
-	"login.microsoftonline.com":    true, // Microsoft Azure Worldwide
-	"login.cloudgovapi.us":         true, // Microsoft Azure US Government
+	"login.windows.net":                      true, // Microsoft Azure Worldwide - Used in validation scenarios where host is not this list
+	"login.partner.microsoftonline.cn":       true, // Microsoft Azure China
+	"login.microsoftonline.de":               true, // Microsoft Azure Blackforest
+	"login-us.microsoftonline.com":           true, // Microsoft Azure US Government - Legacy
+	"login.microsoftonline.us":               true, // Microsoft Azure US Government
+	"login.microsoftonline.com":              true, // Microsoft Azure Worldwide
 }
 
 // TrustedHost checks if an AAD host is trusted/valid.
@@ -138,6 +138,39 @@ const (
 	ADFS = "ADFS"
 )
 
+// AuthenticationScheme is an extensibility mechanism designed to be used only by Azure Arc for proof of possession access tokens.
+type AuthenticationScheme interface {
+	// Extra parameters that are added to the request to the /token endpoint.
+	TokenRequestParams() map[string]string
+	// Key ID of the public / private key pair used by the encryption algorithm, if any.
+	// Tokens obtained by authentication schemes that use this are bound to the KeyId, i.e.
+	// if a different kid is presented, the access token cannot be used.
+	KeyID() string
+	// Creates the access token that goes into an Authorization HTTP header.
+	FormatAccessToken(accessToken string) (string, error)
+	//Expected to match the token_type parameter returned by ESTS. Used to disambiguate
+	// between ATs of different types (e.g. Bearer and PoP) when loading from cache etc.
+	AccessTokenType() string
+}
+
+// default authn scheme realizing AuthenticationScheme for "Bearer" tokens
+type BearerAuthenticationScheme struct{}
+
+var bearerAuthnScheme BearerAuthenticationScheme
+
+func (ba *BearerAuthenticationScheme) TokenRequestParams() map[string]string {
+	return nil
+}
+func (ba *BearerAuthenticationScheme) KeyID() string {
+	return ""
+}
+func (ba *BearerAuthenticationScheme) FormatAccessToken(accessToken string) (string, error) {
+	return accessToken, nil
+}
+func (ba *BearerAuthenticationScheme) AccessTokenType() string {
+	return AccessTokenTypeBearer
+}
+
 // AuthParams represents the parameters used for authorization for token acquisition.
 type AuthParams struct {
 	AuthorityInfo Info
@@ -180,6 +213,8 @@ type AuthParams struct {
 	LoginHint string
 	// DomainHint is a directive that can be used to accelerate the user to their federated IdP sign-in page
 	DomainHint string
+	// AuthnScheme is an optional scheme for formatting access tokens
+	AuthnScheme AuthenticationScheme
 }
 
 // NewAuthParams creates an authorization parameters object.
@@ -188,6 +223,7 @@ func NewAuthParams(clientID string, authorityInfo Info) AuthParams {
 		ClientID:      clientID,
 		AuthorityInfo: authorityInfo,
 		CorrelationID: uuid.New().String(),
+		AuthnScheme:   &bearerAuthnScheme,
 	}
 }
 
@@ -506,17 +542,19 @@ func detectRegion(ctx context.Context) string {
 	client := http.Client{
 		Timeout: time.Duration(2 * time.Second),
 	}
-	req, _ := http.NewRequest("GET", imdsEndpoint, nil)
+	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, imdsEndpoint, nil)
 	req.Header.Set("Metadata", "true")
 	resp, err := client.Do(req)
+	if err == nil {
+		defer resp.Body.Close()
+	}
 	// If the request times out or there is an error, it is retried once
-	if err != nil || resp.StatusCode != 200 {
+	if err != nil || resp.StatusCode != http.StatusOK {
 		resp, err = client.Do(req)
-		if err != nil || resp.StatusCode != 200 {
+		if err != nil || resp.StatusCode != http.StatusOK {
 			return ""
 		}
 	}
-	defer resp.Body.Close()
 	response, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return ""

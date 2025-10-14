@@ -1,8 +1,4 @@
 package security
-import (
-    "errors"
-)
-// 
 type DataSourceContainerStatus int
 
 const (
@@ -24,7 +20,7 @@ func ParseDataSourceContainerStatus(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_DATASOURCECONTAINERSTATUS
         default:
-            return 0, errors.New("Unknown DataSourceContainerStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeDataSourceContainerStatus(values []DataSourceContainerStatus) []st
         result[i] = v.String()
     }
     return result
+}
+func (i DataSourceContainerStatus) isMultiValue() bool {
+    return false
 }

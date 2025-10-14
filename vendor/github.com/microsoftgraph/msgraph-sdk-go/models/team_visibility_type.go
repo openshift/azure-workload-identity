@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type TeamVisibilityType int
 
 const (
@@ -27,7 +23,7 @@ func ParseTeamVisibilityType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_TEAMVISIBILITYTYPE
         default:
-            return 0, errors.New("Unknown TeamVisibilityType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeTeamVisibilityType(values []TeamVisibilityType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i TeamVisibilityType) isMultiValue() bool {
+    return false
 }

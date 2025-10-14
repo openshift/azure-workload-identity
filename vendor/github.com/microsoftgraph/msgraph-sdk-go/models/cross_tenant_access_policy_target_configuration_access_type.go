@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type CrossTenantAccessPolicyTargetConfigurationAccessType int
 
 const (
@@ -24,7 +20,7 @@ func ParseCrossTenantAccessPolicyTargetConfigurationAccessType(v string) (any, e
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_CROSSTENANTACCESSPOLICYTARGETCONFIGURATIONACCESSTYPE
         default:
-            return 0, errors.New("Unknown CrossTenantAccessPolicyTargetConfigurationAccessType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -34,4 +30,7 @@ func SerializeCrossTenantAccessPolicyTargetConfigurationAccessType(values []Cros
         result[i] = v.String()
     }
     return result
+}
+func (i CrossTenantAccessPolicyTargetConfigurationAccessType) isMultiValue() bool {
+    return false
 }

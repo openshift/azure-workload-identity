@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // Device Exchange Access State Reason.
 type DeviceManagementExchangeAccessStateReason int
 
@@ -79,7 +76,7 @@ func ParseDeviceManagementExchangeAccessStateReason(v string) (any, error) {
         case "deviceNotKnownWithManagedApp":
             result = DEVICENOTKNOWNWITHMANAGEDAPP_DEVICEMANAGEMENTEXCHANGEACCESSSTATEREASON
         default:
-            return 0, errors.New("Unknown DeviceManagementExchangeAccessStateReason value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -89,4 +86,7 @@ func SerializeDeviceManagementExchangeAccessStateReason(values []DeviceManagemen
         result[i] = v.String()
     }
     return result
+}
+func (i DeviceManagementExchangeAccessStateReason) isMultiValue() bool {
+    return false
 }

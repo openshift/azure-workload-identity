@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type AccessPackageExternalUserLifecycleAction int
 
 const (
@@ -27,7 +23,7 @@ func ParseAccessPackageExternalUserLifecycleAction(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_ACCESSPACKAGEEXTERNALUSERLIFECYCLEACTION
         default:
-            return 0, errors.New("Unknown AccessPackageExternalUserLifecycleAction value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeAccessPackageExternalUserLifecycleAction(values []AccessPackageExt
         result[i] = v.String()
     }
     return result
+}
+func (i AccessPackageExternalUserLifecycleAction) isMultiValue() bool {
+    return false
 }

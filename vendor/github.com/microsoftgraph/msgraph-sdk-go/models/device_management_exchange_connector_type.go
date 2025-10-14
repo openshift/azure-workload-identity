@@ -1,7 +1,4 @@
 package models
-import (
-    "errors"
-)
 // The type of Exchange Connector.
 type DeviceManagementExchangeConnectorType int
 
@@ -35,7 +32,7 @@ func ParseDeviceManagementExchangeConnectorType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_DEVICEMANAGEMENTEXCHANGECONNECTORTYPE
         default:
-            return 0, errors.New("Unknown DeviceManagementExchangeConnectorType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -45,4 +42,7 @@ func SerializeDeviceManagementExchangeConnectorType(values []DeviceManagementExc
         result[i] = v.String()
     }
     return result
+}
+func (i DeviceManagementExchangeConnectorType) isMultiValue() bool {
+    return false
 }

@@ -1,8 +1,4 @@
 package callrecords
-import (
-    "errors"
-)
-// 
 type WifiRadioType int
 
 const (
@@ -39,7 +35,7 @@ func ParseWifiRadioType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_WIFIRADIOTYPE
         default:
-            return 0, errors.New("Unknown WifiRadioType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -49,4 +45,7 @@ func SerializeWifiRadioType(values []WifiRadioType) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i WifiRadioType) isMultiValue() bool {
+    return false
 }

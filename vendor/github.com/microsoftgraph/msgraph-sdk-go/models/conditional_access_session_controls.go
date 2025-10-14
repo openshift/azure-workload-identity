@@ -5,12 +5,11 @@ import (
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e "github.com/microsoft/kiota-abstractions-go/store"
 )
 
-// ConditionalAccessSessionControls 
 type ConditionalAccessSessionControls struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
 }
-// NewConditionalAccessSessionControls instantiates a new conditionalAccessSessionControls and sets the default values.
+// NewConditionalAccessSessionControls instantiates a new ConditionalAccessSessionControls and sets the default values.
 func NewConditionalAccessSessionControls()(*ConditionalAccessSessionControls) {
     m := &ConditionalAccessSessionControls{
     }
@@ -19,10 +18,12 @@ func NewConditionalAccessSessionControls()(*ConditionalAccessSessionControls) {
     return m
 }
 // CreateConditionalAccessSessionControlsFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateConditionalAccessSessionControlsFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewConditionalAccessSessionControls(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *ConditionalAccessSessionControls) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -35,6 +36,7 @@ func (m *ConditionalAccessSessionControls) GetAdditionalData()(map[string]any) {
     return val.(map[string]any)
 }
 // GetApplicationEnforcedRestrictions gets the applicationEnforcedRestrictions property value. Session control to enforce application restrictions. Only Exchange Online and Sharepoint Online support this session control.
+// returns a ApplicationEnforcedRestrictionsSessionControlable when successful
 func (m *ConditionalAccessSessionControls) GetApplicationEnforcedRestrictions()(ApplicationEnforcedRestrictionsSessionControlable) {
     val, err := m.GetBackingStore().Get("applicationEnforcedRestrictions")
     if err != nil {
@@ -45,11 +47,13 @@ func (m *ConditionalAccessSessionControls) GetApplicationEnforcedRestrictions()(
     }
     return nil
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *ConditionalAccessSessionControls) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
 // GetCloudAppSecurity gets the cloudAppSecurity property value. Session control to apply cloud app security.
+// returns a CloudAppSecuritySessionControlable when successful
 func (m *ConditionalAccessSessionControls) GetCloudAppSecurity()(CloudAppSecuritySessionControlable) {
     val, err := m.GetBackingStore().Get("cloudAppSecurity")
     if err != nil {
@@ -60,7 +64,8 @@ func (m *ConditionalAccessSessionControls) GetCloudAppSecurity()(CloudAppSecurit
     }
     return nil
 }
-// GetDisableResilienceDefaults gets the disableResilienceDefaults property value. Session control that determines whether it is acceptable for Azure AD to extend existing sessions based on information collected prior to an outage or not.
+// GetDisableResilienceDefaults gets the disableResilienceDefaults property value. Session control that determines whether it is acceptable for Microsoft Entra ID to extend existing sessions based on information collected prior to an outage or not.
+// returns a *bool when successful
 func (m *ConditionalAccessSessionControls) GetDisableResilienceDefaults()(*bool) {
     val, err := m.GetBackingStore().Get("disableResilienceDefaults")
     if err != nil {
@@ -72,6 +77,7 @@ func (m *ConditionalAccessSessionControls) GetDisableResilienceDefaults()(*bool)
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *ConditionalAccessSessionControls) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["applicationEnforcedRestrictions"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -137,6 +143,7 @@ func (m *ConditionalAccessSessionControls) GetFieldDeserializers()(map[string]fu
     return res
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *ConditionalAccessSessionControls) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -148,6 +155,7 @@ func (m *ConditionalAccessSessionControls) GetOdataType()(*string) {
     return nil
 }
 // GetPersistentBrowser gets the persistentBrowser property value. Session control to define whether to persist cookies or not. All apps should be selected for this session control to work correctly.
+// returns a PersistentBrowserSessionControlable when successful
 func (m *ConditionalAccessSessionControls) GetPersistentBrowser()(PersistentBrowserSessionControlable) {
     val, err := m.GetBackingStore().Get("persistentBrowser")
     if err != nil {
@@ -159,6 +167,7 @@ func (m *ConditionalAccessSessionControls) GetPersistentBrowser()(PersistentBrow
     return nil
 }
 // GetSignInFrequency gets the signInFrequency property value. Session control to enforce signin frequency.
+// returns a SignInFrequencySessionControlable when successful
 func (m *ConditionalAccessSessionControls) GetSignInFrequency()(SignInFrequencySessionControlable) {
     val, err := m.GetBackingStore().Get("signInFrequency")
     if err != nil {
@@ -215,7 +224,7 @@ func (m *ConditionalAccessSessionControls) Serialize(writer i878a80d2330e89d2689
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *ConditionalAccessSessionControls) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
@@ -229,7 +238,7 @@ func (m *ConditionalAccessSessionControls) SetApplicationEnforcedRestrictions(va
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *ConditionalAccessSessionControls) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
@@ -240,7 +249,7 @@ func (m *ConditionalAccessSessionControls) SetCloudAppSecurity(value CloudAppSec
         panic(err)
     }
 }
-// SetDisableResilienceDefaults sets the disableResilienceDefaults property value. Session control that determines whether it is acceptable for Azure AD to extend existing sessions based on information collected prior to an outage or not.
+// SetDisableResilienceDefaults sets the disableResilienceDefaults property value. Session control that determines whether it is acceptable for Microsoft Entra ID to extend existing sessions based on information collected prior to an outage or not.
 func (m *ConditionalAccessSessionControls) SetDisableResilienceDefaults(value *bool)() {
     err := m.GetBackingStore().Set("disableResilienceDefaults", value)
     if err != nil {
@@ -268,7 +277,6 @@ func (m *ConditionalAccessSessionControls) SetSignInFrequency(value SignInFreque
         panic(err)
     }
 }
-// ConditionalAccessSessionControlsable 
 type ConditionalAccessSessionControlsable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel

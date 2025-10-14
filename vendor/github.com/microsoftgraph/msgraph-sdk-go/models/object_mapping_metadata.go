@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ObjectMappingMetadata int
 
 const (
@@ -36,7 +32,7 @@ func ParseObjectMappingMetadata(v string) (any, error) {
         case "Unsynchronized":
             result = UNSYNCHRONIZED_OBJECTMAPPINGMETADATA
         default:
-            return 0, errors.New("Unknown ObjectMappingMetadata value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -46,4 +42,7 @@ func SerializeObjectMappingMetadata(values []ObjectMappingMetadata) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i ObjectMappingMetadata) isMultiValue() bool {
+    return false
 }

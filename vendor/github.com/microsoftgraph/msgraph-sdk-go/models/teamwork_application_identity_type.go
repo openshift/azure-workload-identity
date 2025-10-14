@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type TeamworkApplicationIdentityType int
 
 const (
@@ -33,7 +29,7 @@ func ParseTeamworkApplicationIdentityType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_TEAMWORKAPPLICATIONIDENTITYTYPE
         default:
-            return 0, errors.New("Unknown TeamworkApplicationIdentityType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeTeamworkApplicationIdentityType(values []TeamworkApplicationIdenti
         result[i] = v.String()
     }
     return result
+}
+func (i TeamworkApplicationIdentityType) isMultiValue() bool {
+    return false
 }

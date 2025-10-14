@@ -5,7 +5,6 @@ import (
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e "github.com/microsoft/kiota-abstractions-go/store"
 )
 
-// SettingTemplateValue 
 type SettingTemplateValue struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
@@ -19,10 +18,12 @@ func NewSettingTemplateValue()(*SettingTemplateValue) {
     return m
 }
 // CreateSettingTemplateValueFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateSettingTemplateValueFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewSettingTemplateValue(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *SettingTemplateValue) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -34,11 +35,13 @@ func (m *SettingTemplateValue) GetAdditionalData()(map[string]any) {
     }
     return val.(map[string]any)
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *SettingTemplateValue) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
 // GetDefaultValue gets the defaultValue property value. Default value for the setting.
+// returns a *string when successful
 func (m *SettingTemplateValue) GetDefaultValue()(*string) {
     val, err := m.GetBackingStore().Get("defaultValue")
     if err != nil {
@@ -50,6 +53,7 @@ func (m *SettingTemplateValue) GetDefaultValue()(*string) {
     return nil
 }
 // GetDescription gets the description property value. Description of the setting.
+// returns a *string when successful
 func (m *SettingTemplateValue) GetDescription()(*string) {
     val, err := m.GetBackingStore().Get("description")
     if err != nil {
@@ -61,6 +65,7 @@ func (m *SettingTemplateValue) GetDescription()(*string) {
     return nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *SettingTemplateValue) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["defaultValue"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -109,13 +114,14 @@ func (m *SettingTemplateValue) GetFieldDeserializers()(map[string]func(i878a80d2
             return err
         }
         if val != nil {
-            m.SetType(val)
+            m.SetTypeEscaped(val)
         }
         return nil
     }
     return res
 }
 // GetName gets the name property value. Name of the setting.
+// returns a *string when successful
 func (m *SettingTemplateValue) GetName()(*string) {
     val, err := m.GetBackingStore().Get("name")
     if err != nil {
@@ -127,6 +133,7 @@ func (m *SettingTemplateValue) GetName()(*string) {
     return nil
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *SettingTemplateValue) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -137,8 +144,9 @@ func (m *SettingTemplateValue) GetOdataType()(*string) {
     }
     return nil
 }
-// GetType gets the type property value. Type of the setting.
-func (m *SettingTemplateValue) GetType()(*string) {
+// GetTypeEscaped gets the type property value. Type of the setting.
+// returns a *string when successful
+func (m *SettingTemplateValue) GetTypeEscaped()(*string) {
     val, err := m.GetBackingStore().Get("typeEscaped")
     if err != nil {
         panic(err)
@@ -175,7 +183,7 @@ func (m *SettingTemplateValue) Serialize(writer i878a80d2330e89d26896388a3f487ee
         }
     }
     {
-        err := writer.WriteStringValue("type", m.GetType())
+        err := writer.WriteStringValue("type", m.GetTypeEscaped())
         if err != nil {
             return err
         }
@@ -188,14 +196,14 @@ func (m *SettingTemplateValue) Serialize(writer i878a80d2330e89d26896388a3f487ee
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *SettingTemplateValue) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *SettingTemplateValue) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
@@ -227,14 +235,13 @@ func (m *SettingTemplateValue) SetOdataType(value *string)() {
         panic(err)
     }
 }
-// SetType sets the type property value. Type of the setting.
-func (m *SettingTemplateValue) SetType(value *string)() {
+// SetTypeEscaped sets the type property value. Type of the setting.
+func (m *SettingTemplateValue) SetTypeEscaped(value *string)() {
     err := m.GetBackingStore().Set("typeEscaped", value)
     if err != nil {
         panic(err)
     }
 }
-// SettingTemplateValueable 
 type SettingTemplateValueable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel
@@ -244,11 +251,11 @@ type SettingTemplateValueable interface {
     GetDescription()(*string)
     GetName()(*string)
     GetOdataType()(*string)
-    GetType()(*string)
+    GetTypeEscaped()(*string)
     SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)()
     SetDefaultValue(value *string)()
     SetDescription(value *string)()
     SetName(value *string)()
     SetOdataType(value *string)()
-    SetType(value *string)()
+    SetTypeEscaped(value *string)()
 }

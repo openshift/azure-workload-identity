@@ -1,8 +1,4 @@
 package security
-import (
-    "errors"
-)
-// 
 type AlertDetermination int
 
 const (
@@ -63,7 +59,7 @@ func ParseAlertDetermination(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_ALERTDETERMINATION
         default:
-            return 0, errors.New("Unknown AlertDetermination value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -73,4 +69,7 @@ func SerializeAlertDetermination(values []AlertDetermination) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i AlertDetermination) isMultiValue() bool {
+    return false
 }

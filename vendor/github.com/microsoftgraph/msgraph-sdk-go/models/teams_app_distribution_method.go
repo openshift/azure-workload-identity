@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type TeamsAppDistributionMethod int
 
 const (
@@ -27,7 +23,7 @@ func ParseTeamsAppDistributionMethod(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_TEAMSAPPDISTRIBUTIONMETHOD
         default:
-            return 0, errors.New("Unknown TeamsAppDistributionMethod value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeTeamsAppDistributionMethod(values []TeamsAppDistributionMethod) []
         result[i] = v.String()
     }
     return result
+}
+func (i TeamsAppDistributionMethod) isMultiValue() bool {
+    return false
 }

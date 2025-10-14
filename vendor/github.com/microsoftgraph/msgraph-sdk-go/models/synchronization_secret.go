@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type SynchronizationSecret int
 
 const (
@@ -150,7 +146,7 @@ func ParseSynchronizationSecret(v string) (any, error) {
         case "ConnectionString":
             result = CONNECTIONSTRING_SYNCHRONIZATIONSECRET
         default:
-            return 0, errors.New("Unknown SynchronizationSecret value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -160,4 +156,7 @@ func SerializeSynchronizationSecret(values []SynchronizationSecret) []string {
         result[i] = v.String()
     }
     return result
+}
+func (i SynchronizationSecret) isMultiValue() bool {
+    return false
 }

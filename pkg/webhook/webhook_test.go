@@ -7,17 +7,23 @@ import (
 	"path/filepath"
 	"reflect"
 	"strconv"
+	"strings"
 	"testing"
+
+	"monis.app/mlog"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/client/fake"
+	atypes "sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
 	admissionv1 "k8s.io/api/admission/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/utils/pointer"
-	"monis.app/mlog"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/client/fake"
-	atypes "sigs.k8s.io/controller-runtime/pkg/webhook/admission"
+	"k8s.io/apimachinery/pkg/util/sets"
+	utilversion "k8s.io/apimachinery/pkg/util/version"
+	discoveryfake "k8s.io/client-go/discovery/fake"
+	kubernetesfake "k8s.io/client-go/kubernetes/fake"
+	"k8s.io/utils/ptr"
 
 	"github.com/Azure/azure-workload-identity/pkg/config"
 )
@@ -26,12 +32,13 @@ var (
 	serviceAccountTokenExpiry = MinServiceAccountTokenExpiration
 )
 
-func newPod(name, namespace, serviceAccountName string, labels map[string]string) *corev1.Pod {
+func newPod(name, namespace, serviceAccountName string, labels, annotations map[string]string, hostNetwork bool) *corev1.Pod {
 	return &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      name,
-			Namespace: namespace,
-			Labels:    labels,
+			Name:        name,
+			Namespace:   namespace,
+			Labels:      labels,
+			Annotations: annotations,
 		},
 		Spec: corev1.PodSpec{
 			ServiceAccountName: serviceAccountName,
@@ -47,12 +54,13 @@ func newPod(name, namespace, serviceAccountName string, labels map[string]string
 					Image: "image",
 				},
 			},
+			HostNetwork: hostNetwork,
 		},
 	}
 }
 
-func newPodRaw(name, namespace, serviceAccountName string, labels map[string]string) []byte {
-	pod := newPod(name, namespace, serviceAccountName, labels)
+func newPodRaw(name, namespace, serviceAccountName string, labels, annotations map[string]string, hostNetwork bool) []byte {
+	pod := newPod(name, namespace, serviceAccountName, labels, annotations, hostNetwork)
 	raw, err := json.Marshal(pod)
 	if err != nil {
 		panic(err)
@@ -274,7 +282,7 @@ func TestGetSkipContainers(t *testing.T) {
 	tests := []struct {
 		name                   string
 		pod                    *corev1.Pod
-		expectedSkipContainers map[string]struct{}
+		expectedSkipContainers sets.Set[string]
 	}{
 		{
 			name: "no skip containers defined",
@@ -295,7 +303,7 @@ func TestGetSkipContainers(t *testing.T) {
 					Annotations: map[string]string{SkipContainersAnnotation: "container1"},
 				},
 			},
-			expectedSkipContainers: map[string]struct{}{"container1": {}},
+			expectedSkipContainers: sets.New("container1"),
 		},
 		{
 			name: "multiple skip containers defined delimited by ;",
@@ -306,7 +314,7 @@ func TestGetSkipContainers(t *testing.T) {
 					Annotations: map[string]string{SkipContainersAnnotation: "container1;container2"},
 				},
 			},
-			expectedSkipContainers: map[string]struct{}{"container1": {}, "container2": {}},
+			expectedSkipContainers: sets.New("container1", "container2"),
 		},
 		{
 			name: "multiple skip containers defined with extra space",
@@ -317,7 +325,7 @@ func TestGetSkipContainers(t *testing.T) {
 					Annotations: map[string]string{SkipContainersAnnotation: "container1; container2"},
 				},
 			},
-			expectedSkipContainers: map[string]struct{}{"container1": {}, "container2": {}},
+			expectedSkipContainers: sets.New("container1", "container2"),
 		},
 	}
 
@@ -478,10 +486,8 @@ func TestAddProjectedServiceAccountTokenVolume(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			err := addProjectedServiceAccountTokenVolume(test.pod, serviceAccountTokenExpiry, DefaultAudience)
-			if err != nil {
-				t.Fatalf("expected err to be nil, got: %v", err)
-			}
+			addProjectedServiceAccountTokenVolume(test.pod, serviceAccountTokenExpiry, DefaultAudience)
+
 			if !reflect.DeepEqual(test.pod.Spec.Volumes, test.expectedVolume) {
 				t.Fatalf("expected: %v, got: %v", test.pod.Spec.Volumes, test.expectedVolume)
 			}
@@ -504,21 +510,23 @@ func TestAddEnvironmentVariables(t *testing.T) {
 			expectedContainer: corev1.Container{
 				Name:  "cont1",
 				Image: "image",
+				// this test uses literals instead of constants for env var
+				// names so that it will fail if the constant values change
 				Env: []corev1.EnvVar{
 					{
-						Name:  AzureClientIDEnvVar,
+						Name:  "AZURE_CLIENT_ID",
 						Value: "clientID",
 					},
 					{
-						Name:  AzureTenantIDEnvVar,
+						Name:  "AZURE_TENANT_ID",
 						Value: "tenantID",
 					},
 					{
-						Name:  AzureFederatedTokenFileEnvVar,
+						Name:  "AZURE_FEDERATED_TOKEN_FILE",
 						Value: filepath.Join(TokenFileMountPath, TokenFilePathName),
 					},
 					{
-						Name:  AzureAuthorityHostEnvVar,
+						Name:  "AZURE_AUTHORITY_HOST",
 						Value: "https://login.microsoftonline.com/",
 					},
 				},
@@ -620,6 +628,29 @@ func TestAddEnvironmentVariables(t *testing.T) {
 			}
 		})
 	}
+
+	t.Run("environment variables are not added when empty", func(t *testing.T) {
+		container := corev1.Container{
+			Name:  "cont1",
+			Image: "image",
+		}
+
+		expectedContainer := corev1.Container{
+			Name:  "cont1",
+			Image: "image",
+			Env: []corev1.EnvVar{
+				{
+					Name:  AzureFederatedTokenFileEnvVar,
+					Value: filepath.Join(TokenFileMountPath, TokenFilePathName),
+				},
+			},
+		}
+
+		actualContainer := addEnvironmentVariables(container, "", "", "")
+		if !reflect.DeepEqual(actualContainer, expectedContainer) {
+			t.Fatalf("expected: %v, got: %v", expectedContainer, actualContainer)
+		}
+	})
 }
 
 func TestAddProjectServiceAccountTokenVolumeMount(t *testing.T) {
@@ -724,42 +755,47 @@ func TestHandle(t *testing.T) {
 		})
 	}
 
-	decoder, _ := atypes.NewDecoder(runtime.NewScheme())
+	decoder := atypes.NewDecoder(runtime.NewScheme())
 
 	tests := []struct {
-		name               string
-		serviceAccountName string
-		podLabels          map[string]string
-		clientObjects      []client.Object
-		readerObjects      []client.Object
+		name          string
+		rawPod        []byte
+		clientObjects []client.Object
+		readerObjects []client.Object
 	}{
 		{
-			name:               "service account in cache",
-			serviceAccountName: "sa",
-			clientObjects:      serviceAccounts,
-			readerObjects:      nil,
+			name:          "service account in cache",
+			rawPod:        newPodRaw("pod", "ns1", "sa", nil, nil, false),
+			clientObjects: serviceAccounts,
+			readerObjects: nil,
 		},
 		{
-			name:               "service account not in cache",
-			serviceAccountName: "sa",
-			clientObjects:      nil,
-			readerObjects:      serviceAccounts,
+			name:          "service account not in cache",
+			rawPod:        newPodRaw("pod", "ns1", "sa", nil, nil, false),
+			clientObjects: nil,
+			readerObjects: serviceAccounts,
 		},
 		{
 			name:          "default service account in cache",
+			rawPod:        newPodRaw("pod", "ns1", "", nil, nil, false),
 			clientObjects: serviceAccounts,
 			readerObjects: nil,
 		},
 		{
 			name:          "default service account not in cache",
+			rawPod:        newPodRaw("pod", "ns1", "", nil, nil, false),
 			clientObjects: nil,
 			readerObjects: serviceAccounts,
 		},
 		{
-			name: "pod has the required label, no warnings",
-			podLabels: map[string]string{
-				UseWorkloadIdentityLabel: "true",
-			},
+			name:          "pod has the required label, no warnings",
+			rawPod:        newPodRaw("pod", "ns1", "sa", map[string]string{UseWorkloadIdentityLabel: "true"}, nil, false),
+			clientObjects: serviceAccounts,
+			readerObjects: nil,
+		},
+		{
+			name:          "pod has the required label, restart policy in init container",
+			rawPod:        []byte(`{"metadata":{"name":"pod","namespace":"ns1","creationTimestamp":null,"labels":{"azure.workload.identity/use":"true"}},"spec":{"initContainers":[{"name":"init-container","image":"init-container-image","restartPolicy":"Always"}],"containers":[{"name":"container","image":"image","resources":{}}]}}`),
 			clientObjects: serviceAccounts,
 			readerObjects: nil,
 		},
@@ -785,7 +821,7 @@ func TestHandle(t *testing.T) {
 						Version: "v1",
 						Kind:    "Pod",
 					},
-					Object:    runtime.RawExtension{Raw: newPodRaw("pod", "ns1", test.serviceAccountName, test.podLabels)},
+					Object:    runtime.RawExtension{Raw: test.rawPod},
 					Namespace: "ns1",
 					Operation: admissionv1.Create,
 				},
@@ -794,6 +830,11 @@ func TestHandle(t *testing.T) {
 			resp := m.Handle(context.Background(), req)
 			if !resp.Allowed {
 				t.Fatalf("expected to be allowed")
+			}
+			for _, patch := range resp.Patches {
+				if patch.Operation == "remove" {
+					t.Errorf("expected no remove patches, got: %v", patch)
+				}
 			}
 		})
 	}
@@ -870,7 +911,7 @@ func TestMutateContainers(t *testing.T) {
 	tests := []struct {
 		name               string
 		containers         []corev1.Container
-		skipContainers     map[string]struct{}
+		skipContainers     sets.Set[string]
 		expectedContainers []corev1.Container
 	}{{
 		name:               "no containers",
@@ -920,9 +961,7 @@ func TestMutateContainers(t *testing.T) {
 			Name:  "skip-container",
 			Image: "skip-image",
 		}},
-		skipContainers: map[string]struct{}{
-			"skip-container": {},
-		},
+		skipContainers: sets.New("skip-container"),
 		expectedContainers: []corev1.Container{{
 			Name:  "my-container",
 			Image: "my-image",
@@ -957,7 +996,7 @@ func TestMutateContainers(t *testing.T) {
 		}},
 	}}
 
-	decoder, _ := atypes.NewDecoder(runtime.NewScheme())
+	decoder := atypes.NewDecoder(runtime.NewScheme())
 	m := &podMutator{
 		client:             fake.NewClientBuilder().WithObjects().Build(),
 		reader:             fake.NewClientBuilder().WithObjects().Build(),
@@ -990,9 +1029,9 @@ func TestInjectProxyInitContainer(t *testing.T) {
 				Add:  []corev1.Capability{"NET_ADMIN"},
 				Drop: []corev1.Capability{"ALL"},
 			},
-			Privileged:   pointer.Bool(true),
-			RunAsNonRoot: pointer.Bool(false),
-			RunAsUser:    pointer.Int64(0),
+			Privileged:   ptr.To(true),
+			RunAsNonRoot: ptr.To(false),
+			RunAsUser:    ptr.To[int64](0),
 		},
 		Env: []corev1.EnvVar{{
 			Name:  ProxyPortEnvVar,
@@ -1033,7 +1072,7 @@ func TestInjectProxyInitContainer(t *testing.T) {
 		},
 	}
 
-	m := &podMutator{}
+	m := &podMutator{proxyInitImage: imageURL}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			containers := m.injectProxyInitContainer(test.containers, proxyPort)
@@ -1093,30 +1132,36 @@ func TestInjectProxySidecarContainer(t *testing.T) {
 			},
 		},
 		SecurityContext: &corev1.SecurityContext{
-			AllowPrivilegeEscalation: pointer.Bool(false),
+			AllowPrivilegeEscalation: ptr.To(false),
 			Capabilities: &corev1.Capabilities{
 				Drop: []corev1.Capability{"ALL"},
 			},
-			Privileged:             pointer.Bool(false),
-			ReadOnlyRootFilesystem: pointer.Bool(true),
-			RunAsNonRoot:           pointer.Bool(true),
+			Privileged:             ptr.To(false),
+			ReadOnlyRootFilesystem: ptr.To(true),
+			RunAsNonRoot:           ptr.To(true),
 		},
 	}
+
+	proxyNativeSidecarContainer := proxySidecarContainer
+	proxyNativeSidecarContainer.RestartPolicy = ptr.To(corev1.ContainerRestartPolicyAlways)
 
 	tests := []struct {
 		name               string
 		containers         []corev1.Container
 		expectedContainers []corev1.Container
+		restartPolicy      *corev1.ContainerRestartPolicy
 	}{
 		{
 			name:               "no containers",
 			containers:         []corev1.Container{},
 			expectedContainers: []corev1.Container{proxySidecarContainer},
+			restartPolicy:      nil,
 		},
 		{
 			name:               "proxy sidecar container manually injected",
 			containers:         []corev1.Container{proxySidecarContainer},
 			expectedContainers: []corev1.Container{proxySidecarContainer},
+			restartPolicy:      nil,
 		},
 		{
 			name: "inject proxy sidecar container to existing containers",
@@ -1127,19 +1172,37 @@ func TestInjectProxySidecarContainer(t *testing.T) {
 				},
 			},
 			expectedContainers: []corev1.Container{
+				proxySidecarContainer,
 				{
 					Name:  "my-container",
 					Image: "my-image",
 				},
-				proxySidecarContainer,
 			},
+			restartPolicy: nil,
+		},
+		{
+			name: "inject proxy native sidecar container to existing containers when restartPolicy is set",
+			containers: []corev1.Container{
+				{
+					Name:  "my-container",
+					Image: "my-image",
+				},
+			},
+			expectedContainers: []corev1.Container{
+				proxyNativeSidecarContainer,
+				{
+					Name:  "my-container",
+					Image: "my-image",
+				},
+			},
+			restartPolicy: ptr.To(corev1.ContainerRestartPolicyAlways),
 		},
 	}
 
-	m := &podMutator{}
+	m := &podMutator{proxyImage: imageURL}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			containers := m.injectProxySidecarContainer(test.containers, proxyPort)
+			containers := m.injectProxySidecarContainer(test.containers, proxyPort, test.restartPolicy)
 			if !reflect.DeepEqual(containers, test.expectedContainers) {
 				t.Errorf("expected: %v, got: %v", test.expectedContainers, containers)
 			}
@@ -1264,6 +1327,158 @@ func TestGetProxyPort(t *testing.T) {
 			}
 			if got != tt.want {
 				t.Errorf("getProxyPort() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestHandleError(t *testing.T) {
+	serviceAccounts := []client.Object{}
+	for _, name := range []string{"default", "sa"} {
+		serviceAccounts = append(serviceAccounts, &corev1.ServiceAccount{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      name,
+				Namespace: "ns1",
+				Annotations: map[string]string{
+					ClientIDAnnotation:                  "clientID",
+					ServiceAccountTokenExpiryAnnotation: "4800",
+				},
+			},
+		})
+	}
+
+	decoder := atypes.NewDecoder(runtime.NewScheme())
+
+	tests := []struct {
+		name          string
+		object        runtime.RawExtension
+		clientObjects []client.Object
+		expectedErr   string
+	}{
+		{
+			name:          "failed to decode pod",
+			object:        runtime.RawExtension{Raw: []byte("invalid")},
+			clientObjects: serviceAccounts,
+			expectedErr:   `couldn't get version/kind`,
+		},
+		{
+			name:        "service account not found",
+			object:      runtime.RawExtension{Raw: newPodRaw("pod", "ns1", "sa", map[string]string{UseWorkloadIdentityLabel: "true"}, nil, true)},
+			expectedErr: `serviceaccounts "sa" not found`,
+		},
+		{
+			name: "pod has host network",
+			object: runtime.RawExtension{Raw: newPodRaw("pod", "ns1", "sa",
+				map[string]string{UseWorkloadIdentityLabel: "true"}, map[string]string{InjectProxySidecarAnnotation: "true"}, true)},
+			clientObjects: serviceAccounts,
+			expectedErr:   "hostNetwork is set to true, cannot inject proxy sidecar",
+		},
+		{
+			name: "invalid proxy port",
+			object: runtime.RawExtension{Raw: newPodRaw("pod", "ns1", "sa", map[string]string{UseWorkloadIdentityLabel: "true"},
+				map[string]string{InjectProxySidecarAnnotation: "true", ProxySidecarPortAnnotation: "invalid"}, false)},
+			clientObjects: serviceAccounts,
+			expectedErr:   `failed to parse proxy sidecar port: strconv.ParseInt: parsing "invalid": invalid syntax`,
+		},
+		{
+			name: "invalid sa token expiry",
+			object: runtime.RawExtension{Raw: newPodRaw("pod", "ns1", "sa", map[string]string{UseWorkloadIdentityLabel: "true"},
+				map[string]string{ServiceAccountTokenExpiryAnnotation: "invalid"}, false)},
+			clientObjects: serviceAccounts,
+			expectedErr:   `strconv.ParseInt: parsing "invalid": invalid syntax`,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			if err := registerMetrics(); err != nil {
+				t.Fatalf("failed to register metrics: %v", err)
+			}
+
+			m := &podMutator{
+				client:  fake.NewClientBuilder().WithObjects(test.clientObjects...).Build(),
+				reader:  fake.NewClientBuilder().WithObjects().Build(),
+				config:  &config.Config{TenantID: "tenantID"},
+				decoder: decoder,
+			}
+
+			req := atypes.Request{
+				AdmissionRequest: admissionv1.AdmissionRequest{
+					Kind: metav1.GroupVersionKind{
+						Group:   "",
+						Version: "v1",
+						Kind:    "Pod",
+					},
+					Object:    test.object,
+					Namespace: "ns1",
+					Operation: admissionv1.Create,
+				},
+			}
+
+			resp := m.Handle(context.Background(), req)
+			if resp.Allowed {
+				t.Fatalf("expected to be denied")
+			}
+			if !strings.Contains(resp.Result.Message, test.expectedErr) {
+				t.Fatalf("expected error to contain: %v, got: %v", test.expectedErr, resp.Result.Message)
+			}
+		})
+	}
+}
+
+func TestServerVersionGTE(t *testing.T) {
+	tests := []struct {
+		name          string
+		serverVersion *utilversion.Version
+		minVersion    *utilversion.Version
+		want          bool
+		wantErr       bool
+	}{
+		{
+			name:          "Exact match",
+			serverVersion: utilversion.MustParseGeneric("1.20.0"),
+			minVersion:    utilversion.MajorMinor(1, 20),
+			want:          true,
+		},
+		{
+			name:          "Higher major version",
+			serverVersion: utilversion.MustParseGeneric("2.0.0"),
+			minVersion:    utilversion.MajorMinor(1, 25),
+			want:          true,
+		},
+		{
+			name:          "Higher minor version",
+			serverVersion: utilversion.MustParseGeneric("1.25.0"),
+			minVersion:    utilversion.MajorMinor(1, 20),
+			want:          true,
+		},
+		{
+			name:          "Lower minor version",
+			serverVersion: utilversion.MustParseGeneric("1.18.0"),
+			minVersion:    utilversion.MajorMinor(1, 20),
+			want:          false,
+		},
+		{
+			name:          "Lower major version",
+			serverVersion: utilversion.MustParseGeneric("0.25.0"),
+			minVersion:    utilversion.MajorMinor(1, 20),
+			want:          false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			discoveryClient := kubernetesfake.NewClientset().Discovery()
+			discoveryClient.(*discoveryfake.FakeDiscovery).FakedServerVersion = tt.serverVersion.Info()
+
+			got, err := serverVersionGTE(discoveryClient, tt.minVersion)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("isSupportedKubernetesVersion() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("isSupportedKubernetesVersion() = %v, want %v", got, tt.want)
 			}
 		})
 	}

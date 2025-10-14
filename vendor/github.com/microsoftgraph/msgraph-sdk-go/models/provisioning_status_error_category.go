@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type ProvisioningStatusErrorCategory int
 
 const (
@@ -27,7 +23,7 @@ func ParseProvisioningStatusErrorCategory(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_PROVISIONINGSTATUSERRORCATEGORY
         default:
-            return 0, errors.New("Unknown ProvisioningStatusErrorCategory value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeProvisioningStatusErrorCategory(values []ProvisioningStatusErrorCa
         result[i] = v.String()
     }
     return result
+}
+func (i ProvisioningStatusErrorCategory) isMultiValue() bool {
+    return false
 }

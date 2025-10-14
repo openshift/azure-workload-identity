@@ -1,8 +1,4 @@
 package security
-import (
-    "errors"
-)
-// 
 type EvidenceRemediationStatus int
 
 const (
@@ -33,7 +29,7 @@ func ParseEvidenceRemediationStatus(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_EVIDENCEREMEDIATIONSTATUS
         default:
-            return 0, errors.New("Unknown EvidenceRemediationStatus value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -43,4 +39,7 @@ func SerializeEvidenceRemediationStatus(values []EvidenceRemediationStatus) []st
         result[i] = v.String()
     }
     return result
+}
+func (i EvidenceRemediationStatus) isMultiValue() bool {
+    return false
 }

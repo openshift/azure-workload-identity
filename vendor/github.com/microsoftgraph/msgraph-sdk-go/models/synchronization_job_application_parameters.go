@@ -5,12 +5,11 @@ import (
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e "github.com/microsoft/kiota-abstractions-go/store"
 )
 
-// SynchronizationJobApplicationParameters 
 type SynchronizationJobApplicationParameters struct {
     // Stores model information.
     backingStore ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore
 }
-// NewSynchronizationJobApplicationParameters instantiates a new synchronizationJobApplicationParameters and sets the default values.
+// NewSynchronizationJobApplicationParameters instantiates a new SynchronizationJobApplicationParameters and sets the default values.
 func NewSynchronizationJobApplicationParameters()(*SynchronizationJobApplicationParameters) {
     m := &SynchronizationJobApplicationParameters{
     }
@@ -19,10 +18,12 @@ func NewSynchronizationJobApplicationParameters()(*SynchronizationJobApplication
     return m
 }
 // CreateSynchronizationJobApplicationParametersFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateSynchronizationJobApplicationParametersFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewSynchronizationJobApplicationParameters(), nil
 }
-// GetAdditionalData gets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// GetAdditionalData gets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// returns a map[string]any when successful
 func (m *SynchronizationJobApplicationParameters) GetAdditionalData()(map[string]any) {
     val , err :=  m.backingStore.Get("additionalData")
     if err != nil {
@@ -34,11 +35,13 @@ func (m *SynchronizationJobApplicationParameters) GetAdditionalData()(map[string
     }
     return val.(map[string]any)
 }
-// GetBackingStore gets the backingStore property value. Stores model information.
+// GetBackingStore gets the BackingStore property value. Stores model information.
+// returns a BackingStore when successful
 func (m *SynchronizationJobApplicationParameters) GetBackingStore()(ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore) {
     return m.backingStore
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *SynchronizationJobApplicationParameters) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := make(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error))
     res["@odata.type"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -80,6 +83,7 @@ func (m *SynchronizationJobApplicationParameters) GetFieldDeserializers()(map[st
     return res
 }
 // GetOdataType gets the @odata.type property value. The OdataType property
+// returns a *string when successful
 func (m *SynchronizationJobApplicationParameters) GetOdataType()(*string) {
     val, err := m.GetBackingStore().Get("odataType")
     if err != nil {
@@ -90,7 +94,8 @@ func (m *SynchronizationJobApplicationParameters) GetOdataType()(*string) {
     }
     return nil
 }
-// GetRuleId gets the ruleId property value. The ruleId property
+// GetRuleId gets the ruleId property value. The identifier of the synchronizationRule to be applied. This rule ID is defined in the schema for a given synchronization job or template.
+// returns a *string when successful
 func (m *SynchronizationJobApplicationParameters) GetRuleId()(*string) {
     val, err := m.GetBackingStore().Get("ruleId")
     if err != nil {
@@ -101,7 +106,8 @@ func (m *SynchronizationJobApplicationParameters) GetRuleId()(*string) {
     }
     return nil
 }
-// GetSubjects gets the subjects property value. The subjects property
+// GetSubjects gets the subjects property value. The identifiers of one or more objects to which a synchronizationJob is to be applied.
+// returns a []SynchronizationJobSubjectable when successful
 func (m *SynchronizationJobApplicationParameters) GetSubjects()([]SynchronizationJobSubjectable) {
     val, err := m.GetBackingStore().Get("subjects")
     if err != nil {
@@ -146,14 +152,14 @@ func (m *SynchronizationJobApplicationParameters) Serialize(writer i878a80d2330e
     }
     return nil
 }
-// SetAdditionalData sets the additionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+// SetAdditionalData sets the AdditionalData property value. Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
 func (m *SynchronizationJobApplicationParameters) SetAdditionalData(value map[string]any)() {
     err := m.GetBackingStore().Set("additionalData", value)
     if err != nil {
         panic(err)
     }
 }
-// SetBackingStore sets the backingStore property value. Stores model information.
+// SetBackingStore sets the BackingStore property value. Stores model information.
 func (m *SynchronizationJobApplicationParameters) SetBackingStore(value ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackingStore)() {
     m.backingStore = value
 }
@@ -164,21 +170,20 @@ func (m *SynchronizationJobApplicationParameters) SetOdataType(value *string)() 
         panic(err)
     }
 }
-// SetRuleId sets the ruleId property value. The ruleId property
+// SetRuleId sets the ruleId property value. The identifier of the synchronizationRule to be applied. This rule ID is defined in the schema for a given synchronization job or template.
 func (m *SynchronizationJobApplicationParameters) SetRuleId(value *string)() {
     err := m.GetBackingStore().Set("ruleId", value)
     if err != nil {
         panic(err)
     }
 }
-// SetSubjects sets the subjects property value. The subjects property
+// SetSubjects sets the subjects property value. The identifiers of one or more objects to which a synchronizationJob is to be applied.
 func (m *SynchronizationJobApplicationParameters) SetSubjects(value []SynchronizationJobSubjectable)() {
     err := m.GetBackingStore().Set("subjects", value)
     if err != nil {
         panic(err)
     }
 }
-// SynchronizationJobApplicationParametersable 
 type SynchronizationJobApplicationParametersable interface {
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.AdditionalDataHolder
     ie8677ce2c7e1b4c22e9c3827ecd078d41185424dd9eeb92b7d971ed2d49a392e.BackedModel

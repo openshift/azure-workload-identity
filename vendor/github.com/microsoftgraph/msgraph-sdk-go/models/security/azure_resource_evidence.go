@@ -4,7 +4,6 @@ import (
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91 "github.com/microsoft/kiota-abstractions-go/serialization"
 )
 
-// AzureResourceEvidence 
 type AzureResourceEvidence struct {
     AlertEvidence
 }
@@ -13,13 +12,17 @@ func NewAzureResourceEvidence()(*AzureResourceEvidence) {
     m := &AzureResourceEvidence{
         AlertEvidence: *NewAlertEvidence(),
     }
+    odataTypeValue := "#microsoft.graph.security.azureResourceEvidence"
+    m.SetOdataType(&odataTypeValue)
     return m
 }
 // CreateAzureResourceEvidenceFromDiscriminatorValue creates a new instance of the appropriate class based on discriminator value
+// returns a Parsable when successful
 func CreateAzureResourceEvidenceFromDiscriminatorValue(parseNode i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable, error) {
     return NewAzureResourceEvidence(), nil
 }
 // GetFieldDeserializers the deserialization information for the current model
+// returns a map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error) when successful
 func (m *AzureResourceEvidence) GetFieldDeserializers()(map[string]func(i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode)(error)) {
     res := m.AlertEvidence.GetFieldDeserializers()
     res["resourceId"] = func (n i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.ParseNode) error {
@@ -55,6 +58,7 @@ func (m *AzureResourceEvidence) GetFieldDeserializers()(map[string]func(i878a80d
     return res
 }
 // GetResourceId gets the resourceId property value. The unique identifier for the Azure resource.
+// returns a *string when successful
 func (m *AzureResourceEvidence) GetResourceId()(*string) {
     val, err := m.GetBackingStore().Get("resourceId")
     if err != nil {
@@ -66,6 +70,7 @@ func (m *AzureResourceEvidence) GetResourceId()(*string) {
     return nil
 }
 // GetResourceName gets the resourceName property value. The name of the resource.
+// returns a *string when successful
 func (m *AzureResourceEvidence) GetResourceName()(*string) {
     val, err := m.GetBackingStore().Get("resourceName")
     if err != nil {
@@ -77,6 +82,7 @@ func (m *AzureResourceEvidence) GetResourceName()(*string) {
     return nil
 }
 // GetResourceType gets the resourceType property value. The type of the resource.
+// returns a *string when successful
 func (m *AzureResourceEvidence) GetResourceType()(*string) {
     val, err := m.GetBackingStore().Get("resourceType")
     if err != nil {
@@ -134,7 +140,6 @@ func (m *AzureResourceEvidence) SetResourceType(value *string)() {
         panic(err)
     }
 }
-// AzureResourceEvidenceable 
 type AzureResourceEvidenceable interface {
     AlertEvidenceable
     i878a80d2330e89d26896388a3f487eef27b0a0e6c010c493bf80be1452208f91.Parsable

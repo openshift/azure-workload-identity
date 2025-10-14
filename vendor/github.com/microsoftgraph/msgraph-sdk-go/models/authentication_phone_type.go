@@ -1,8 +1,4 @@
 package models
-import (
-    "errors"
-)
-// 
 type AuthenticationPhoneType int
 
 const (
@@ -27,7 +23,7 @@ func ParseAuthenticationPhoneType(v string) (any, error) {
         case "unknownFutureValue":
             result = UNKNOWNFUTUREVALUE_AUTHENTICATIONPHONETYPE
         default:
-            return 0, errors.New("Unknown AuthenticationPhoneType value: " + v)
+            return nil, nil
     }
     return &result, nil
 }
@@ -37,4 +33,7 @@ func SerializeAuthenticationPhoneType(values []AuthenticationPhoneType) []string
         result[i] = v.String()
     }
     return result
+}
+func (i AuthenticationPhoneType) isMultiValue() bool {
+    return false
 }
