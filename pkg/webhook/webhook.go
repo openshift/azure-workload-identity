@@ -12,6 +12,7 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/azure"
 	"github.com/pkg/errors"
+	jsonpatch "gomodules.xyz/jsonpatch/v2"
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
@@ -161,7 +162,21 @@ func (m *podMutator) Handle(ctx context.Context, req admission.Request) (respons
 		logger.Error("failed to marshal pod object", err)
 		return admission.Errored(http.StatusInternalServerError, err)
 	}
-	return admission.PatchResponseFromRaw(req.Object.Raw, marshaledPod)
+	resp := admission.PatchResponseFromRaw(req.Object.Raw, marshaledPod)
+	// Filter out "remove" patches that result from the JSON roundtrip through
+	// Go structs dropping fields unknown to the vendored k8s.io/api version
+	// (e.g. Container.RestartPolicy added in k8s 1.28).
+	filtered := make([]jsonpatch.JsonPatchOperation, 0, len(resp.Patches))
+	for _, p := range resp.Patches {
+		if p.Operation != "remove" {
+			filtered = append(filtered, p)
+		}
+	}
+	resp.Patches = filtered
+	if len(filtered) == 0 {
+		resp.PatchType = nil
+	}
+	return resp
 }
 
 // PodMutator implements admission.DecoderInjector
