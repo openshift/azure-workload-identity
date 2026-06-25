@@ -730,6 +730,7 @@ func TestHandle(t *testing.T) {
 		name               string
 		serviceAccountName string
 		podLabels          map[string]string
+		rawPod             []byte
 		clientObjects      []client.Object
 		readerObjects      []client.Object
 	}{
@@ -763,6 +764,12 @@ func TestHandle(t *testing.T) {
 			clientObjects: serviceAccounts,
 			readerObjects: nil,
 		},
+		{
+			name:          "pod has the required label, restart policy in init container",
+			rawPod:        []byte(`{"metadata":{"name":"pod","namespace":"ns1","creationTimestamp":null,"labels":{"azure.workload.identity/use":"true"}},"spec":{"initContainers":[{"name":"init-container","image":"init-container-image","restartPolicy":"Always"}],"containers":[{"name":"container","image":"image","resources":{}}]}}`),
+			clientObjects: serviceAccounts,
+			readerObjects: nil,
+		},
 	}
 
 	for _, test := range tests {
@@ -778,6 +785,11 @@ func TestHandle(t *testing.T) {
 				decoder: decoder,
 			}
 
+			rawPod := test.rawPod
+			if rawPod == nil {
+				rawPod = newPodRaw("pod", "ns1", test.serviceAccountName, test.podLabels)
+			}
+
 			req := atypes.Request{
 				AdmissionRequest: admissionv1.AdmissionRequest{
 					Kind: metav1.GroupVersionKind{
@@ -785,7 +797,7 @@ func TestHandle(t *testing.T) {
 						Version: "v1",
 						Kind:    "Pod",
 					},
-					Object:    runtime.RawExtension{Raw: newPodRaw("pod", "ns1", test.serviceAccountName, test.podLabels)},
+					Object:    runtime.RawExtension{Raw: rawPod},
 					Namespace: "ns1",
 					Operation: admissionv1.Create,
 				},
@@ -794,6 +806,11 @@ func TestHandle(t *testing.T) {
 			resp := m.Handle(context.Background(), req)
 			if !resp.Allowed {
 				t.Fatalf("expected to be allowed")
+			}
+			for _, patch := range resp.Patches {
+				if patch.Operation == "remove" {
+					t.Errorf("expected no remove patches, got: %v", patch)
+				}
 			}
 		})
 	}
