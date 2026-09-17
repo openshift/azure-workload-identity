@@ -1,8 +1,6 @@
 module github.com/Azure/azure-workload-identity
 
-go 1.22.0
-
-toolchain go1.22.1
+go 1.23.0
 
 require (
 	github.com/Azure/aad-pod-identity v1.8.13
@@ -98,12 +96,12 @@ require (
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
 	go.uber.org/zap v1.24.0 // indirect
-	golang.org/x/crypto v0.32.0 // indirect
-	golang.org/x/net v0.21.0 // indirect; CVE-2023-39325
+	golang.org/x/crypto v0.41.0 // indirect
+	golang.org/x/net v0.42.0 // indirect; CVE-2023-39325
 	golang.org/x/oauth2 v0.0.0-20220223155221-ee480838109b // indirect
-	golang.org/x/sys v0.29.0 // indirect
-	golang.org/x/term v0.28.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/sys v0.35.0 // indirect
+	golang.org/x/term v0.34.0 // indirect
+	golang.org/x/text v0.28.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.2.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
@@ -121,3 +119,5 @@ require (
 )
 
 replace github.com/go-jose/go-jose/v4 => github.com/openshift-sustaining/go-jose/v4 v4.0.5-sec.1
+
+replace golang.org/x/net => github.com/openshift-sustaining/net v0.43.0-sec.3
